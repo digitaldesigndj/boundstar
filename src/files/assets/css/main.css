@@ -144,6 +144,7 @@ hr {
 }
 
 .sidebar {
+	text-align: left;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -154,8 +155,14 @@ hr {
 	z-index: -1;
 	border-right: 1px solid white;
 }
+.sidebar h2 {
+	font-size: 20px;
+	margin: 0 20px 10px 20px;
+}
 .sidebar ul li {
-	font-size: 10px;
+	font-size: 16px;
+	margin: 0;
+	line-height: 16px;
 }
 
 @media only screen and (max-width: 679px) {
