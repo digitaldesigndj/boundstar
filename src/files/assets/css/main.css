@@ -25,18 +25,19 @@ img {
 /* Titles */
 h1, h2, h3, h4, h5, h6 {
 	color: #fdfdfd;
+	margin-top: 20px;
 }
 
 /* Paragraph & Typographic */
 p, li, blockquote {
 	line-height: 28px;
 	margin-bottom: 25px;
-	font-size: 20px;
+	font-size: 14px;
 }
 
 li {
 	list-style: circle;
-	line-height: 20px;
+	line-height: 14px;
 }
 ul {
 	padding: 0;
@@ -68,7 +69,7 @@ a:after {
 	transition: color 0.1s ease-in, background 0.1s ease-in;
 }
 h1 {
-	font-size: 70px;
+	font-size: 60px;
 	margin: 0 30px;
 }
 hr {
@@ -160,9 +161,10 @@ hr {
 	margin: 0 20px 10px 20px;
 }
 .sidebar ul li {
-	font-size: 12px;
+	font-size: 14px;
 	margin: 0;
-	line-height: 12px;
+	line-height: 14px;
+	list-style: none;
 }
 
 @media only screen and (max-width: 679px) {
