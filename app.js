@@ -29,6 +29,7 @@ app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'out')));
  
 function restrict(req, res, next) {
 	console.log( req );
@@ -40,44 +41,6 @@ function restrict(req, res, next) {
 	}
 }
 
-app.get('/login', function (request, response) {
-	response.send('<form method="post" action="/login">' +
-		'<p>' +
-			'<label>Username:</label>' +
-			'<input type="text" name="username">' +
-		'</p>' +
-		'<p>' +
-			'<label>Password:</label>' +
-			'<input type="password" name="password">' +
-		'</p>' +
-		'<p>' +
-			'<input type="submit" value="Login">' +
-		'</p>' +
-	'</form>');
-});
-
-app.post('/login', function (request, response) {
-	var username = request.body.username;
-	var password = request.body.password;
-	fs.readFile('/var/www/boundstar.com/boundstar/keys.json', 'utf8', function (err, data) {
-	// fs.readFile('keys.json', 'utf8', function (err, data) {
-		if (err) { console.log('Error: ' + err); return; }
-		if ( data ) {
-			data = JSON.parse(data);
-			if( data[username] !== undefined ) {
-				if( password == data[username] ) {
-					request.session.regenerate(function(){
-						request.session.user = username;
-						response.redirect( '/edit_profile?name=' + username );
-					});
-				}
-				else { response.redirect('login');}
-			}
-			else { response.redirect('login'); }
-		}
-		else { response.redirect('login'); }
-	});
-});
 // Asynchronous Auth
 // var auth = express.basicAuth( function( user, pass, callback ) {
 // 	// var result = (user === 'testUser' && pass === 'testPass');
@@ -123,6 +86,10 @@ if ('development' == app.get('env')) {
 // app.get('/', routes.index);
 
 // app.get('/', function(req, res, next) {
+// 	res.redirect(301, 'http://boundstar.com/index.html');
+// });
+
+// app.get('/', function(req, res, next) {
 //   var document;
 //   req.templateData = {
 //     weDidSomeCustomRendering: true
@@ -154,5 +121,44 @@ app.post('/upload', function (req, res) {
 		fs.writeFile(newPath, data, function (err) {
 			res.redirect("back");
 		});
+	});
+});
+
+app.get('/login', function (request, response) {
+	response.send('<form method="post" action="/login">' +
+		'<p>' +
+			'<label>Username:</label>' +
+			'<input type="text" name="username">' +
+		'</p>' +
+		'<p>' +
+			'<label>Password:</label>' +
+			'<input type="password" name="password">' +
+		'</p>' +
+		'<p>' +
+			'<input type="submit" value="Login">' +
+		'</p>' +
+	'</form>');
+});
+
+app.post('/login', function (request, response) {
+	var username = request.body.username;
+	var password = request.body.password;
+	fs.readFile('/var/www/boundstar.com/boundstar/keys.json', 'utf8', function (err, data) {
+	// fs.readFile('keys.json', 'utf8', function (err, data) {
+		if (err) { console.log('Error: ' + err); return; }
+		if ( data ) {
+			data = JSON.parse(data);
+			if( data[username] !== undefined ) {
+				if( password == data[username] ) {
+					request.session.regenerate(function(){
+						request.session.user = username;
+						response.redirect( '/edit_profile?name=' + username );
+					});
+				}
+				else { response.redirect('login');}
+			}
+			else { response.redirect('login'); }
+		}
+		else { response.redirect('login'); }
 	});
 });
