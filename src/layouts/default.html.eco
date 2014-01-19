@@ -26,6 +26,16 @@
 	<div class="content">
 		<%- @content %>
 	</div>
+	<div class="sidebar">
+		<ul>
+			<li>This is a list of content.</li>
+			<li>This is a list of content.</li>
+			<li>This is a list of content.</li>
+			<li>This is a list of content.</li>
+			<li>This is a list of content.</li>
+			<li>This is a list of content.</li>
+		</ul>
+	</div>
 	<div class="navigation">
 		<% for page in @getCollection("html").toJSON(): %>
 			<% if page.navigation isnt false: %>

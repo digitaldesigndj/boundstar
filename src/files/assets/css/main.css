@@ -11,6 +11,13 @@ body {
 	margin:0;
 }
 
+.logo img {
+	max-width: 217px;
+	left: -10px;
+	position: absolute;
+	top: -10px;
+}
+
 img {
 	max-width: 100%;
 }
@@ -81,13 +88,19 @@ hr {
 	background: rgba( 24, 24, 24, 0.7 );
 	width: 100%;
 	text-align: center;
-	padding: 20px 0;
-	margin: 50px 0;
+	position: fixed;
+	top: 0;
+	float: left;
+	margin: 20px 0;
+	border: 1px solid white;
+	border-left: 0;
+	border-right: 0;
+	height: 45px;
 }
 .content {
 	background: rgba( 24, 24, 24, 0.7 );
-	max-width: 400px;
-	margin: 20% auto 20px auto;
+	max-width: 100%;
+	margin: 90px 20px 20px 220px;
 	border: 1px solid white;
 	padding: 25px;
 }
@@ -130,7 +143,31 @@ hr {
 	background-position: 0 -22px;
 }
 
+.sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 120px 0;
+	background: rgba( 24, 24, 24, 0.7 );
+	width: 200px;
+	height: 100%;
+	z-index: -1;
+	border-right: 1px solid white;
+}
+.sidebar ul li {
+	font-size: 10px;
+}
 
-
-
-
+@media only screen and (max-width: 679px) {
+	.sidebar {
+		position: relative;
+		padding: 20px;
+		width: 100%;
+		height: 200px;
+		border-right: 0;
+		border-top: 1px solid white;
+	}
+	.content {
+		margin: 90px 20px 20px 20px;
+	}
+}

@@ -114,16 +114,31 @@ app.get('/player', player.page);
 // app.get('/profile', routes.profile );
 
 app.post('/upload', function (req, res) {
-	console.log( req.files );
-	console.log( req.session );
-	fs.readFile(req.files.file.path, function (err, data) {
-		// Check more things here
-		console.log( req.query.user );
-		var newPath = __dirname + "/uploads/" + req.query.user + "_profile." + req.files.file.originalFilename.split('.').pop();
-		fs.writeFile(newPath, data, function (err) {
-			res.redirect("back");
-		});
-	});
+	var imagename = "_profile." + req.files.file.originalFilename.split('.').pop();
+	// fs.readFile('profiles.json', 'utf8', function (err, data) {
+	// 	if ( data ) {
+	// 		data = JSON.parse(data);
+	// 		console.log( data );
+	// 		data[req.query.user] = [ imagename []
+	// 	}
+	// 	// if( object[req.query.user] != undefined ) {
+	// 	// 	console.log( data[req.query.user] );
+	// 	// } else {
+	// 	// 	data[req.query.user] = [];
+	// 	// }
+	//	fs.writeFile('profiles.json', data[req.query.user], function (err) {
+			console.log( req.files );
+			console.log( req.session );
+			fs.readFile(req.files.file.path, function (err, data) {
+				// Check more things here
+				console.log( req.query.user );
+				var newPath = __dirname + "/uploads/" + req.query.user + imagename;
+				fs.writeFile(newPath, data, function (err) {
+					res.redirect("back");
+				});
+			});
+	// 	});
+	// });
 });
 
 app.post('/login', function (request, response) {
