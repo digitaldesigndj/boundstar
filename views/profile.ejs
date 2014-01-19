@@ -9,8 +9,8 @@
 		<script src="/js/dropzone.js"></script>
 	</head>
 	<body>
-		<h1><%= title %></h1>
-		<p>Welcome to <%= title %></p>
-		<form action="/upload?user=taylor" class="dropzone" id="my-dropzone"></form>
+		<h1><%= user %>'s Profile</h1>
+		<p>Edit your profile image here, <%= user %>:</p>
+		<form action="/upload?user=<%= user %>" class="dropzone" id="my-dropzone"></form>
 	</body>
 </html>

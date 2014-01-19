@@ -8,6 +8,16 @@
   "dependencies": {
     "express": "3.4.7",
     "ejs": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "docpad": "~6.60.3",
+    "request": "~2.31.0",
+    "passport": "~0.1.18"
+  },
+  "devDependencies": {
+    "docpad-plugin-eco": "~2.0.3",
+    "docpad-plugin-livereload": "~2.5.4",
+    "docpad-plugin-stylus": "~2.5.0",
+    "docpad-plugin-repocloner": "~2.2.1",
+    "docpad-plugin-marked": "~2.1.2"
   }
 }
