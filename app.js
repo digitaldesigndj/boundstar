@@ -125,7 +125,7 @@ app.post('/upload', function (req, res) {
 });
 
 app.get('/login', function (request, response) {
-	response.send('<form method="post" action="/login">' +
+	response.send('<p>In game do a "/password yourpass", it will say command not recognized, but it will still work, use your player name and that password you set here</p><form method="post" action="/login">' +
 		'<p>' +
 			'<label>Username:</label>' +
 			'<input type="text" name="username">' +
