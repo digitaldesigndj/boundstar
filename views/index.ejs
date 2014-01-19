@@ -7,10 +7,14 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="/js/dropzone.js"></script>
+		<script defer="defer"  src="assets/js/jquery.backstretch.min.js"></script>
+		<script defer="defer"  src="/js/background.js"></script>
 	</head>
 	<body>
-		<h1><%= title %></h1>
-		<p>Welcome to <%= title %></p>
-		<form action="/upload?user=taylor" class="dropzone" id="my-dropzone"></form>
+		<div class="content">
+			<h1><%= title %></h1>
+			<p>Welcome to <%= title %></p>
+			<form action="/upload?user=taylor" class="dropzone" id="my-dropzone"></form>
+		</div>
 	</body>
 </html>

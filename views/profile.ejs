@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<title><%= title %></title>
+		<link href="assets/css/main.css" rel="stylesheet">
+		<link href="starbound-font/starbound-font.css" rel="stylesheet">
 		<link rel='stylesheet' href='/style/style.css' />
 		<link rel='stylesheet' href='/css/dropzone.css' />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -9,8 +11,9 @@
 		<script src="/js/dropzone.js"></script>
 	</head>
 	<body>
-		<h1><%= user %>'s Profile</h1>
-		<p>Edit your profile image here, <%= user %>:</p>
+		<h1><%= user %>'s Gallery</h1>
+		<a href="view_profile.html"></a>
+		<p><a href="/player?name=<%= user %>">View Gallery</a></p>
 		<form action="/upload?user=<%= user %>" class="dropzone" id="my-dropzone"></form>
 	</body>
 </html>

@@ -32,12 +32,13 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'out')));
  
 function restrict(req, res, next) {
-	console.log( req );
-	if (req.session.user) {
+	console.log( req.query.name );
+	console.log( req.session.user );
+	if ( req.session.user === req.query.name ) {
 		next();
 	} else {
 		req.session.error = 'Access denied!';
-		res.redirect('/login');
+		res.redirect('/login.html');
 	}
 }
 
@@ -89,13 +90,14 @@ if ('development' == app.get('env')) {
 // 	res.redirect(301, 'http://boundstar.com/index.html');
 // });
 
-// app.get('/', function(req, res, next) {
+// app.get('/login', function(req, res, next) {
 //   var document;
 //   req.templateData = {
-//     weDidSomeCustomRendering: true
+//     weDidSomeCustomRendering: true,
+//     extra: "TAYLOR"
 //   };
 //   document = docpadInstance.getFile({
-//     relativePath: 'home.html.md'
+//     relativePath: 'login.html'
 //   });
 //   return docpadInstance.serveDocument({
 //     document: document,
@@ -124,27 +126,11 @@ app.post('/upload', function (req, res) {
 	});
 });
 
-app.get('/login', function (request, response) {
-	response.send('<p>In game do a "/password yourpass", it will say command not recognized, but it will still work, use your player name and that password you set here</p><form method="post" action="/login">' +
-		'<p>' +
-			'<label>Username:</label>' +
-			'<input type="text" name="username">' +
-		'</p>' +
-		'<p>' +
-			'<label>Password:</label>' +
-			'<input type="password" name="password">' +
-		'</p>' +
-		'<p>' +
-			'<input type="submit" value="Login">' +
-		'</p>' +
-	'</form>');
-});
-
 app.post('/login', function (request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
-	fs.readFile('/var/www/boundstar.com/boundstar/keys.json', 'utf8', function (err, data) {
-	// fs.readFile('keys.json', 'utf8', function (err, data) {
+	// fs.readFile('/var/www/boundstar.com/boundstar/keys.json', 'utf8', function (err, data) {
+	fs.readFile('keys.json', 'utf8', function (err, data) {
 		if (err) { console.log('Error: ' + err); return; }
 		if ( data ) {
 			data = JSON.parse(data);
@@ -155,10 +141,10 @@ app.post('/login', function (request, response) {
 						response.redirect( '/edit_profile?name=' + username );
 					});
 				}
-				else { response.redirect('login');}
+				else { response.redirect('login.html');}
 			}
-			else { response.redirect('login'); }
+			else { response.redirect('login.html'); }
 		}
-		else { response.redirect('login'); }
+		else { response.redirect('login.html'); }
 	});
 });

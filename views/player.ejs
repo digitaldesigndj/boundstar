@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><%= user %>'s <%= title %></title>
+		<title><%= title %></title>
+		<link href="assets/css/main.css" rel="stylesheet">
+		<link href="starbound-font/starbound-font.css" rel="stylesheet">
 		<link rel='stylesheet' href='/style/style.css' />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script defer="defer"  src="assets/js/jquery.backstretch.min.js"></script>
 	</head>
 	<body>
-		<h1><%= user %>'s Profile</h1>
-		<img src="/<%= user %>_profile.<%= extension %>" style="width:100%" />
+		<div class="content">
+			<h1><%= user %>'s Gallery</h1>
+			<a href="edit_profile?name=<%- user %>">edit/upload</a>
+			<img src="/<%= user %>_profile.<%= extension %>" style="width:100%" />
+		</div>
 	</body>
 </html>
+

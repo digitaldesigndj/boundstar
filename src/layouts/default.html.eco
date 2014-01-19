@@ -23,21 +23,18 @@
 	<div class="logo">
 		<a href="/"><img src="/assets/img/logo.png" alt="" /></a>
 	</div>
-
 	<div class="content">
 		<%- @content %>
 	</div>
-
-
-<div class="navigation">
-	<% for page in @getCollection("html").toJSON(): %>
-		<% if page.navigation isnt false: %>
-			<a href="<%= page.url %>" class="<%= if page.id is @document.id then 'active' else 'inactive' %>"><%= page.title %></a>
+	<div class="navigation">
+		<% for page in @getCollection("html").toJSON(): %>
+			<% if page.navigation isnt false: %>
+				<a href="<%= page.url %>" class="<%= if page.id is @document.id then 'active' else 'inactive' %>"><%= page.title %></a>
+			<% end %>
 		<% end %>
-	<% end %>
-<!-- 	<a href="/">Home</a>
-	<a href="/server.html">Commands</a> -->
-</div>
-	<%- @getBlock('scripts').add(@scripts).toHTML() %>
+		<!-- <a href="/">Home</a> -->
+		<!-- <a href="/server.html">Commands</a> -->
+	</div>
+	<%- @getBlock('scripts').add(@scripts).add(@document.javascript).toHTML() %>
 </body>
 </html>
