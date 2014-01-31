@@ -10,8 +10,8 @@ docpadConfig = {
 		scripts: [
 			'http://code.jquery.com/jquery-1.10.2.min.js'
 			'assets/js/jquery.backstretch.min.js'
-			'http://boundstar.com:8080/primus/primus.js'
-			'/js/websocket.js'
+#			'http://boundstar.com:8080/primus/primus.js'
+#			'/js/websocket.js'
 			'/js/background.js'
 		]
 		styles: [
