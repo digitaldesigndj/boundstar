@@ -20,7 +20,7 @@ app.set('view engine', 'ejs');
 app.use(express.bodyParser());
 app.use(express.cookieParser('shhhh, im hunting wabbitsss'));
 app.use(express.session());
-app.use(express.favicon());
+app.use(express.favicon("src/files/favicon.ico")); 
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
