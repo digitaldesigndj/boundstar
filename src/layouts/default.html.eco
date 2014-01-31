@@ -32,13 +32,13 @@
 		<p style="font-size: 12px">*this is a live updated list</p>
 	</div>
 	<div class="navigation">
+		<a href="/status">Status Panel</a>
 		<% for page in @getCollection("html").toJSON(): %>
 			<% if page.navigation isnt false: %>
 				<a href="<%= page.url %>" class="<%= if page.id is @document.id then 'active' else 'inactive' %>"><%= page.title %></a>
 			<% end %>
 		<% end %>
 		<!-- <a href="/">Home</a> -->
-		<!-- <a href="/server.html">Commands</a> -->
 	</div>
 	<%- @getBlock('scripts').add(@scripts).add(@document.javascript).toHTML() %>
 </body>
