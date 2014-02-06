@@ -9,7 +9,7 @@
     "express": "3.4.7",
     "ejs": "*",
     "stylus": "*",
-    "docpad": "~6.60.3",
+    "docpad": "~6.*.*",
     "request": "~2.31.0",
     "passport": "~0.1.18"
   },
