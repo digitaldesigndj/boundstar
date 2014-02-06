@@ -69,8 +69,8 @@ a:after {
 	transition: color 0.1s ease-in, background 0.1s ease-in;
 }
 h1 {
-	font-size: 60px;
-	margin: 0 30px;
+	font-size: 32px;
+	margin: 20px 0;
 }
 hr {
 	display: block;
