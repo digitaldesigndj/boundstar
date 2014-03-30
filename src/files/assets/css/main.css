@@ -170,13 +170,12 @@ hr {
 @media only screen and (max-width: 679px) {
 	.sidebar {
 		position: static;
-		padding: 20px;
+		padding: 20px 20px 130px 20px;
 		width: 100%;
 		min-height: 200px;
 		border-right: 0;
 		border-top: 1px solid white;
-		margin: 0 0 0 0;
-		padding: 20px 0 0 200px;
+		margin: 0;
 	}
 	.content {
 		margin: 90px 20px 20px 20px;
