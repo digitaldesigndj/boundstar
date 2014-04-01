@@ -55,9 +55,6 @@ html
         return newStr;
       };
 
-      (?<=\^)(.*)(?=;)
-
-
       var apiBase = 'http://boundstar.com:88/';
       var socket = io.connect(apiBase);
       socket.on('playerCount',function(data){
