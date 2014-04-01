@@ -10,18 +10,18 @@ var transients = require('transients');
  * Worlds List page.
  */
 
-transients.setTransient( 'local_server_info', 'http://boundstar.com/status/server/worlds', 3600 );
+transients.setTransient( 'local_world_info', 'http://boundstar.com/status/server/worlds', 3600 );
 
 exports.index = function(req, res) {
   res.render('worlds', {
     title: 'Worlds'
-    , worlds: transients.getTransient( 'local_server_info' )
+    , worlds: transients.getTransient( 'local_world_info' )
   });
 };
 
 exports.sectorIndex = function(req, res) {
   res.render('worlds', {
     title: 'Worlds'
-    , worlds: _.sortBy( _.where( transients.getTransient( 'local_server_info' ), { sector: req.params.sector }), function(o) { return o.numLoads; }).reverse()
+    , worlds: _.sortBy( _.where( transients.getTransient( 'local_world_info' ), { sector: req.params.sector }), function(o) { return o.numLoads; }).reverse()
   });
 };

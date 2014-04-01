@@ -31,7 +31,7 @@ block content
           | Signup
     p
   script.
-    $(function(){
+    $(function($){
       $.get("http://ipinfo.io", function(response) {
         //- console.log( response );
         if( response.ip != '') {

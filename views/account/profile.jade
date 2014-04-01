@@ -3,18 +3,18 @@ extends ../layout
 block content
   .page-header
     h3 Profile Information
-
+  //- p=JSON.stringify(user.profile)
   form.form-horizontal(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=token)
     .form-group
       label.col-sm-3.control-label(for='player') Starbound Name
+      | whatever you use to vote with
       .col-sm-4
         if user.profile.rank === 'Recruit'
           input.form-control(type='player', name='player', id='player', value='#{user.profile.player}')
         else
           input.form-control(type='player', name='player', id='player', value='#{user.profile.player}', disabled)
       .col-sm-4
-        p whatever you use to vote with
     .form-group
       label.col-sm-3.control-label(for='forum') Forum Username
       .col-sm-4
@@ -37,6 +37,11 @@ block content
       label.col-sm-3.control-label(for='name') TeamSpeak Handle
       .col-sm-4
         input.form-control(type='text', name='name', id='name', value='#{user.profile.name}')
+    .form-group
+      label.col-sm-3.control-label(for='alt_characters') Alternate Characters, one per line
+      .col-sm-4
+        textarea.form-control(name='alt_characters', id='alt_characters', rows='5') #{user.profile.alt_characters}
+
     .form-group
       label.col-sm-3.control-label(for='gender') Gender
       .col-sm-4

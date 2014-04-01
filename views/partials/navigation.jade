@@ -14,20 +14,17 @@
           a(href='/home') Home
         li(class=title=='Rank Manager'?'active':undefined)
           a(href='/rank') Rank
+        li(class=title=='Player Manager'?'active':undefined)
+          a(href='/players') Players
         li.dropdown(class=title=='Worlds'?'active':undefined)
           a.dropdown-toggle(href='#', data-toggle='dropdown') Worlds 
             i.caret
           ul.dropdown-menu
             li: a(href='/worlds/alpha') Alpha Sector
-            li.divider
             li: a(href='/worlds/beta') Beta Sector
-            li.divider
             li: a(href='/worlds/delta') Delta Sector
-            li.divider
             li: a(href='/worlds/gamma') Gamma Sector
-            li.divider
             li: a(href='/worlds/sectorx') SectorX
-            li.divider
 
         //- li(class=title=='Contact'?'active':undefined)
           a(href='/contact') Contact
@@ -49,5 +46,4 @@
               i.caret
             ul.dropdown-menu
               li: a(href='/account') My Profile
-              li.divider
               li: a(href='/logout') Logout

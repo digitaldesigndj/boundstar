@@ -25,6 +25,7 @@ var fs = require('fs');
 var homeController = require('./controllers/home');
 var rankController = require('./controllers/rank');
 var localWorldsController = require('./controllers/local_worlds');
+var localPlayersController = require('./controllers/local_players');
 var playerController = require('./controllers/player');
 var contactController = require('./controllers/contact');
 
@@ -127,6 +128,10 @@ app.post('/rank', passportConf.isAuthenticated, rankController.upgrade);
 
 app.get('/worlds', passportConf.isAuthenticated, localWorldsController.index);
 app.get('/worlds/:sector', passportConf.isAuthenticated, localWorldsController.sectorIndex);
+
+app.get('/players', passportConf.isAuthenticated, localPlayersController.players);
+// app.get('/players', passportConf.isAuthenticated, localPlayersController.players);
+app.get('/player/:player', passportConf.isAuthenticated, localPlayersController.managePlayer);
 
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);

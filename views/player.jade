@@ -1,0 +1,14 @@
+extends layout
+
+block content
+
+  //- p=JSON.stringify(players)
+  //- a(href='/server/#{user.server}') &laquo; Return to Server Manager
+  
+  .page-header
+    h2 #{title}
+  each player in players
+    if player.name == manage_player
+      p Name: #{player.name}
+      p Last Login: #{new Date(player.lastLogin)}
+      p Number of Logins: #{player.numLogins}
