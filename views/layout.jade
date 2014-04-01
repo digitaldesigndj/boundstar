@@ -42,12 +42,12 @@ html
         $('#players li').remove();
         $('#numOnline').html( players.length );
         players = players.sort();
-        //- $.each( players, function( key, val ) {
-        //-   note = removeColorCodes( val );
-        //-   $('#players').append(
-        //-     '<li class="list-group-item">'+note+'</li>'
-        //-   );
-        //- });
+        $.each( players, function( key, val ) {
+          note = removeColorCodes( val );
+          $('#players').append(
+            '<li class="list-group-item">'+note+'</li>'
+          );
+        });
       };
 
       var removeColorCodes = function( str ) {
@@ -55,7 +55,7 @@ html
         return newStr;
       };
 
-      var apiBase = 'http://boundstar.com:88/';
+      var apiBase = 'http://107.170.56.96/';
       var socket = io.connect(apiBase);
       socket.on('playerCount',function(data){
         setPlayersOnline( data.playersOnline );
