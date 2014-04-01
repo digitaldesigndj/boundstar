@@ -48,7 +48,9 @@
     "ejs": "*",
     "stylus": "*",
     "docpad": "~6.*.*",
-    "ayah": "^0.1.0"
+    "ayah": "^0.1.0",
+    "digitalocean-api": "^0.1.1",
+    "jsdom": "^0.10.4"
   },
   "devDependencies": {
     "mocha": "~1.18.2",

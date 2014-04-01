@@ -1,10 +1,49 @@
 extends layout
 
 block content
-  h1 Bootstrap starter template
-  p.lead
-    | Use this document as a way to quickly start any new project.
-    br
-    | All you get is this text and a mostly barebones HTML document.
-  //- if user
-    p=JSON.stringify(user)
+
+  //- p=JSON.stringify(servers)
+  //- p=JSON.stringify(admins)
+
+  if user.profile.player
+    h1 Welcome #{user.profile.player}
+    p Rank: #{user.profile.rank}
+  else
+    h1 Go to your 
+      a(href='/account') profile
+      |  and set your player name!
+
+  if servers
+    div
+      h2.page-header Servers
+      each server, i in servers
+        if admins[i].starbound_password === ''
+          .col-sm-4
+            case server.ip_address
+              when '107.170.30.45'
+                img(src='http://starrydex.com/img/ApeFlu.svg' style='max-width:100%;')
+              when '107.170.56.96'
+                img(src='http://starrydex.com/img/BoundStar.svg' style='max-width:100%;')
+              when '107.170.45.151'
+                img(src='http://starrydex.com/img/Crash.svg' style='max-width:100%;')
+              default
+                img(src='http://starrydex.com/img/TinyTower.svg' style='max-width:100%;')
+            h2.page-header #{server.ip_address}
+            p Public
+            if server.size_id == '61'
+              p 8 core server
+            else
+              p 2 core server
+              //- p #{info[i].playersOnline.length} Players Online
+              //- p Game Port: #{info[i].gamePort}
+            if server.ip_address == '107.170.56.96'
+              p(style='color:black')
+                input(value='boundstar.com',style='width:120px;',onclick='this.select()')
+            else
+              p(style='color:black')
+                input(value='#{server.ip_address}',style='width:120px;',onclick='this.select()')
+            if server.ip_address == '107.170.56.96'
+              p
+                a(href='http://boundstar.com/') Web Site
+            p
+              a(href='http://#{server.ip_address}') CommandStar
