@@ -118,7 +118,7 @@ if ('development' == app.get('env')) {
  * Application routes.
  */
 
-app.get('/', homeController.index);
+app.get('/home', homeController.index);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 

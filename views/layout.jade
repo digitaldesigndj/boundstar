@@ -7,13 +7,15 @@ html
     meta(name='description', content='')
     meta(name='csrf-token', content=token)
     meta(name='author', content='')
-    title #{title} | Hackathon Starter
+    title #{title} | Boundstar - Starbound Server
     != css('styles')
-    link(href='assets/css/main.css' rel='stylesheet')
     link(href='starbound-font/starbound-font.css' rel='stylesheet')
-    link(rel='stylesheet' href='//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css')
-    script(defer='defer' src='assets/js/jquery.backstretch.min.js')
     != js('application')
+    script(defer='defer' src='assets/js/jquery.backstretch.min.js')
+    script.
+      $(function($){
+        $.backstretch("assets/img/bg.png", {speed: 1000});
+      });
   body
     #wrap
       include partials/navigation
