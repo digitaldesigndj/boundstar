@@ -4,14 +4,14 @@ block content
 
   //- p=JSON.stringify(servers)
   //- p=JSON.stringify(admins)
-
-  if user.profile.player
-    h1 Welcome #{user.profile.player}
-    p Rank: #{user.profile.rank}
-  else
-    h1 Go to your 
-      a(href='/account') profile
-      |  and set your player name!
+  if user
+    if user.profile.player
+      h1 Welcome #{user.profile.player}
+      p Rank: #{user.profile.rank}
+    else
+      h1 Go to your 
+        a(href='/account') profile
+        |  and set your player name!
 
   if servers
     div
