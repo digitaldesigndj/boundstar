@@ -105,7 +105,7 @@ exports.postSignup = function(req, res, next) {
       if (err.code === 11000) {
         req.flash('errors', { msg: 'Player with that email already exists, sign in here instead.' });
       }
-      return res.redirect('/signin');
+      return res.redirect('/login');
     }
     req.logIn(player, function(err) {
       if (err) return next(err);
