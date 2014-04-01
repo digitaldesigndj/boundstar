@@ -9,20 +9,23 @@ html
     meta(name='author', content='')
     title #{title} | Boundstar - Starbound Server
     != css('styles')
-    link(href='starbound-font/starbound-font.css' rel='stylesheet')
+    link(href='/starbound-font/starbound-font.css' rel='stylesheet')
     != js('application')
-    script(defer='defer' src='assets/js/jquery.backstretch.min.js')
+    script(defer='defer' src='/assets/js/jquery.backstretch.min.js')
     script.
       $(function($){
-        $.backstretch("assets/img/bg.png", {speed: 1000});
+        $.backstretch("/assets/img/bg.png", {speed: 1000});
       });
   body
     #wrap
       include partials/navigation
-      .container
-        include partials/flash
-        block content
-    include partials/footer
+      include partials/sidebar
+      #page-content-wrapper
+        <!-- Keep all page content within the page-content inset div! -->
+        .page-content.inset
+          .container
+            include partials/flash
+            block content
     script.
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-42766222-2']);
@@ -33,3 +36,38 @@ html
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
+    script(src='/status/socket.io/socket.io.js')
+    script.
+      var setPlayersOnline = function( players ) {
+        $('#players li').remove();
+        $('#numOnline').html( players.length );
+        players = players.sort();
+        //- $.each( players, function( key, val ) {
+        //-   note = removeColorCodes( val );
+        //-   $('#players').append(
+        //-     '<li class="list-group-item">'+note+'</li>'
+        //-   );
+        //- });
+      };
+
+      var removeColorCodes = function( str ) {
+        newStr = str.replace(/\^#[^;]+;/,'','g');
+        return newStr;
+      };
+
+      var apiBase = 'http://boundstar.com:88/';
+      var socket = io.connect(apiBase);
+      socket.on('playerCount',function(data){
+        setPlayersOnline( data.playersOnline );
+        console.log( data.playersOnline );
+      });
+
+      request = new XMLHttpRequest
+      request.open('GET', apiBase + 'server/status', true)
+      request.send()
+      request.onload = function() {
+        data = JSON.parse(this.response);
+        setPlayersOnline(  data.playersOnline );
+        console.log( data );
+      }
+      request.onerror = function() {}
