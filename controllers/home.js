@@ -13,30 +13,48 @@ var request = require('request');
  * Home page.
  */
 
-exports.index = function(req, res) {
-  User.find('',function(err,users) {
-    var server_list = [];
-    var starbound_servers = [];
-    var starbound_admins = [];
-    _.each(users, function(user,i) {
-      if( user.server != 0 ) {
-        server_list.push( user.server );
-      }
-    });
-    api.dropletGetAll( function ( err, droplets ) {
-      _.each( droplets, function( droplet, i ) {
-        if( _.contains( server_list, droplet.id ) ) {
-          starbound_admins.push( _.findWhere(users, {server: droplet.id}) );
-          starbound_servers.push(droplet);
-        }
-        if ( i+1 === droplets.length ) {
-          res.render('home', {
-            title: 'Welcome to StarryDex Beta'
-            , servers: starbound_servers
-            , admins: starbound_admins
-          });
+var cachedAt = 0;
+var cacheFor = 300;
+var starbound_servers = [];
+var starbound_admins = [];
+
+function getServerInfo( callback ) {
+  if( cachedAt + cacheFor <= Math.round( new Date().getTime() / 1000 ) ) {
+    cachedAt = Math.round( new Date().getTime() / 1000 );
+    User.find('',function(err,users) {
+      var server_list = [];
+      starbound_servers = [];
+      starbound_admins = [];
+      _.each(users, function(user,i) {
+        if( user.server != 0 ) {
+          server_list.push( user.server );
         }
       });
+      api.dropletGetAll( function ( err, droplets ) {
+        _.each( droplets, function( droplet, i ) {
+          if( _.contains( server_list, droplet.id ) ) {
+            starbound_admins.push( _.findWhere(users, {server: droplet.id}) );
+            starbound_servers.push(droplet);
+          }
+          if ( i+1 === droplets.length ) {
+            console.log( starbound_servers, starbound_admins );
+          }
+        });
+        callback( starbound_servers, starbound_admins );
+      });
+    });
+  }
+  else {
+    callback( starbound_servers, starbound_admins );
+  }
+}
+
+exports.index = function(req, res) {
+  getServerInfo( function( starbound_servers, starbound_admins ) {
+    res.render('home', {
+      title: 'Welcome to StarryDex Beta'
+      , servers: starbound_servers
+      , admins: starbound_admins
     });
   });
 };
