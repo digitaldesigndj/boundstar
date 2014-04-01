@@ -1,0 +1,75 @@
+extends layout
+
+block content
+
+  if user
+    if user.profile.player
+      h1 Welcome #{user.profile.player}
+      p Rank: #{user.profile.rank}
+      if forum_stats
+        p
+          a(href='http://forum.boundstar.com/user/#{user.profile.forum.toLowerCase()}') Forum Profile: #{user.profile.forum}
+        if forum_stats.posts 
+          p Forum Posts: #{forum_stats.posts}
+          if forum_stats.rep 
+            p Forum Reputation: #{forum_stats.rep}
+          else
+            p Forum Reputation: 0
+        else
+          p Forum Posts: 0
+      - var voted = false
+      if votes
+        each vote, i in votes
+          if user.profile.player == vote.nickname
+            - voted = true
+            p Votes This Month: #{vote.votes}
+            if user.profile.rank == 'Recruit'
+              if forum_stats.posts
+                if forum_stats.rep
+                  p Eligible for upgrade!
+                  p 
+                    form(action='/rank', method='POST')
+                      input(type='hidden', name='_csrf', value=token)
+                      //- input(type='hidden', name='size', value='65')
+                      button.btn.btn-primary(type='submit') Upgrade to Player
+                //- if forum_stats.posts > 0 && forum_stats.rep > 0 && vote.votes > 0
+
+        if voted === false
+          p Votes: 0
+      //- if users
+        p=JSON.stringify(users)
+    else
+      h1 Go to your 
+        a(href='/account') profile
+        |  and set your player name!
+    //- else
+      p You need to 
+        button register your player
+
+  if user.profile.rank != 'Recruit'
+    .clearfix
+    br
+    .page-header
+      h2 Your Worlds
+    if worlds
+      //- p=JSON.stringify(worlds)
+      each world in worlds
+        if world.owner == user.profile.player
+          .col-sm-6
+            //- p!=JSON.stringify(world)
+            h3 #{world.nickname}
+            p #{world.name}
+            p #{world.system}
+            p #{world.owner}
+            p #{world.description}
+            p
+              a(href='/world/#{world.world_coords}')
+                span.label.label-warning #{world.world_coords}
+            p
+            if world.saves
+              p.text-warning 
+                span.badge #{world.saves.length}
+                if world.saves.length == '1'
+                  |  Restore Point
+                else
+                  |  Restore Points 

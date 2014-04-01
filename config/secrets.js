@@ -1,5 +1,6 @@
 module.exports = {
-  db: process.env.MONGODB|| 'mongodb://localhost:27017/starboundToday',
+  // db: process.env.MONGODB|| 'mongodb://localhost:27017/starboundToday',
+  db: 'mongodb://taylor:awesomestarboundpasswordhere@my.boundstar.com:27017/starboundToday',
 
   sessionSecret: process.env.SESSION_SECRET || 'Awesome Your Session Secret goes here',
 

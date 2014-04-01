@@ -9,8 +9,10 @@
       a.navbar-brand(href='/')
     .collapse.navbar-collapse
       ul.nav.navbar-nav
-        li(class=title=='Home'?'active':undefined)
+        li(class=title=='Boundstar'?'active':undefined)
           a(href='/home') Home
+        li(class=title=='Rank Manager'?'active':undefined)
+          a(href='/rank') Rank
         //- li(class=title=='API Browser'?'active':undefined)
           a(href='/api') API Browser
         //- li(class=title=='Contact'?'active':undefined)
@@ -19,7 +21,7 @@
         if !user
           li(class=title=='Login'?'active':undefined)
             a(href='/login') Login
-          //- if secrets.localAuth
+          if secrets.localAuth
             li(class=title=='Create Account'?'active':undefined)
               a(href='/signup') Create Account
         else
@@ -29,9 +31,9 @@
                 img.profile-image(src='#{user.profile.picture}')
               else
                 img.profile-image(src='#{user.gravatar(60)}')
-              | #{user.profile.name || user.email || user.id}&nbsp;
+              | #{user.profile.player || user.email || user.id}&nbsp;
               i.caret
             ul.dropdown-menu
-              li: a(href='/account') My Account
+              li: a(href='/account') My Profile
               li.divider
               li: a(href='/logout') Logout
