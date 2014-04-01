@@ -45,7 +45,7 @@ html
         $.each( players, function( key, val ) {
           note = removeColorCodes( val );
           $('#players').append(
-            '<li class="list-group-item">'+note+'</li>'
+            '<li>'+note+'</li>'
           );
         });
       };
@@ -55,7 +55,7 @@ html
         return newStr;
       };
 
-      var apiBase = 'http://107.170.56.96/';
+      var apiBase = 'http://boundstar.com:88/';
       var socket = io.connect(apiBase);
       socket.on('playerCount',function(data){
         setPlayersOnline( data.playersOnline );
