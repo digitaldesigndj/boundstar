@@ -51,9 +51,10 @@ html
       };
 
       var removeColorCodes = function( str ) {
-        newStr = str.replace(/\^#[^;]+;/,'','g');
+        newStr = str.replace(/(?<=\^)(.*)(?=;)/,'','g');
         return newStr;
       };
+      
 
       var apiBase = 'http://boundstar.com:88/';
       var socket = io.connect(apiBase);
