@@ -5,10 +5,14 @@ html
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='description', content='')
-    meta(name='csrf-token', content=_csrf)
+    meta(name='csrf-token', content=token)
     meta(name='author', content='')
     title #{title} | Hackathon Starter
     != css('styles')
+    link(href='assets/css/main.css' rel='stylesheet')
+    link(href='starbound-font/starbound-font.css' rel='stylesheet')
+    link(rel='stylesheet' href='//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css')
+    script(defer='defer' src='assets/js/jquery.backstretch.min.js')
     != js('application')
   body
     #wrap
@@ -19,7 +23,7 @@ html
     include partials/footer
     script.
       var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-XXXXX-X']);
+      _gaq.push(['_setAccount', 'UA-42766222-2']);
       _gaq.push(['_trackPageview']);
 
       (function() {

@@ -3,8 +3,10 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
-var User = require('../models/User');
+var Player = require('../models/Player');
 var secrets = require('../config/secrets');
+var ayah = require('ayah');
+ayah.configure(secrets.ayah.publisherKey, secrets.ayah.scoringKey);
 
 /**
  * GET /login
@@ -68,7 +70,8 @@ exports.logout = function(req, res) {
 exports.getSignup = function(req, res) {
   if (req.user) return res.redirect('/');
   res.render('account/signup', {
-    title: 'Create Account'
+    title: 'Create Account',
+    query: req.query
   });
 };
 
@@ -91,19 +94,20 @@ exports.postSignup = function(req, res, next) {
     return res.redirect('/signup');
   }
 
-  var user = new User({
+  var player = new Player({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    name: req.body.name
   });
 
-  user.save(function(err) {
+  player.save(function(err) {
     if (err) {
       if (err.code === 11000) {
-        req.flash('errors', { msg: 'User with that email already exists.' });
+        req.flash('errors', { msg: 'Player with that email already exists.' });
       }
       return res.redirect('/signup');
     }
-    req.logIn(user, function(err) {
+    req.logIn(player, function(err) {
       if (err) return next(err);
       res.redirect('/');
     });
@@ -127,14 +131,23 @@ exports.getAccount = function(req, res) {
  */
 
 exports.postUpdateProfile = function(req, res, next) {
-  User.findById(req.user.id, function(err, user) {
+  Player.findById(req.user.id, function(err, user) {
     if (err) return next(err);
     user.email = req.body.email || '';
+    user.profile.ip = req.body.ip || '';
+    user.profile.loc = req.body.loc || '';
     user.profile.name = req.body.name || '';
+    user.profile.city = req.body.city || '';
+    user.profile.forum = req.body.forum || '';
+    user.profile.postal = req.body.postal || '';
+    user.profile.region = req.body.region || '';
     user.profile.gender = req.body.gender || '';
-    user.profile.location = req.body.location || '';
+    user.profile.player = req.body.player || '';
     user.profile.website = req.body.website || '';
-
+    user.profile.country = req.body.country || '';
+    user.profile.location = req.body.location || '';
+    user.profile.hostname = req.body.hostname || '';
+    user.profile.starbound_password = req.body.starbound_password || '';
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });
@@ -160,7 +173,7 @@ exports.postUpdatePassword = function(req, res, next) {
     return res.redirect('/account');
   }
 
-  User.findById(req.user.id, function(err, user) {
+  Player.findById(req.user.id, function(err, user) {
     if (err) return next(err);
 
     user.password = req.body.password;
@@ -176,11 +189,11 @@ exports.postUpdatePassword = function(req, res, next) {
 /**
  * POST /account/delete
  * Delete user account.
- * @param id - User ObjectId
+ * @param id - Player ObjectId
  */
 
 exports.postDeleteAccount = function(req, res, next) {
-  User.remove({ _id: req.user.id }, function(err) {
+  Player.remove({ _id: req.user.id }, function(err) {
     if (err) return next(err);
     req.logout();
     res.redirect('/');
@@ -191,12 +204,12 @@ exports.postDeleteAccount = function(req, res, next) {
  * GET /account/unlink/:provider
  * Unlink OAuth2 provider from the current user.
  * @param provider
- * @param id - User ObjectId
+ * @param id - Player ObjectId
  */
 
 exports.getOauthUnlink = function(req, res, next) {
   var provider = req.params.provider;
-  User.findById(req.user.id, function(err, user) {
+  Player.findById(req.user.id, function(err, user) {
     if (err) return next(err);
 
     user[provider] = undefined;
@@ -220,7 +233,7 @@ exports.getReset = function(req, res) {
     return res.redirect('/');
   }
 
-  User
+  Player
     .findOne({ resetPasswordToken: req.params.token })
     .where('resetPasswordExpires').gt(Date.now())
     .exec(function(err, user) {
@@ -252,7 +265,7 @@ exports.postReset = function(req, res, next) {
 
   async.waterfall([
     function(done) {
-      User
+      Player
         .findOne({ resetPasswordToken: req.params.token })
         .where('resetPasswordExpires').gt(Date.now())
         .exec(function(err, user) {
@@ -284,7 +297,7 @@ exports.postReset = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: 'hackathon@starter.com',
-        subject: 'Your Hackathon Starter password has been changed',
+        subject: 'Your Starbound Today password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };
@@ -337,7 +350,7 @@ exports.postForgot = function(req, res, next) {
       });
     },
     function(token, done) {
-      User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
+      Player.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         if (!user) {
           req.flash('errors', { msg: 'No account with that email address exists.' });
           return res.redirect('/forgot');
@@ -362,7 +375,7 @@ exports.postForgot = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: 'hackathon@starter.com',
-        subject: 'Reset your password on Hackathon Starter',
+        subject: 'Reset your password on Starbound Today',
         text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +

@@ -23,7 +23,7 @@ var fs = require('fs');
  */
 
 var homeController = require('./controllers/home');
-var userController = require('./controllers/user');
+var playerController = require('./controllers/player');
 var contactController = require('./controllers/contact');
 
 /**
@@ -119,22 +119,23 @@ if ('development' == app.get('env')) {
  */
 
 app.get('/', homeController.index);
-app.get('/login', userController.getLogin);
-app.post('/login', userController.postLogin);
-app.get('/logout', userController.logout);
-app.get('/forgot', userController.getForgot);
-app.post('/forgot', userController.postForgot);
-app.get('/reset/:token', userController.getReset);
-app.post('/reset/:token', userController.postReset);
-app.get('/signup', userController.getSignup);
-app.post('/signup', userController.postSignup);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
-app.get('/account', passportConf.isAuthenticated, userController.getAccount);
-app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
-app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
-app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
-app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+
+app.get('/login', playerController.getLogin);
+app.post('/login', playerController.postLogin);
+app.get('/logout', playerController.logout);
+app.get('/signup', playerController.getSignup);
+app.post('/signup', playerController.postSignup);
+app.get('/forgot', playerController.getForgot);
+app.post('/forgot', playerController.postForgot);
+app.get('/reset/:token', playerController.getReset);
+app.post('/reset/:token', playerController.postReset);
+app.get('/account', passportConf.isAuthenticated, playerController.getAccount);
+app.post('/account/profile', passportConf.isAuthenticated, playerController.postUpdateProfile);
+app.post('/account/password', passportConf.isAuthenticated, playerController.postUpdatePassword);
+app.post('/account/delete', passportConf.isAuthenticated, playerController.postDeleteAccount);
+app.get('/account/unlink/:provider', passportConf.isAuthenticated, playerController.getOauthUnlink);
 
 /**
  * OAuth routes for sign-in.

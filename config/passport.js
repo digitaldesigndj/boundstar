@@ -8,7 +8,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 var OAuthStrategy = require('passport-oauth').OAuthStrategy; // Tumblr
 var OAuth2Strategy = require('passport-oauth').OAuth2Strategy; // Venmo, Foursquare
-var User = require('../models/User');
+var Player = require('../models/Player');
 var secrets = require('./secrets');
 
 passport.serializeUser(function(user, done) {
@@ -16,7 +16,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+  Player.findById(id, function(err, user) {
     done(err, user);
   });
 });
@@ -26,7 +26,7 @@ passport.deserializeUser(function(id, done) {
  */
 
 passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
-  User.findOne({ email: email }, function(err, user) {
+  Player.findOne({ email: email }, function(err, user) {
     if (!user) return done(null, false, { message: 'Email ' + email + ' not found'});
     user.comparePassword(password, function(err, isMatch) {
       if (isMatch) {
@@ -41,11 +41,11 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 /**
  * OAuth Strategy Overview
  *
- * - User is already logged in.
+ * - Player is already logged in.
  *   - Check if there is an existing account with a provider id or email.
  *     - If there is, return an error message. (Account merging not supported)
  *     - Else link new OAuth account with currently logged-in user.
- * - User is not logged in.
+ * - Player is not logged in.
  *   - Check if it's a returning user.
  *     - If returning user, sign in and we are done.
  *     - Else check if there is an existing account with user's email.
@@ -59,12 +59,12 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 
 passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, refreshToken, profile, done) {
   if (req.user) {
-    User.findOne({ $or: [{ facebook: profile.id }, { email: profile.email }] }, function(err, existingUser) {
-      if (existingUser) {
+    Player.findOne({ $or: [{ facebook: profile.id }, { email: profile.email }] }, function(err, existingPlayer) {
+      if (existingPlayer) {
         req.flash('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
-        User.findById(req.user.id, function(err, user) {
+        Player.findById(req.user.id, function(err, user) {
           user.facebook = profile.id;
           user.tokens.push({ kind: 'facebook', accessToken: accessToken });
           user.profile.name = user.profile.name || profile.displayName;
@@ -78,14 +78,14 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
       }
     });
   } else {
-    User.findOne({ facebook: profile.id }, function(err, existingUser) {
-      if (existingUser) return done(null, existingUser);
-      User.findOne({ email: profile._json.email }, function(err, existingEmailUser) {
-        if (existingEmailUser) {
+    Player.findOne({ facebook: profile.id }, function(err, existingPlayer) {
+      if (existingPlayer) return done(null, existingPlayer);
+      Player.findOne({ email: profile._json.email }, function(err, existingEmailPlayer) {
+        if (existingEmailPlayer) {
           req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
           done(err);
         } else {
-          var user = new User();
+          var user = new Player();
           user.email = profile._json.email;
           user.facebook = profile.id;
           user.tokens.push({ kind: 'facebook', accessToken: accessToken });
@@ -108,12 +108,12 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
 
 passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refreshToken, profile, done) {
   if (req.user) {
-    User.findOne({ $or: [{ github: profile.id }, { email: profile.email }] }, function(err, existingUser) {
-      if (existingUser) {
+    Player.findOne({ $or: [{ github: profile.id }, { email: profile.email }] }, function(err, existingPlayer) {
+      if (existingPlayer) {
         req.flash('errors', { msg: 'There is already a GitHub account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
-        User.findById(req.user.id, function(err, user) {
+        Player.findById(req.user.id, function(err, user) {
           user.github = profile.id;
           user.tokens.push({ kind: 'github', accessToken: accessToken });
           user.profile.name = user.profile.name || profile.displayName;
@@ -128,14 +128,14 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
       }
     });
   } else {
-    User.findOne({ github: profile.id }, function(err, existingUser) {
-      if (existingUser) return done(null, existingUser);
-      User.findOne({ email: profile._json.email }, function(err, existingEmailUser) {
-        if (existingEmailUser) {
+    Player.findOne({ github: profile.id }, function(err, existingPlayer) {
+      if (existingPlayer) return done(null, existingPlayer);
+      Player.findOne({ email: profile._json.email }, function(err, existingEmailPlayer) {
+        if (existingEmailPlayer) {
           req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with GitHub manually from Account Settings.' });
           done(err);
         } else {
-          var user = new User();
+          var user = new Player();
           user.email = profile._json.email;
           user.github = profile.id;
           user.tokens.push({ kind: 'github', accessToken: accessToken });
@@ -158,12 +158,12 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
 
 passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tokenSecret, profile, done) {
   if (req.user) {
-    User.findOne({ twitter: profile.id }, function(err, existingUser) {
-      if (existingUser) {
+    Player.findOne({ twitter: profile.id }, function(err, existingPlayer) {
+      if (existingPlayer) {
         req.flash('errors', { msg: 'There is already a Twitter account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
-        User.findById(req.user.id, function(err, user) {
+        Player.findById(req.user.id, function(err, user) {
           user.twitter = profile.id;
           user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
           user.profile.name = user.profile.name || profile.displayName;
@@ -178,9 +178,9 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
     });
 
   } else {
-    User.findOne({ twitter: profile.id }, function(err, existingUser) {
-      if (existingUser) return done(null, existingUser);
-      var user = new User();
+    Player.findOne({ twitter: profile.id }, function(err, existingPlayer) {
+      if (existingPlayer) return done(null, existingPlayer);
+      var user = new Player();
       // Twitter will not provide an email address.  Period.
       // But a person’s twitter username is guaranteed to be unique
       // so we can "fake" a twitter email address as follows:
@@ -203,12 +203,12 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
 
 passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refreshToken, profile, done) {
   if (req.user) {
-    User.findOne({ $or: [{ google: profile.id }, { email: profile.email }] }, function(err, existingUser) {
-      if (existingUser) {
+    Player.findOne({ $or: [{ google: profile.id }, { email: profile.email }] }, function(err, existingPlayer) {
+      if (existingPlayer) {
         req.flash('errors', { msg: 'There is already a Google account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
-        User.findById(req.user.id, function(err, user) {
+        Player.findById(req.user.id, function(err, user) {
           user.google = profile.id;
           user.tokens.push({ kind: 'google', accessToken: accessToken });
           user.profile.name = user.profile.name || profile.displayName;
@@ -222,14 +222,14 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
       }
     });
   } else {
-    User.findOne({ google: profile.id }, function(err, existingUser) {
-      if (existingUser) return done(null, existingUser);
-      User.findOne({ email: profile._json.email }, function(err, existingEmailUser) {
-        if (existingEmailUser) {
+    Player.findOne({ google: profile.id }, function(err, existingPlayer) {
+      if (existingPlayer) return done(null, existingPlayer);
+      Player.findOne({ email: profile._json.email }, function(err, existingEmailPlayer) {
+        if (existingEmailPlayer) {
           req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Google manually from Account Settings.' });
           done(err);
         } else {
-          var user = new User();
+          var user = new Player();
           user.email = profile._json.email;
           user.google = profile.id;
           user.tokens.push({ kind: 'google', accessToken: accessToken });
@@ -251,15 +251,15 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
 
 passport.use(new LinkedInStrategy(secrets.linkedin, function(req, accessToken, refreshToken, profile, done) {
   if (req.user) {
-    User.findOne({ $or: [
+    Player.findOne({ $or: [
       { linkedin: profile.id },
       { email: profile._json.emailAddress }
-    ] }, function(err, existingUser) {
-      if (existingUser) {
+    ] }, function(err, existingPlayer) {
+      if (existingPlayer) {
         req.flash('errors', { msg: 'There is already a LinkedIn account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
         done(err);
       } else {
-        User.findById(req.user.id, function(err, user) {
+        Player.findById(req.user.id, function(err, user) {
           user.linkedin = profile.id;
           user.tokens.push({ kind: 'linkedin', accessToken: accessToken });
           user.profile.name = user.profile.name || profile.displayName;
@@ -274,14 +274,14 @@ passport.use(new LinkedInStrategy(secrets.linkedin, function(req, accessToken, r
       }
     });
   } else {
-    User.findOne({ linkedin: profile.id }, function(err, existingUser) {
-      if (existingUser) return done(null, existingUser);
-      User.findOne({ email: profile._json.emailAddress }, function(err, existingEmailUser) {
-        if (existingEmailUser) {
+    Player.findOne({ linkedin: profile.id }, function(err, existingPlayer) {
+      if (existingPlayer) return done(null, existingPlayer);
+      Player.findOne({ email: profile._json.emailAddress }, function(err, existingEmailPlayer) {
+        if (existingEmailPlayer) {
           req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with LinkedIn manually from Account Settings.' });
           done(err);
         } else {
-          var user = new User();
+          var user = new Player();
           user.linkedin = profile.id;
           user.tokens.push({ kind: 'linkedin', accessToken: accessToken });
           user.email = profile._json.emailAddress;

@@ -2,16 +2,24 @@ extends ../layout
 
 block content
   form.form-horizontal(id='signup-form', method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
+    input(type='hidden', name='_csrf', value=token)
+    !=ayah
     legend Signup
+    //- p You have been invited to signup durning the alpha period!
     .form-group
       label.col-sm-3.control-label(for='email') Email
       .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus)
+        if email
+          input.form-control(type='email', name='email', id='email', value='#{email}', placeholder='Email')
+        else
+          input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus)
     .form-group
       label.col-sm-3.control-label(for='password') Password
       .col-sm-7
-        input.form-control(type='password', name='password', id='password', placeholder='Password')
+        if email
+          input.form-control(type='password', name='password', id='password', placeholder='Password', autofocus)
+        else
+          input.form-control(type='password', name='password', id='password', placeholder='Password')
     .form-group
       label.col-sm-3.control-label(for='confirmPassword') Confirm Password
       .col-sm-7
@@ -21,3 +29,31 @@ block content
         button.btn.btn-success(type='submit')
           i.fa.fa-check
           | Signup
+    p
+  script.
+    $(function(){
+      $.get("http://ipinfo.io", function(response) {
+        //- console.log( response );
+        if( response.ip != '') {
+          $('#signup-form').append( $('<input />').attr('type','hidden').attr('name','ip').attr('value',response.ip) );
+        }
+        if( response.loc != '') {
+          $('#signup-form').append( $('<input />').attr('type','hidden').attr('name','loc').attr('value',response.loc) );
+        }
+        if( response.city != '') {
+          $('#signup-form').append( $('<input />').attr('type','hidden').attr('name','city').attr('value',response.city) );
+        }
+        if( response.postal != '') {
+          $('#signup-form').append( $('<input />').attr('type','hidden').attr('name','postal').attr('value',response.postal) );
+        }
+        if( response.region != '') {
+          $('#signup-form').append( $('<input />').attr('type','hidden').attr('name','region').attr('value',response.region) );
+        }
+        if( response.country != '') {
+          $('#signup-form').append( $('<input />').attr('type','hidden').attr('name','country').attr('value',response.country) );
+        }
+        if( response.hostname != '') {
+          $('#signup-form').append( $('<input />').attr('type','hidden').attr('name','hostname').attr('value',response.hostname) );
+        }
+      }, "jsonp");
+    });
