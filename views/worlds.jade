@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+  //- p=JSON.stringify(worlds)
+  //- a(href='/server/#{user.server}') &laquo; Return to Server Manager
+  
+  .page-header
+    h2 #{title}
+  p We have explored 
+    strong #{worlds.length}
+    |  worlds in this sector
+
+  each world in worlds
+    //- p=JSON.stringify(world)
+    if world.numLoads 
+      if world.satellite != null
+        h3.page-header #{world.sector}_#{world.x}_#{world.y}_#{world.z}_#{world.planet}_#{world.satellite}.world
+      else
+        h3.page-header #{world.sector}_#{world.x}_#{world.y}_#{world.z}_#{world.planet}.world
+      p Number of Loads: #{world.numLoads}
+      p Coordinates: #{world.sector}, x:#{world.x}, y:#{world.y}, z:#{world.z}, planet #{world.planet}
+        if world.satellite != null
+          span , satellite #{world.satellite}
+      if world.lastUnloaded != null
+        p Last Unloaded: #{new Date(world.lastUnloaded)}
+      if world.lastLoaded != null
+        p Last Loaded: #{new Date(world.lastLoaded)}
