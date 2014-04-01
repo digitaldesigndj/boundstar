@@ -23,6 +23,7 @@ var fs = require('fs');
  */
 
 var homeController = require('./controllers/home');
+var rankController = require('./controllers/rank');
 var playerController = require('./controllers/player');
 var contactController = require('./controllers/contact');
 
@@ -119,6 +120,9 @@ if ('development' == app.get('env')) {
  */
 
 app.get('/home', homeController.index);
+
+app.get('/rank', passportConf.isAuthenticated, rankController.index);
+app.post('/rank', passportConf.isAuthenticated, rankController.upgrade);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 
