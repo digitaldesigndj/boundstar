@@ -4,19 +4,40 @@ block content
 
   if user
     if user.profile.player
-      h1 Welcome #{user.profile.player}
-      p Rank: #{user.profile.rank}
+      .page-header
+        h1 #{user.profile.player}'s Rank Card
       if forum_stats
         p
           a(href='http://forum.boundstar.com/user/#{user.profile.forum.toLowerCase()}') Forum Profile: #{user.profile.forum}
+      .well.col-md-4#connections
+        h3 Rank
+        p 
+          span(style='font-size:48px') #{user.profile.rank}
+        h5 getting started
+      if forum_stats
         if forum_stats.posts 
-          p Forum Posts: #{forum_stats.posts}
+          .well.col-md-2#connections
+            h3 Forum Posts
+            p 
+              span(style='font-size:48px') #{forum_stats.posts}
+            h5 posts
           if forum_stats.rep 
-            p Forum Reputation: #{forum_stats.rep}
+            .well.col-md-2#connections
+              h3 Forum Reputation
+              p 
+                span(style='font-size:48px') #{forum_stats.rep}
+              h5 rep
           else
-            p Forum Reputation: 0
+            .well.col-md-2#connections
+              h3 Forum Reputation
+              p 
+                span(style='font-size:48px') 0
+              h5 rep
         else
-          p Forum Posts: 0
+          h3 Forum Posts
+            p 
+              span(style='font-size:48px') 0
+            h5 posts
           p.text-warning If the profile link above does not work, you need to change your 
             a(href='http://forum.boundstar.com') forum name 
             | to match what you see on 
@@ -26,10 +47,16 @@ block content
         each vote, i in votes
           if user.profile.player == vote.nickname
             - voted = true
-            p Votes This Month: #{vote.votes}
+            .well.col-md-2#connections
+              h3 Server Votes
+              p 
+                span(style='font-size:48px') #{vote.votes}
+              h5 votes this month
             if user.profile.rank == 'Recruit'
               if forum_stats.posts
                 if forum_stats.rep
+                  .clearfix
+                  hr
                   p Eligible for upgrade!
                   p.text-warning This will lock your player and forum name, and allow you access to the boundstar address system (coming soon).
                   p 
@@ -40,9 +67,22 @@ block content
                 //- if forum_stats.posts > 0 && forum_stats.rep > 0 && vote.votes > 0
 
         if voted === false
-          p Votes: 0
+          .well.col-md-2#connections
+              h3 Votes
+              p 
+                span(style='font-size:48px') 0
+              h5 votes this month
+          .clearfix
+          hr
           p.text-warning You need at least 1 vote to upgrade! Use your player name like you see in the corner (no email addresses).
           script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
+      if user.profile.rank == 'Player'
+        .well.col-md-2#connections
+          h3 World Saves
+          p 
+            span(style='font-size:48px') 0
+          h5 coming soon
+
       //- if users
         p=JSON.stringify(users)
     else
