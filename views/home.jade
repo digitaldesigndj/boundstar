@@ -1,27 +1,27 @@
 extends layout
 
 block content
-  .page-header
-    h1 Welcome to Boundstar
-  p Be sure to make your forum account, set your name and rank yourself up to player!
-  br
-  .col-sm-2
-    form(action='https://www.paypal.com/cgi-bin/webscr'. method='post'. target='_top')
-      input(type='hidden', name='cmd', value='_s-xclick')
-      input(type='hidden', name='hosted_button_id', value='9HGYPBBJV8954')
-      input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif', border='0', name='submit', alt='PayPal - The safer, easier way to pay online!')
-      img(alt='', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', width='1', height='1')
-  .col-sm-2
-    a(href='/signup').btn.btn-primary Register
-  .col-sm-2
-    a(href='http://forum.boundstar.com').btn.btn-primary Forums
-  .col-sm-4
-    script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
-  .clearfix
   //- p=JSON.stringify(servers)
   //- p=JSON.stringify(admins)
   if user
     if user.profile.player
+      .page-header
+        h1 Welcome to Boundstar
+      p Be sure to make your forum account, set your name and rank yourself up to player!
+      br
+      .col-sm-2
+        form(action='https://www.paypal.com/cgi-bin/webscr'. method='post'. target='_top')
+          input(type='hidden', name='cmd', value='_s-xclick')
+          input(type='hidden', name='hosted_button_id', value='9HGYPBBJV8954')
+          input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif', border='0', name='submit', alt='PayPal - The safer, easier way to pay online!')
+          img(alt='', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', width='1', height='1')
+      .col-sm-2
+        a(href='/signup').btn.btn-primary Register
+      .col-sm-2
+        a(href='http://forum.boundstar.com').btn.btn-primary Forums
+      .col-sm-4
+        script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
+      .clearfix
       .page-header
         h1 Hello #{user.profile.player}
       h4 Your Rank is 
@@ -47,9 +47,20 @@ block content
                 td Coordinates
             tbody
     else
-      h1 Go to your 
+      h1 Thanks for joining us Recruit!
+      p 
+        span.text-info You have been granted access to a new server
+        | , use the password below to login.
+      p Your adventure begins with a little setup, you will also need to make a post on the forum and socialize a bit with us.
+      p You should go to your 
         a(href='/account') profile
-        |  and set your player name!
+        |  and set your player and forum names. This will link your votes, posts and forum reputation to your Boundstar player profile.
+
+      .col-sm-2
+        a(href='http://forum.boundstar.com').btn.btn-primary Forums
+      .col-sm-4
+        script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
+      .clearfix
 
   if servers
     div
@@ -108,11 +119,12 @@ block content
                   img(src='http://starrydex.com/img/TinyTower.svg' style='max-width:100%;')
               .page-header
                 h2 #{server.ip_address}
-              p Private, register to get password
+              //- p Private, register to get password
               if user
                 if user.profile
                   if user.profile.rank != ''
-                p Password: #{admins[i].starbound_password}
+                p Password: 
+                  strong.text-info #{admins[i].starbound_password}
               case server.size_id
                 when 61
                   p 8 core server

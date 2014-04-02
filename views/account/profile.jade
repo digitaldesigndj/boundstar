@@ -2,13 +2,33 @@ extends ../layout
 
 block content
   .page-header
-    h3 Profile Information
+    h3 Welcome!
+  p This is where you can edit your profile information. Once you get this setup you won't need to come back here very often.
+  p You can find your 
+    a(href='http://forum.boundstar.com/users/recent', style='line-height: 36px') forum name here
+    | . Just make sure you 
+    a(href='http://forum.boundstar.com/register') register first
+    | .
   //- p=JSON.stringify(user.profile)
+  //- h4 Rank: #{user.profile.rank}
+  .page-header
+    h3 Edit Your Profile Information
+  br
   form.form-horizontal(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=token)
     .form-group
+      label.col-sm-3.control-label(for='Rank') Rank
+      i.fa.fa-lock(style='font-size:24px;margin-top: 8px')
+      .col-sm-4
+        input.form-control(type='Rank', name='Rank', id='Rank', value='#{user.profile.rank}', disabled)
+    .form-group
       label.col-sm-3.control-label(for='player') Starbound Name
-      | whatever you use to vote with
+      if user.profile.rank === 'Recruit'
+        span(style='line-height: 36px') whatever you use to 
+          a(href='http://starbound-servers.net/server/313/vote/') vote
+          |  with
+      else
+        i.fa.fa-lock(style='font-size:24px;margin-top: 8px')
       .col-sm-4
         if user.profile.rank === 'Recruit'
           input.form-control(type='player', name='player', id='player', value='#{user.profile.player}')
@@ -17,6 +37,9 @@ block content
       .col-sm-4
     .form-group
       label.col-sm-3.control-label(for='forum') Forum Username
+      if user.profile.rank === 'Recruit'
+      else
+        i.fa.fa-lock(style='font-size:24px;margin-top: 8px')
       .col-sm-4
         if user.profile.rank === 'Recruit'
           input.form-control(type='forum', name='forum', id='forum', value='#{user.profile.forum}')
@@ -28,11 +51,9 @@ block content
         input.form-control(type='text', name='invites', id='invites', value='#{user.invites}', disabled)
     .form-group
       label.col-sm-3.control-label(for='email') Email (Login)
+      i.fa.fa-lock(style='font-size:24px;margin-top: 8px')
       .col-sm-4
-        if user.profile.rank === 'Recruit'
-          input.form-control(type='email', name='email', id='email', value='#{user.email}')
-        else
-          input.form-control(type='email', name='email', id='email', value='#{user.email}', disabled)
+        input.form-control(type='email', name='email', id='email', value='#{user.email}', disabled)
     .form-group
       label.col-sm-3.control-label(for='name') TeamSpeak Handle
       .col-sm-4
@@ -42,7 +63,7 @@ block content
       .col-sm-4
         textarea.form-control(name='alt_characters', id='alt_characters', rows='5') #{user.profile.alt_characters}
 
-    .form-group
+    //- .form-group
       label.col-sm-3.control-label(for='gender') Gender
       .col-sm-4
         label.radio
@@ -55,7 +76,7 @@ block content
       label.col-sm-3.control-label(for='location') Location
       .col-sm-4
         input.form-control(type='text', name='location', id='location', value='#{user.profile.location}')
-    .form-group
+    //- .form-group
       label.col-sm-3.control-label(for='website') Website
       .col-sm-4
         input.form-control(type='text', name='website', id='website', value='#{user.profile.website}')

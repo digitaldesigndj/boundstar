@@ -97,8 +97,18 @@ exports.postSignup = function(req, res, next) {
   var player = new Player({
     email: req.body.email,
     password: req.body.password,
-    name: req.body.name
   });
+
+  player.profile.ip = req.body.ip || ''
+  player.profile.loc = req.body.loc || '';
+  player.profile.city = req.body.city || '';
+  player.profile.forum = req.body.forum || '';
+  player.profile.postal = req.body.postal || '';
+  player.profile.region = req.body.region || '';
+  player.profile.country = req.body.country || '';
+  player.profile.hostname = req.body.hostname || '';
+
+  console.log( req.body, player );
 
   player.save(function(err) {
     if (err) {
@@ -131,27 +141,18 @@ exports.getAccount = function(req, res) {
  */
 
 exports.postUpdateProfile = function(req, res, next) {
-  Player.findById(req.user.id, function(err, user) {
+  Player.findById(req.user.id, function(err, player) {
     if (err) return next(err);
-    user.email = req.body.email || '';
-    user.profile.ip = req.body.ip || '';
-    user.profile.loc = req.body.loc || '';
-    user.profile.name = req.body.name || '';
-    user.profile.city = req.body.city || '';
-    user.profile.forum = req.body.forum || '';
-    user.profile.postal = req.body.postal || '';
-    user.profile.region = req.body.region || '';
-    user.profile.gender = req.body.gender || '';
-    user.profile.player = req.body.player || '';
-    user.profile.website = req.body.website || '';
-    user.profile.country = req.body.country || '';
-    user.profile.location = req.body.location || '';
-    user.profile.hostname = req.body.hostname || '';
-    user.profile.starbound_password = req.body.starbound_password || '';
-    user.save(function(err) {
+    player.profile.name = req.body.name || ''; // Teamspeak
+    player.profile.forum = req.body.forum || '';
+    player.profile.gender = req.body.gender || '';
+    player.profile.player = req.body.player || '';
+    player.profile.website = req.body.website || '';
+    player.profile.location = req.body.location || '';
+    player.save(function(err) {
       if (err) return next(err);
-      req.flash('success', { msg: 'Profile information updated.' });
-      res.redirect('/account');
+      req.flash('success', { msg: 'Profile information updated, Rank info updated.' });
+      res.redirect('/rank');
     });
   });
 };

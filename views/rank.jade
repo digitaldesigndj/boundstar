@@ -17,6 +17,10 @@ block content
             p Forum Reputation: 0
         else
           p Forum Posts: 0
+          p.text-warning If the profile link above does not work, you need to change your 
+            a(href='http://forum.boundstar.com') forum name 
+            | to match what you see on 
+            a(href='http://forum.boundstar.com/users/latest') this page
       - var voted = false
       if votes
         each vote, i in votes
@@ -27,6 +31,7 @@ block content
               if forum_stats.posts
                 if forum_stats.rep
                   p Eligible for upgrade!
+                  p.text-warning This will lock your player and forum name, and allow you access to the boundstar address system (coming soon).
                   p 
                     form(action='/rank', method='POST')
                       input(type='hidden', name='_csrf', value=token)
@@ -36,6 +41,8 @@ block content
 
         if voted === false
           p Votes: 0
+          p.text-warning You need at least 1 vote to upgrade! Use your player name like you see in the corner (no email addresses).
+          script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
       //- if users
         p=JSON.stringify(users)
     else
