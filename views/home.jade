@@ -5,29 +5,25 @@ block content
   //- p=JSON.stringify(admins)
   if user
     if user.profile.player
-      .page-header
-        h1 Welcome to Boundstar
-      p Be sure to make your forum account, set your name and rank yourself up to Player!
-      br
-      .col-sm-2
-        form(action='https://www.paypal.com/cgi-bin/webscr'. method='post'. target='_top')
-          input(type='hidden', name='cmd', value='_s-xclick')
-          input(type='hidden', name='hosted_button_id', value='9HGYPBBJV8954')
-          input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif', border='0', name='submit', alt='PayPal - The safer, easier way to pay online!')
-          img(alt='', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', width='1', height='1')
-      .col-sm-2
-        a(href='/signup').btn.btn-primary Register
-      .col-sm-2
-        a(href='http://forum.boundstar.com').btn.btn-primary Forums
+      .col-md-8
+        .page-header
+          h1 Hello #{user.profile.player}
+        p.lead Welcome to the next Boundstar
+        h4 Your 
+          a(href='/rank') Rank
+          |  is 
+          strong #{user.profile.rank}
       .col-md-4
-        script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
-      .clearfix
-      .page-header
-        h1 Hello #{user.profile.player}
-      h4 Your 
-        a(href='/rank') Rank
-        |  is 
-        strong #{user.profile.rank}
+        legend Ranks
+        ol
+          li Recruit
+          li Player
+          li Explorer*
+          li Member*
+          li Builder*
+          li Modder*
+          li Creator/Artisan*
+        p *coming soon
       //- .row
         .well.col-sm-2#connections
             h3 Right Now
@@ -67,16 +63,51 @@ block content
     .col-md-8
       .page-header
         h1 Welcome to Boundstar
+      p.lead A new era has started
       p Server name: 
         strong boundstar.com
         |  and connect with your Starbound client, no password needed.
+      p When you first register, you will become a Recruit. Your mission as a recruit is to get your profile setup and become a player.
+      ol 
+        li Login to the server!
+        li Create and link a forum account.
+        li Get 1 forum reputation.
+        li Make 1 forum post.
+        li Vote on server-lister.
+        li Set your main character name.
+      p After you complete all these tasks, you will rank up to Player! This will lock your player and forum name. (you can still change your forum name, not recommended because you will lose your rep & posts).
+      br
+      .col-sm-2
+        a(href='/signup').btn.btn-success Register
+      .col-sm-2
+        form(action='https://www.paypal.com/cgi-bin/webscr'. method='post'. target='_top')
+          input(type='hidden', name='cmd', value='_s-xclick')
+          input(type='hidden', name='hosted_button_id', value='9HGYPBBJV8954')
+          input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif', border='0', name='submit', alt='PayPal - The safer, easier way to pay online!')
+          img(alt='', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', width='1', height='1')
+      .col-sm-2
+        a(href='http://forum.boundstar.com').btn.btn-primary Forums
+      .col-md-4
+        script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
+      .clearfix
     .col-md-4
       .page-header
-        h2 Donators
+        h3 Donators
       p Thanks to all of our supporters
         ul
           li Munlock
           li many more
+      .page-header
+        h3 Ranks
+      ol
+        li Recruit
+        li Player
+        li Explorer*
+        li Member*
+        li Builder*
+        li Modder*
+        li Creator/Artisan*
+      p *coming soon
 
   if servers
     .clearfix
