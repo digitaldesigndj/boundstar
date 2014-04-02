@@ -1,10 +1,11 @@
 extends ../layout
 
 block content
+  .page-header
+    h2 Register
   form.form-horizontal(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=token)
     !=ayah
-    legend Signup
     //- p You have been invited to signup durning the alpha period!
     .form-group
       label.col-sm-3.control-label(for='email') Email
