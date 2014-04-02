@@ -1,13 +1,16 @@
 extends layout
 
 block content
-
+  
+  h1 Welcome to Boundstar
+  p Be sure to make your forum account, set your name and rank yourself up to player!
+  
   //- p=JSON.stringify(servers)
   //- p=JSON.stringify(admins)
   if user
     if user.profile.player
       .page-header
-        h1 Welcome #{user.profile.player}
+        h1 Hello #{user.profile.player}
       h4 Your Rank is 
         strong #{user.profile.rank}
       //- .row
