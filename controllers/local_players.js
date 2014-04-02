@@ -10,21 +10,25 @@ var transients = require('transients');
  * Players List page.
  */
 
-transients.setTransient( 'local_server_info', 'http://boundstar.com/status/server/status', 3600 );
-transients.setTransient( 'local_player_info', 'http://boundstar.com/status/server/players', 3600 );
+transients.setTransient( 'local_server_info', 'http://boundstar.com/status/server/status', 10 );
+transients.setTransient( 'local_player_info', 'http://boundstar.com/status/server/players', 10 );
 
 exports.players = function(req, res) {
-  res.render('players', {
-    title: 'Players'
-    , players: transients.getTransient( 'local_player_info' )
+  transients.getTransient( 'local_player_info', function (player_info) {
+    res.render('players', {
+      title: 'Players'
+      , players: player_info
+    });
   });
 };
 
 exports.managePlayer = function(req, res) {
-  res.render('player', {
-    title: 'Manage Player: ' + req.params.player
-    , players: transients.getTransient( 'local_player_info' )
-    , manage_player: req.params.player
+  transients.getTransient( 'local_player_info', function (player_info) {
+    res.render('player', {
+      title: 'Manage Player: ' + req.params.player
+      , players: player_info
+      , manage_player: req.params.player
+    });
   });
 };
 

@@ -13,15 +13,19 @@ var transients = require('transients');
 transients.setTransient( 'local_world_info', 'http://boundstar.com/status/server/worlds', 3600 );
 
 exports.index = function(req, res) {
-  res.render('worlds', {
-    title: 'Worlds'
-    , worlds: transients.getTransient( 'local_world_info' )
+  transients.getTransient( 'local_world_info', function (worlds) {
+    res.render('worlds', {
+      title: 'Worlds'
+      , worlds: 
+    });
   });
 };
 
 exports.sectorIndex = function(req, res) {
-  res.render('worlds', {
-    title: 'Worlds'
-    , worlds: _.sortBy( _.where( transients.getTransient( 'local_world_info' ), { sector: req.params.sector }), function(o) { return o.numLoads; }).reverse()
+  transients.getTransient( 'local_world_info', function (worlds) {
+    res.render('worlds', {
+      title: 'Worlds'
+      , worlds: _.sortBy( _.where( worlds, { sector: req.params.sector }), function(o) { return o.numLoads; }).reverse()
+    });
   });
 };
