@@ -16,7 +16,7 @@ exports.index = function(req, res) {
   transients.getTransient( 'local_world_info', function (worlds) {
     res.render('worlds', {
       title: 'Worlds'
-      , worlds: 
+      , worlds: worlds
     });
   });
 };
