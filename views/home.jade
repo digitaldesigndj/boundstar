@@ -125,17 +125,16 @@ block content
                 else
                   h2 #{server.ip_address}
               //- p Private, register to get password
-              if server.ip_address == '107.170.30.45'
-                p Members Only - 
-                  a(href='/signup') Register
-                  |  to get the password.
-              else
-                p Members Only
+              if user
+                if server.ip_address == '107.170.30.45'
+                  p Members Only - 
+                    a(href='/signup') Register
+                    |  to get the password.
               if user
                 if user.profile
                   if user.profile.rank != ''
-                p Password: 
-                  strong.text-info #{admins[i].starbound_password}
+                    p Password: 
+                      strong.text-info #{admins[i].starbound_password}
               case server.size_id
                 when 61
                   p 8 core VPS
