@@ -45,7 +45,7 @@ exports.index = function (req, res) {
     },
     votes: function (callback) {
       url = 'http://starbound-servers.net/api/?object=servers&element=voters&key=87dgg44wyy86bgdoofau&month=current&format=json';
-      request( { url: url, timeout: 750 }, function (err, response, body) {
+      request( { url: url, timeout: 3000 }, function (err, response, body) {
         if (!err && response.statusCode == 200) {
           callback(err, JSON.parse(body).voters );
         }
