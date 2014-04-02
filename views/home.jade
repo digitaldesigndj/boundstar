@@ -19,7 +19,7 @@ block content
         a(href='/signup').btn.btn-primary Register
       .col-sm-2
         a(href='http://forum.boundstar.com').btn.btn-primary Forums
-      .col-sm-4
+      .col-md-4
         script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
       .clearfix
       .page-header
@@ -60,18 +60,33 @@ block content
 
       .col-sm-2
         a(href='http://forum.boundstar.com').btn.btn-primary Forums
-      .col-sm-4
+      .col-md-4
         script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
       .clearfix
+  else
+    .col-md-8
+      .page-header
+        h1 Welcome to Boundstar
+      p Server name: 
+        strong boundstar.com
+        |  and connect with your Starbound client, no password needed.
+    .col-md-4
+      .page-header
+        h2 Donators
+      p Thanks to all of our supporters
+        ul
+          li Munlock
+          li many more
 
   if servers
-    div
+    .clearfix
+    .col-md-12
       .page-header
         h2 Servers
       each server, i in servers
         //- h1=JSON.stringify( server )
         if admins[i].starbound_password == ''
-          .col-sm-4
+          .col-md-4
             case server.ip_address
               when '107.170.30.45'
                 img(src='http://starrydex.com/img/ApeFlu.svg' style='max-width:100%;')
@@ -109,7 +124,7 @@ block content
               a(href='http://#{server.ip_address}') CommandStar
         else
           if server.ip_address == '107.170.30.45'
-            .col-sm-4
+            .col-md-4
               case server.ip_address
                 when '107.170.30.45'
                   img(src='http://starrydex.com/img/ApeFlu.svg' style='max-width:100%;')
