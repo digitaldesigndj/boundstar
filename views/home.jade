@@ -91,11 +91,11 @@ block content
               p Public
             case server.size_id
               when 61
-                p 8 core server
+                p 8 core VPS
               when 65
-                p 4 core server
+                p 4 core VPS
               default
-                p 2 core server
+                p 2 core VPS
             if server.ip_address == '107.170.56.96'
               p(style='color:black')
                 input(value='boundstar.com',style='width:120px;',onclick='this.select()')
@@ -120,8 +120,17 @@ block content
                 default
                   img(src='http://starrydex.com/img/TinyTower.svg' style='max-width:100%;')
               .page-header
-                h2 #{server.ip_address}
+                if server.ip_address == '107.170.30.45'
+                  h2 Private
+                else
+                  h2 #{server.ip_address}
               //- p Private, register to get password
+              if server.ip_address == '107.170.30.45'
+                p Members Only - 
+                  a(href='/signup') Register
+                  |  to get the password.
+              else
+                p Members Only
               if user
                 if user.profile
                   if user.profile.rank != ''
@@ -129,17 +138,20 @@ block content
                   strong.text-info #{admins[i].starbound_password}
               case server.size_id
                 when 61
-                  p 8 core server
+                  p 8 core VPS
                 when 65
-                  p 4 core server
+                  p 4 core VPS
                 default
-                  p 2 core server
-              if server.ip_address == '107.170.56.96'
-                p(style='color:black')
-                  input(value='boundstar.com',style='width:120px;',onclick='this.select()')
-              else
-                p(style='color:black')
-                  input(value='#{server.ip_address}',style='width:120px;',onclick='this.select()')
+                  p 2 core VPS
+              if user
+                if user.profile
+                  if user.profile.rank != ''
+                    if server.ip_address == '107.170.56.96'
+                      p(style='color:black')
+                        input(value='boundstar.com',style='width:120px;',onclick='this.select()')
+                    else
+                      p(style='color:black')
+                        input(value='#{server.ip_address}',style='width:120px;',onclick='this.select()')
               if server.ip_address == '107.170.56.96'
                 p
                   a(href='http://boundstar.com/') Web Site
