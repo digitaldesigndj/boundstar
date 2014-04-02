@@ -121,7 +121,7 @@ if ('development' == app.get('env')) {
  * Application routes.
  */
 
-app.get('/home', homeController.index);
+app.get('/', homeController.index);
 
 app.get('/rank', passportConf.isAuthenticated, rankController.index);
 app.post('/rank', passportConf.isAuthenticated, rankController.upgrade);
