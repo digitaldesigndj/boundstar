@@ -63,26 +63,27 @@ exports.logout = function(req, res) {
 };
 
 /**
- * GET /signup
- * Signup page.
+ * GET /register
+ * Register page.
  */
 
-exports.getSignup = function(req, res) {
+exports.getRegister = function(req, res) {
   if (req.user) return res.redirect('/');
-  res.render('account/signup', {
+  res.render('account/register', {
     title: 'Create Account',
+    ayah: ayah.getPublisherHTML(),
     query: req.query
   });
 };
 
 /**
- * POST /signup
+ * POST /register
  * Create a new local account.
  * @param email
  * @param password
  */
 
-exports.postSignup = function(req, res, next) {
+exports.postRegister = function(req, res, next) {
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
@@ -91,7 +92,7 @@ exports.postSignup = function(req, res, next) {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/signup');
+    return res.redirect('/register');
   }
 
   var player = new Player({
