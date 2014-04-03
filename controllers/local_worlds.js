@@ -10,7 +10,7 @@ var transients = require('transients');
  * Worlds List page.
  */
 
-transients.setTransient( 'local_world_info', 'http://boundstar.com/status/server/worlds', 3600 );
+transients.setTransient( 'local_world_info', 'http://boundstar.com/status/server/worlds', 60 );
 
 exports.worlds = function(req, res) {
   transients.getTransient( 'local_world_info', function (worlds) {
