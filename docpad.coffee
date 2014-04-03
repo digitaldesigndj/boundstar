@@ -1,5 +1,7 @@
 # DocPad Configuration File
 # http://docpad.org/docs/config
+sys = require('sys');
+exec = require('child_process').exec;
 
 # Define the DocPad Configuration
 docpadConfig = {
@@ -62,8 +64,10 @@ docpadConfig = {
       server.all '/regenerate', (req,res) ->
         if req.query?.key is process.env.WEBHOOK_KEY
           docpad.log('info', 'Regenerating for documentation change')
-          docpad.action('generate')
-          res.send(200, 'regenerated')
+          # docpad.action('generate')
+          exec "forever restartall", (error, stdout, stderr) ->
+            sys.puts(stdout)
+            res.send(200, 'regenerating')
         else
           res.send(400, 'key is incorrect')
 }
