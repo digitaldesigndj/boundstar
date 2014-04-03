@@ -89,7 +89,7 @@ app.use(express.session({
 
 var fn = express.csrf();
 app.use(function(req, res, next){
-  if ( req.url != '/regenerate' ) {
+  if ( req.url != '/regenerate?key=TDY721' ) {
     fn(req, res, next);
   } else {
     next();
@@ -99,8 +99,7 @@ app.use(function(req, res, next){
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
-  console.log( req.url );
-  if ( req.url != '/regenerate' ) {
+  if ( req.url != '/regenerate?key=TDY721' ) {
     res.locals.user = req.user;
     res.locals.token = req.csrfToken();
     res.locals.secrets = secrets;
@@ -112,8 +111,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: month }));
 app.use(function(req, res, next) {
   // Keep track of previous URL
   if (req.method !== 'GET') return next();
-  console.log( req.url );
-  if ( req.url != '/regenerate' ) {
+  if ( req.url != '/regenerate?key=TDY721' ) {
     var path = req.path.split('/')[1];
     if (/(auth|login|logout|signup)$/.test(path)) return next();
     req.session.returnTo = req.path;
