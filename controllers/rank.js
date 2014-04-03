@@ -57,7 +57,7 @@ exports.index = function (req, res) {
     forum_stats: function (callback) {
       var forum_stats = {};
       jsdom.env({
-        url: 'http://forum.boundstar.com/user/'+req.user.profile.forum.toLowerCase(),
+        url: 'http://forum.boundstar.com/user/'+req.user.profile.forum.replace(/ /g,'-').toLowerCase(),
         scripts: ['http://code.jquery.com/jquery-1.11.0.min.js'],
         done: function (err, window) {
           var $ = window.$;

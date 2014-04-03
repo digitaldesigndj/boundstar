@@ -28,6 +28,7 @@ var localWorldsController = require('./controllers/local_worlds');
 var localPlayersController = require('./controllers/local_players');
 var playerController = require('./controllers/player');
 var contactController = require('./controllers/contact');
+var boundstarPlayers = require('./controllers/boundstar_players');
 
 /**
  * API keys + Passport configuration.
@@ -129,9 +130,11 @@ app.post('/rank', passportConf.isAuthenticated, rankController.upgrade);
 app.get('/worlds', passportConf.isAuthenticated, localWorldsController.index);
 app.get('/worlds/:sector', passportConf.isAuthenticated, localWorldsController.sectorIndex);
 
-app.get('/players', passportConf.isAuthenticated, localPlayersController.players);
+app.get('/players', boundstarPlayers.players);
+
+app.get('/crash/players', localPlayersController.players);
 // app.get('/players', passportConf.isAuthenticated, localPlayersController.players);
-app.get('/player/:player', passportConf.isAuthenticated, localPlayersController.managePlayer);
+app.get('/crash/player/:player', passportConf.isAuthenticated, localPlayersController.managePlayer);
 
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
@@ -150,31 +153,6 @@ app.post('/account/profile', passportConf.isAuthenticated, playerController.post
 app.post('/account/password', passportConf.isAuthenticated, playerController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, playerController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, playerController.getOauthUnlink);
-
-/**
- * OAuth routes for sign-in.
- */
-
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE' }));
-app.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
 
 /**
  * Start Express server.
