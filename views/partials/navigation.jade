@@ -30,22 +30,24 @@
 
         //- li(class=title=='Contact'?'active':undefined)
           a(href='/contact') Contact
-      ul.nav.navbar-nav.navbar-right
-        if !user
-          li(class=title=='Login'?'active':undefined)
-            a(href='/login') Login
-          if secrets.localAuth
-            li(class=title=='Create Account'?'active':undefined)
-              a(href='/signup') Create Account
-        else
-          li.dropdown(class=title=='Account Management'?'active':undefined)
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-              if user.profile.picture
-                img.profile-image(src='#{user.profile.picture}')
-              else
-                img.profile-image(src='#{user.gravatar(60)}')
-              | #{user.profile.player || user.email || user.id}&nbsp;
-              i.caret
-            ul.dropdown-menu
-              li: a(href='/account') My Profile
-              li: a(href='/logout') Logout
+      if !document
+        ul.nav.navbar-nav.navbar-right
+          if !user
+            li(class=title=='Login'?'active':undefined)
+              a(href='/login') Login
+            if secrets
+              if secrets.localAuth
+                li(class=title=='Create Account'?'active':undefined)
+                  a(href='/signup') Create Account
+          else
+            li.dropdown(class=title=='Account Management'?'active':undefined)
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                if user.profile.picture
+                  img.profile-image(src='#{user.profile.picture}')
+                else
+                  img.profile-image(src='#{user.gravatar(60)}')
+                | #{user.profile.player || user.email || user.id}&nbsp;
+                i.caret
+              ul.dropdown-menu
+                li: a(href='/account') My Profile
+                li: a(href='/logout') Logout

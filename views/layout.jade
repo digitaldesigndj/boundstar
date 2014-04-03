@@ -1,73 +1,75 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(name='description', content='')
-    meta(name='csrf-token', content=token)
-    meta(name='author', content='')
-    title #{title} | Boundstar - Starbound Server
-    != css('styles')
-    link(href='/starbound-font/starbound-font.css' rel='stylesheet')
-    != js('application')
-    script(defer='defer' src='/assets/js/jquery.backstretch.min.js')
-    script.
-      $(function($){
-        $.backstretch("/assets/img/bg.png", {speed: 1000});
-      });
-  body
-    #wrap
-      include partials/navigation
-      include partials/sidebar
-      #page-content-wrapper
-        <!-- Keep all page content within the page-content inset div! -->
-        .page-content.inset
-          .container
-            include partials/flash
-            block content
-    script.
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-42766222-2']);
-      _gaq.push(['_trackPageview']);
+include default.html.jade
+//- doctype html
+//- html(lang="en")
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    script(src='http://boundstar.com/status/socket.io/socket.io.js')
-    script.
-      var setPlayersOnline = function( players ) {
-        $('#players li').remove();
-        $('#numOnline').html( players.length );
-        players = players.sort();
-        $.each( players, function( key, val ) {
-          note = removeColorCodes( val );
-          $('#players').append(
-            '<li>'+note+'</li>'
-          );
-        });
-      };
+//-   head
+//-     meta(charset='utf-8')
+//-     meta(http-equiv='X-UA-Compatible', content='IE=edge')
+//-     meta(name='viewport', content='width=device-width, initial-scale=1.0')
+//-     meta(name='description', content='')
+//-     meta(name='csrf-token', content=token)
+//-     meta(name='author', content='')
+//-     title #{title} | Boundstar - Starbound Server
+//-     != css('styles')
+//-     link(href='/starbound-font/starbound-font.css' rel='stylesheet')
+//-     != js('application')
+//-     script(defer='defer' src='/assets/js/jquery.backstretch.min.js')
+//-     script.
+//-       $(function($){
+//-         $.backstretch("/assets/img/bg.png", {speed: 1000});
+//-       });
+//-   body
+//-     #wrap
+//-       include partials/navigation
+//-       include partials/sidebar
+//-       #page-content-wrapper
+//-         <!-- Keep all page content within the page-content inset div! -->
+//-         .page-content.inset
+//-           .container
+//-             include partials/flash
+//-             block content
+//-     script.
+//-       var _gaq = _gaq || [];
+//-       _gaq.push(['_setAccount', 'UA-42766222-2']);
+//-       _gaq.push(['_trackPageview']);
 
-      var removeColorCodes = function( str ) {
-        newStr = str.replace(/\^[\s\S]*;/,'','g');
-        return newStr;
-      };
+//-       (function() {
+//-         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+//-         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+//-         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+//-       })();
+//-     script(src='http://boundstar.com/status/socket.io/socket.io.js')
+//-     script.
+//-       var setPlayersOnline = function( players ) {
+//-         $('#players li').remove();
+//-         $('#numOnline').html( players.length );
+//-         players = players.sort();
+//-         $.each( players, function( key, val ) {
+//-           note = removeColorCodes( val );
+//-           $('#players').append(
+//-             '<li>'+note+'</li>'
+//-           );
+//-         });
+//-       };
 
-      var apiBase = 'http://boundstar.com:88/';
-      var socket = io.connect(apiBase);
-      socket.on('playerCount',function(data){
-        setPlayersOnline( data.playersOnline );
-        console.log( data.playersOnline );
-      });
+//-       var removeColorCodes = function( str ) {
+//-         newStr = str.replace(/\^[\s\S]*;/,'','g');
+//-         return newStr;
+//-       };
 
-      request = new XMLHttpRequest
-      request.open('GET', apiBase + 'server/status', true)
-      request.send()
-      request.onload = function() {
-        data = JSON.parse(this.response);
-        setPlayersOnline(  data.playersOnline );
-        console.log( data );
-      }
-      request.onerror = function() {}
+//-       var apiBase = 'http://boundstar.com:88/';
+//-       var socket = io.connect(apiBase);
+//-       socket.on('playerCount',function(data){
+//-         setPlayersOnline( data.playersOnline );
+//-         console.log( data.playersOnline );
+//-       });
+
+//-       request = new XMLHttpRequest
+//-       request.open('GET', apiBase + 'server/status', true)
+//-       request.send()
+//-       request.onload = function() {
+//-         data = JSON.parse(this.response);
+//-         setPlayersOnline(  data.playersOnline );
+//-         console.log( data );
+//-       }
+//-       request.onerror = function() {}

@@ -4,3 +4,4 @@ uploads
 .docpad.db
 keys.json
 config/secrets.js
+npm-debug.log

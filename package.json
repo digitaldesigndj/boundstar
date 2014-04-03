@@ -50,7 +50,9 @@
     "docpad": "~6.*.*",
     "ayah": "^0.1.0",
     "digitalocean-api": "^0.1.1",
-    "jsdom": "^0.10.4"
+    "jsdom": "^0.10.4",
+    "docpad-plugin-jade": "~2.6.2",
+    "docpad-plugin-cleanurls": "~2.7.0"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
