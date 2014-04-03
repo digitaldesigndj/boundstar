@@ -86,7 +86,19 @@ app.use(express.session({
     auto_reconnect: true
   })
 }));
-app.use(express.csrf());
+app.use('/', express.csrf());
+app.use('/rank', express.csrf());
+app.use('/worlds', express.csrf());
+app.use('/players', express.csrf());
+app.use('/crash', express.csrf());
+app.use('/contact', express.csrf());
+app.use('/login', express.csrf());
+app.use('/logout', express.csrf());
+app.use('/signup', express.csrf());
+app.use('/forgot', express.csrf());
+app.use('/reset', express.csrf());
+app.use('/account', express.csrf());
+app.use('/account', express.csrf());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
