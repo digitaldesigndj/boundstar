@@ -1,127 +1,120 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(name='description', content='')
-    meta(name='csrf-token', content=token)
-    meta(name='author', content='')
-    title #{title} | Boundstar - Starbound Server
-
-
-    if !document
-      != css('styles')
-      != js('application')
-    else
-      //-   - var scripts = getBlock('scripts')
-      //-   - var styles = getBlock('styles')
-      //-   != styles.toHTML()
-      //-   != scripts.toHTML()
-      style.
-        .starnav {
-          position: fixed;
-          left: 0;
-          bottom: 10px;
-          width: 180px;
-          z-index: 1;
-        }
-        .starnav a {
-          margin-bottom: 3px;
-          text-decoration: none;
-          float: left;
-          display: block;
-          background: url(/assets/img/buttonsprite.png);
-          height: 22px;
-          width: 180px;
-          padding: 2px 15px;
-          color: white;
-          -webkit-transition: none;
-          -moz-transition: none;
-          -ms-transition: none;
-          -o-transition: none;
-          transition: none;
-        }
-        .starnav a:hover {
-          color: white;
-          background-position: 0 -22px;
-        }
-
-      <link rel="stylesheet" href="/assets/styles-52a7c1b56d60e9de219524c175c986fc.css" />
-      <script src="/assets/lib/jquery-2.1.0.min-3072202aac7e0db99d871892bff1cbab.js"></script>
-      <script src="/assets/lib/bootstrap.min-189e71bd6fa3dae606e0b13dd8650462.js"></script>
-      <script src="/assets/main-97374ce98bcb8de9a93528bfa72580be.js"></script>
-      <script src="/assets/application-1fe03743e03efae49b9010cee7fc9bcd.js"></script>
-
-    script(defer='defer' src='/assets/js/jquery.backstretch.min.js')
-    script.
-      $(function($){
-        $.backstretch("/assets/img/bg.png", {speed: 1000});
-      });
-  body
-    if document
-      .starnav
-        each doc in getCollection('documents').toJSON()
-          if doc.navigation != false
-            a(href=doc.url)= doc.title
-          //- - clazz = (document.url === doc.url) ? 'active' : null
-          //- li(typeof="sioc:Page", about=doc.url, class=clazz)
-    #wrap
-      include partials/navigation
-      include partials/sidebar
-      #page-content-wrapper
-        <!-- Keep all page content within the page-content inset div! -->
-        .page-content.inset
-
-          .container
-            if !document
-              include partials/flash
-              block content
-            else
-              .col-sm-12
-                section#content.content!= content
-    script.
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-42766222-2']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    script(src='http://boundstar.com/status/socket.io/socket.io.js')
-    script.
-      var setPlayersOnline = function( players ) {
-        $('#players li').remove();
-        $('#numOnline').html( players.length );
-        players = players.sort();
-        $.each( players, function( key, val ) {
-          note = removeColorCodes( val );
-          $('#players').append(
-            '<li>'+note+'</li>'
-          );
+if document
+  doctype html
+  html(lang="en")
+    head
+      meta(charset='utf-8')
+      meta(http-equiv='X-UA-Compatible', content='IE=edge')
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      meta(name='description', content='')
+      meta(name='csrf-token', content=token)
+      meta(name='author', content='')
+      title #{title} | Boundstar - Starbound Server
+      script(defer='defer' src='/assets/js/jquery.backstretch.min.js')
+      script.
+        $(function($){
+          $.backstretch("/assets/img/bg.png", {speed: 1000});
         });
-      };
-
-      var removeColorCodes = function( str ) {
-        newStr = str.replace(/\^[\s\S]*;/,'','g');
-        return newStr;
-      };
-
-      var apiBase = 'http://boundstar.com:88/';
-      var socket = io.connect(apiBase);
-      socket.on('playerCount',function(data){
-        setPlayersOnline( data.playersOnline );
-        console.log( data.playersOnline );
-      });
-
-      request = new XMLHttpRequest
-      request.open('GET', apiBase + 'server/status', true)
-      request.send()
-      request.onload = function() {
-        data = JSON.parse(this.response);
-        setPlayersOnline(  data.playersOnline );
-        console.log( data );
+    //-   - var scripts = getBlock('scripts')
+    //-   - var styles = getBlock('styles')
+    //-   != styles.toHTML()
+    //-   != scripts.toHTML()
+    style.
+      .starnav {
+        position: fixed;
+        left: 0;
+        bottom: 10px;
+        width: 180px;
+        z-index: 1;
       }
-      request.onerror = function() {}
+      .starnav a {
+        margin-bottom: 3px;
+        text-decoration: none;
+        float: left;
+        display: block;
+        background: url(/assets/img/buttonsprite.png);
+        height: 22px;
+        width: 180px;
+        padding: 2px 15px;
+        color: white;
+        -webkit-transition: none;
+        -moz-transition: none;
+        -ms-transition: none;
+        -o-transition: none;
+        transition: none;
+      }
+      .starnav a:hover {
+        color: white;
+        background-position: 0 -22px;
+      }
+
+    <link rel="stylesheet" href="/assets/styles-52a7c1b56d60e9de219524c175c986fc.css" />
+    <script src="/assets/lib/jquery-2.1.0.min-3072202aac7e0db99d871892bff1cbab.js"></script>
+    <script src="/assets/lib/bootstrap.min-189e71bd6fa3dae606e0b13dd8650462.js"></script>
+    <script src="/assets/main-97374ce98bcb8de9a93528bfa72580be.js"></script>
+    <script src="/assets/application-1fe03743e03efae49b9010cee7fc9bcd.js"></script>
+  body
+  .starnav
+    each doc in getCollection('documents').toJSON()
+      if doc.navigation != false
+        a(href=doc.url)= doc.title
+      //- - clazz = (document.url === doc.url) ? 'active' : null
+      //- li(typeof="sioc:Page", about=doc.url, class=clazz)
+#wrap
+  include partials/navigation
+  include partials/sidebar
+  #page-content-wrapper
+    <!-- Keep all page content within the page-content inset div! -->
+    .page-content.inset
+
+      .container
+        if !document
+          include partials/flash
+          block content
+        else
+          .col-sm-12
+            section#content.content!= content
+script.
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-42766222-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+script(src='http://boundstar.com/status/socket.io/socket.io.js')
+script.
+  var setPlayersOnline = function( players ) {
+    $('#players li').remove();
+    $('#numOnline').html( players.length );
+    players = players.sort();
+    $.each( players, function( key, val ) {
+      note = removeColorCodes( val );
+      $('#players').append(
+        '<li>'+note+'</li>'
+      );
+    });
+  };
+
+  var removeColorCodes = function( str ) {
+    newStr = str.replace(/\^[\s\S]*;/,'','g');
+    return newStr;
+  };
+
+  var apiBase = 'http://boundstar.com:88/';
+  var socket = io.connect(apiBase);
+  socket.on('playerCount',function(data){
+    setPlayersOnline( data.playersOnline );
+    console.log( data.playersOnline );
+  });
+
+  request = new XMLHttpRequest
+  request.open('GET', apiBase + 'server/status', true)
+  request.send()
+  request.onload = function() {
+    data = JSON.parse(this.response);
+    setPlayersOnline(  data.playersOnline );
+    console.log( data );
+  }
+  request.onerror = function() {}

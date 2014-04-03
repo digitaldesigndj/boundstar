@@ -86,25 +86,25 @@ app.use(express.session({
     auto_reconnect: true
   })
 }));
-app.use('/', express.csrf());
-app.use('/rank', express.csrf());
-app.use('/worlds', express.csrf());
-app.use('/players', express.csrf());
-app.use('/crash', express.csrf());
-app.use('/contact', express.csrf());
-app.use('/login', express.csrf());
-app.use('/logout', express.csrf());
-app.use('/signup', express.csrf());
-app.use('/forgot', express.csrf());
-app.use('/reset', express.csrf());
-app.use('/account', express.csrf());
-app.use('/account', express.csrf());
+
+var fn = express.csrf();
+app.use(function(req, res, next){
+  if ( req.url != '/regenerate' ) {
+    fn(req, res, next);
+  } else {
+    next();
+  }
+});
+// app.use(express.csrf());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
-  res.locals.user = req.user;
-  res.locals.token = req.csrfToken();
-  res.locals.secrets = secrets;
+  console.log( req.url );
+  if ( req.url != '/regenerate' ) {
+    res.locals.user = req.user;
+    res.locals.token = req.csrfToken();
+    res.locals.secrets = secrets;
+  }
   next();
 });
 app.use(flash());
@@ -112,9 +112,12 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: month }));
 app.use(function(req, res, next) {
   // Keep track of previous URL
   if (req.method !== 'GET') return next();
-  var path = req.path.split('/')[1];
-  if (/(auth|login|logout|signup)$/.test(path)) return next();
-  req.session.returnTo = req.path;
+  console.log( req.url );
+  if ( req.url != '/regenerate' ) {
+    var path = req.path.split('/')[1];
+    if (/(auth|login|logout|signup)$/.test(path)) return next();
+    req.session.returnTo = req.path;
+  }
   next();
 });
 app.use(app.router);
