@@ -3,123 +3,144 @@ extends layout
 block content
 
   if user
-    if user.profile.player
-      .page-header
-        h1 #{user.profile.player}'s Rank Card
-      if forum_stats
-        p
-          a(href='http://forum.boundstar.com/user/#{user.profile.forum.toLowerCase()}') Forum Profile: #{user.profile.forum}
-      .well.col-md-4#connections
-        h3 Rank
-        p 
-          span(style='font-size:48px') #{user.profile.rank}
-        h5 getting started
-      if forum_stats
-        if forum_stats.posts 
-          .well.col-md-2#connections
-            h3 Forum Posts
-            p 
-              span(style='font-size:48px') #{forum_stats.posts}
-            h5 posts
-          if forum_stats.rep 
+    .col-md-12
+      //- p=JSON.stringify(user.profile.system)
+      if user.profile.player
+        .page-header
+          h1 #{user.profile.player}'s Rank Card
+        if forum_stats
+          p
+            a(href='http://forum.boundstar.com/user/#{user.profile.forum.toLowerCase()}') Forum Profile: #{user.profile.forum}
+        h3 System: #{user.profile.system_coords}
+        .well.col-md-4#connections
+          h3 Rank
+          p 
+            span(style='font-size:48px') #{user.profile.rank}
+          h3 #{user.profile.system.size} worlds
+        if forum_stats
+          if forum_stats.posts 
             .well.col-md-2#connections
-              h3 Forum Reputation
+              h3 Forum Posts
               p 
-                span(style='font-size:48px') #{forum_stats.rep}
-              h5 rep
+                span(style='font-size:48px') #{forum_stats.posts}
+              h5 posts
+            if forum_stats.rep 
+              .well.col-md-2#connections
+                h3 Forum Reputation
+                p 
+                  span(style='font-size:48px') #{forum_stats.rep}
+                h5 rep
+            else
+              .well.col-md-2#connections
+                h3 Forum Reputation
+                p 
+                  span(style='font-size:48px') 0
+                h5 rep
           else
             .well.col-md-2#connections
-              h3 Forum Reputation
+              h3 Forum Posts
               p 
                 span(style='font-size:48px') 0
-              h5 rep
-        else
-          h3 Forum Posts
+              h5 posts
+            //- h4.text-danger System Error... Profile Fail?
+            //- p.text-warning If the profile link above does not work, you need to change your 
+            //-   a(href='http://forum.boundstar.com') forum name 
+            //-   | to match what you see on 
+            //-   a(href='http://forum.boundstar.com/users/latest') this page
+        - var voted = false
+        if votes
+          each vote, i in votes
+            if user.profile.player == vote.nickname
+              - voted = true
+              .well.col-md-2#connections
+                h3 Server Votes
+                p 
+                  span(style='font-size:48px') #{vote.votes}
+                h5 votes this month
+              if user.profile.rank == 'Recruit'
+                if forum_stats.posts
+                  if forum_stats.rep
+                    .clearfix
+                    hr
+                    h3 Eligible for upgrade!
+                    p.text-warning This will lock your player and forum name, and allow you access to the boundstar address system (coming soon).
+                    p 
+                      form(action='/rank', method='POST')
+                        input(type='hidden', name='_csrf', value=token)
+                        //- input(type='hidden', name='size', value='65')
+                        button.btn.btn-primary(type='submit') Upgrade to Player
+                  //- if forum_stats.posts > 0 && forum_stats.rep > 0 && vote.votes > 0
+
+          if voted === false
+            .well.col-md-2#connections
+                h3 Votes
+                p 
+                  span(style='font-size:48px') 0
+                h5 votes this month
+            //- .clearfix
+            //- hr
+            //- h4.text-danger System Error... Go Vote!
+            //- p.text-warning You need at least 1 vote to upgrade! Use your player name like you see in the corner (no email addresses).
+            //- script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
+        if user.profile.rank == 'Player'
+          .well.col-md-2#connections
+            h3 World Saves
             p 
               span(style='font-size:48px') 0
-            h5 posts
-          h4.text-danger System Error... Profile Fail?
-          p.text-warning If the profile link above does not work, you need to change your 
-            a(href='http://forum.boundstar.com') forum name 
-            | to match what you see on 
-            a(href='http://forum.boundstar.com/users/latest') this page
-      - var voted = false
-      if votes
-        each vote, i in votes
-          if user.profile.player == vote.nickname
-            - voted = true
-            .well.col-md-2#connections
-              h3 Server Votes
-              p 
-                span(style='font-size:48px') #{vote.votes}
-              h5 votes this month
-            if user.profile.rank == 'Recruit'
-              if forum_stats.posts
-                if forum_stats.rep
-                  .clearfix
-                  hr
-                  p Eligible for upgrade!
-                  p.text-warning This will lock your player and forum name, and allow you access to the boundstar address system (coming soon).
-                  p 
-                    form(action='/rank', method='POST')
-                      input(type='hidden', name='_csrf', value=token)
-                      //- input(type='hidden', name='size', value='65')
-                      button.btn.btn-primary(type='submit') Upgrade to Player
-                //- if forum_stats.posts > 0 && forum_stats.rep > 0 && vote.votes > 0
+            h5 coming soon
 
-        if voted === false
-          .well.col-md-2#connections
-              h3 Votes
-              p 
-                span(style='font-size:48px') 0
-              h5 votes this month
-          .clearfix
-          hr
-          h4.text-danger System Error... Go Vote!
-          p.text-warning You need at least 1 vote to upgrade! Use your player name like you see in the corner (no email addresses).
-          script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
-      if user.profile.rank == 'Player'
-        .well.col-md-2#connections
-          h3 World Saves
-          p 
-            span(style='font-size:48px') 0
-          h5 coming soon
+        //- if users
+          p=JSON.stringify(users)
+      else
+        h1 Go to your 
+          a(href='/account') profile
+          |  and set your player name!
+      //- else
+        p You need to 
+          button register your player
+        
+    if user.profile.rank == 'Player'
+      if forum_stats.posts >= 10
+        if forum_stats.rep >= 5
+          if votes
+            each vote, i in votes
+              if user.profile.player == vote.nickname
+                 if vote.votes >= 3
+                    .clearfix
+                    .col-md-12
+                      h3 Eligible for upgrade!
+                      p This will grant you the abililty to claim a system.
+                      p 
+                        form(action='/rank', method='POST')
+                          input(type='hidden', name='_csrf', value=token)
+                          button.btn.btn-primary(type='submit') Upgrade to Explorer
 
-      //- if users
-        p=JSON.stringify(users)
-    else
-      h1 Go to your 
-        a(href='/account') profile
-        |  and set your player name!
-    //- else
-      p You need to 
-        button register your player
 
-  if user.profile.rank != 'Recruit'
-    .clearfix
-    br
-    .page-header
-      h2 Your Worlds
-    if user.profile.player != ''
-      if worlds
-        //- p=JSON.stringify(worlds)
-        each world in worlds
-          if world.owner == user.profile.player
-            .col-sm-6
-              //- p!=JSON.stringify(world)
-              h3 #{world.nickname}
-              p #{world.name}
-              p #{world.system}
-              p #{world.owner}
-              p #{world.description}
-              p
-                a(href='/world/#{world.world_coords}')
-                  span.label.label-warning #{world.world_coords}
-              p
-              if world.saves
-                p.text-warning 
-                  span.badge #{world.saves.length}
-                  if world.saves.length == '1'
-                    |  Restore Point
-                  else
-                    |  Restore Points 
+    if user.profile.rank != 'Recruit'
+      .clearfix
+      .col-md-12
+        .page-header
+          h2 Your Worlds
+        if user.profile.player != ''
+          if worlds
+            //- p=JSON.stringify(worlds)
+            each world in worlds
+              if world.owner == user.profile.player
+                .col-sm-6
+                  //- p!=JSON.stringify(world)
+                  h3 #{world.nickname}
+                  p #{world.name}
+                  p #{world.system}
+                  p #{world.owner}
+                  p #{world.description}
+                  p
+                    a(href='/world/#{world.world_coords}')
+                      span.label.label-warning #{world.world_coords}
+                  p
+                  if world.saves
+                    p.text-warning 
+                      span.badge #{world.saves.length}
+                      if world.saves.length == '1'
+                        |  Restore Point
+                      else
+                        |  Restore Points 

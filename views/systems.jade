@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  //- a(href='/server/#{user.server}') &laquo; Return to Server Manager
+  .col-md-12
+    .page-header
+      h2 #{title}
+    if user.profile.system_coords === ""
+      p You may only claim systems with at least 2 worlds.
+    p We have explored 
+      strong #{worlds.length}
+      |  worlds in this sector
+    - var used = [];
+    - var systems = 0;
+    each world in worlds
+      - var sector_id = world.x.replace('-','')+world.y.replace('-','')+world.planet
+      //- p=JSON.stringify(world)
+      //- p=JSON.stringify(used)
+      //- p=used.indexOf(sector_id)
+      if used.indexOf(sector_id) === -1
+        - systems++
+        .col-md-6(style='height:250px;')
+          h3 #{world.x}, #{world.y}: #{world.planet}
+          p Planets
+          - var planet_number = 0;
+          ul
+            each sub_world in worlds
+              if sub_world.x === world.x && sub_world.y === world.y && sub_world.z === world.z && sub_world.planet === world.planet
+                //- p=world.z.replace('-','')
+                - planet_number++
+                - used.push(sector_id)
+                //- p=world.x+", "+world.y+": "+sub_world.planet
+                li #{sub_world.planet}
+                  if sub_world.satellite
+                    span  #{sub_world.satellite}
+          if planet_number >= 2
+            if user.profile.system_coords === ""
+              p 
+                form(action='/claim', method='POST')
+                  input(type='hidden', name='_csrf', value=token)
+                  input(type='hidden', name='system_coords', value='#{world.sector}_#{world.x}_#{world.y}_#{world.z}_#{world.planet}')
+                  input(type='hidden', name='sector', value='#{world.sector}')
+                  input(type='hidden', name='x', value='#{world.x}')
+                  input(type='hidden', name='y', value='#{world.y}')
+                  input(type='hidden', name='z', value='#{world.z}')
+                  input(type='hidden', name='planet', value='#{world.planet}')
+                  input(type='hidden', name='size', value='#{planet_number}')
+                  button.btn.btn-primary(type='submit')
+                    i.fa.fa-exclamation 
+                    |  Claim this #{planet_number} planet system
+    p There are #{worlds.length} worlds in the #{systems} systems of this sector

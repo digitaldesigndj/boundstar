@@ -10,6 +10,29 @@ var jsdom = require('jsdom');
 var request = require('request');
 
 /**
+ * POST /claim
+ * Upgrader
+ */
+
+exports.claim = function (req, res) {
+  Player.findById(req.user.id, function (err, player) {
+    if (err) return err;
+    player.profile.system_coords = req.body.system_coords || '';
+    player.profile.system.sector = req.body.sector || '';
+    player.profile.system.x = req.body.x || '';
+    player.profile.system.y = req.body.y || '';
+    player.profile.system.z = req.body.z || '';
+    player.profile.system.planet = req.body.planet || '';
+    player.profile.system.size = req.body.size || 0;
+    player.save(function (err) {
+      if (err) return next(err);
+      req.flash('success', { msg: 'You claimed system '+req.body.system_coords });
+      res.redirect('/rank');
+    });
+  });
+}
+
+/**
  * POST /upgrade
  * Upgrader
  */
@@ -17,16 +40,33 @@ var request = require('request');
 exports.upgrade = function (req, res) {
   Player.findById(req.user.id, function (err, player) {
     if (err) return err;
-    if ( player.profile.thismonth_votes > 0 && player.profile.forum_posts > 0 && player.profile.forum_rep > 0 ) {
-      player.profile.rank = 'Player';
-      player.save(function (err) {
-        if (err) return next(err);
-        req.flash('success', { msg: 'Rank Up!' });
+    switch(player.profile.rank) {
+    case 'Recruit':
+      if ( player.profile.thismonth_votes > 0 && player.profile.forum_posts > 0 && player.profile.forum_rep > 0 ) {
+        player.profile.rank = 'Player';
+        player.save(function (err) {
+          if (err) return next(err);
+          req.flash('success', { msg: 'Rank Up! Player' });
+          res.redirect('/rank');
+        });
+      } else {
+        req.flash('error', { msg: 'You are not eligible for a new rank.' });
         res.redirect('/rank');
-      });
-    } else {
-      req.flash('error', { msg: 'You are not eligible for a new rank.' });
-      res.redirect('/rank');
+      }
+      break;
+    case 'Player':
+      if ( player.profile.thismonth_votes >= 3 && player.profile.forum_posts >= 5 && player.profile.forum_rep >= 5 ) {
+        player.profile.rank = 'Explorer';
+        player.save(function (err) {
+          if (err) return next(err);
+          req.flash('success', { msg: 'Rank Up! Explorer' });
+          res.redirect('/rank');
+        });
+      } else {
+        req.flash('error', { msg: 'You are not eligible for a new rank.' });
+        res.redirect('/rank');
+      }
+      break;
     }
   });
 }

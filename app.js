@@ -140,8 +140,12 @@ app.get('/', homeController.index);
 app.get('/rank', passportConf.isAuthenticated, rankController.index);
 app.post('/rank', passportConf.isAuthenticated, rankController.upgrade);
 
-app.get('/worlds', passportConf.isAuthenticated, localWorldsController.index);
-app.get('/worlds/:sector', passportConf.isAuthenticated, localWorldsController.sectorIndex);
+app.post('/claim', passportConf.isAuthenticated, rankController.claim);
+
+app.get('/worlds', localWorldsController.worlds);
+app.get('/worlds/:sector', localWorldsController.worldsBySector);
+app.get('/systems', passportConf.isAuthenticated, localWorldsController.systems);
+app.get('/systems/:sector', passportConf.isAuthenticated, localWorldsController.systemsBySector);
 
 app.get('/players', boundstarPlayers.players);
 

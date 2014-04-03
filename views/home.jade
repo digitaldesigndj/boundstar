@@ -13,12 +13,21 @@ block content
           a(href='/rank') Rank
           |  is 
           strong #{user.profile.rank}
+        case user.profile.rank
+          when "Recruit"
+            p You need 1 rep, 1 post and 1 vote to rank up to Player.
+          when "Player"
+            p You need 5 rep, 5 posts and 3 votes to rank up to Explorer.
+          when "Explorer"
+            p You are at the top rank for now.
+            if user.profile.system_coords == ""
+              p You should claim a system.
       .col-md-4
         legend Ranks
         ol
           li Recruit
           li Player
-          li Explorer*
+          li Explorer
           li Member*
           li Builder*
           li Modder*
@@ -45,19 +54,23 @@ block content
                 td Coordinates
             tbody
     else
-      h1 Thanks for joining us Recruit!
-      p 
-        span.text-info You have been granted access to a new server
-        | , use the password below to login.
-      p Your adventure begins with a little setup, you will also need to make a post on the forum and socialize a bit with us.
-      p You should go to your 
-        a(href='/account') profile
-        |  and set your player and forum names. This will link your votes, posts and forum reputation to your Boundstar player profile.
-
+      .col-sm-12
+        h1 Thanks for joining us Recruit!
+        p 
+          span.text-info You have been granted access to a new server
+          | , use the password below to login.
+        p Your adventure begins with a little setup, you will also need to make a post on the forum and socialize a bit with us.
+        p You should go to your 
+          a(href='/account') profile
+          |  and set your player and forum names. This will link your votes, posts and forum reputation to your Boundstar player profile. Once you have done that go check out your 
+          a(href='/rank') rank card
+          | .
+      .col-sm-2
+        a(href='/account').btn.btn-primary Profile
       .col-sm-2
         a(href='http://forum.boundstar.com').btn.btn-primary Forums
-      .col-md-4
-        script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
+      .col-sm-2
+        a(href='/rank').btn.btn-primary Rank Card
       .clearfix
   else
     .col-md-8

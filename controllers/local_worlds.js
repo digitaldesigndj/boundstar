@@ -12,7 +12,7 @@ var transients = require('transients');
 
 transients.setTransient( 'local_world_info', 'http://boundstar.com/status/server/worlds', 3600 );
 
-exports.index = function(req, res) {
+exports.worlds = function(req, res) {
   transients.getTransient( 'local_world_info', function (worlds) {
     res.render('worlds', {
       title: 'Worlds'
@@ -21,11 +21,29 @@ exports.index = function(req, res) {
   });
 };
 
-exports.sectorIndex = function(req, res) {
+exports.worldsBySector = function(req, res) {
   transients.getTransient( 'local_world_info', function (worlds) {
     res.render('worlds', {
       title: 'Worlds'
       , worlds: _.sortBy( _.where( worlds, { sector: req.params.sector }), function(o) { return o.numLoads; }).reverse()
+    });
+  });
+};
+
+exports.systems = function(req, res) {
+  transients.getTransient( 'local_world_info', function (worlds) {
+    res.render('systems', {
+      title: 'Systems'
+      , worlds: worlds
+    });
+  });
+};
+
+exports.systemsBySector = function(req, res) {
+  transients.getTransient( 'local_world_info', function (worlds) {
+    res.render('systems', {
+      title: 'Systems'
+      , worlds: _.sortBy( _.where( worlds, { sector: req.params.sector }), function(o) { return o.numLoads; })
     });
   });
 };
