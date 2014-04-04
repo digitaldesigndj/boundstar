@@ -124,27 +124,9 @@ app.use(function(req, res, next) {
   }
   next();
 });
-var 
-profiles = {};
-var profiles_cachedAt = Math.round( new Date().getTime() / 1000 );
-function getProfiles( timeout, callback ) {
-  var current_time = Math.round( new Date().getTime() / 1000 );
-  if( current_time - profiles_cachedAt >= timeout  ) {
-    profiles_cachedAt = current_time;
-    Player.find( function ( err, players ) {
-      profiles = players;
-      console.log( 'get fresh' );
-      if (err) return next(err);
-      callback( players );
-    });
-  }
-  else {
-    console.log( 'cache' );
-    callback( profiles );
-  }
-}
 app.use(function(req,res,next){
-  getProfiles( 15, function( players ) {
+  Player.find( function (err, players) {
+    if (err) return next(err);
     res.locals.profiles = players;
     next();
   });
