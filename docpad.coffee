@@ -65,7 +65,7 @@ docpadConfig = {
         if req.query?.key is process.env.WEBHOOK_KEY
           docpad.log('info', 'Regenerating for documentation change')
           # docpad.action('generate')
-          exec "forever restartall", (error, stdout, stderr) ->
+          exec "git pull;npm install;forever restartall", (error, stdout, stderr) ->
             sys.puts(stdout)
             res.send(200, 'regenerating')
         else

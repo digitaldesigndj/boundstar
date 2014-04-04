@@ -38,6 +38,12 @@ var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 
 /**
+ * Model for middleware
+ */
+
+var Player = require('./models/Player');
+
+/**
  * Create Express server.
  */
 
@@ -118,6 +124,13 @@ app.use(function(req, res, next) {
   }
   next();
 });
+app.use(function(req,res,next){
+  Player.find( function (err, players) {
+    if (err) return next(err);
+    res.locals.profiles = players;
+    next();
+  });
+})
 app.use(app.router);
 app.use(function(req, res) {
   res.status(404);

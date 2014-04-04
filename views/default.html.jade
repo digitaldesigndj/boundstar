@@ -78,6 +78,10 @@ if document
               a(href='https://github.com/digitaldesigndj/boundstar-content/edit/master/' + document.relativePath.replace('docs/','') ).text-info Edit and improve this page via GitHub!
               |  - or - 
               a(href='http://prose.io/#digitaldesigndj/boundstar-content/edit/master/' + document.relativePath.replace('docs/','') ).text-info Edit and improve this page via Prose!
+style.
+  .recruit { color: #efc94c; }
+  .player { color: #45b29d; }
+  .explorer { color: #334d5c; }
 script.
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-42766222-2']);
@@ -88,17 +92,40 @@ script.
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-script(src='http://boundstar.com/status/socket.io/socket.io.js')
+//- script(src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js')
+script(src='//boundstar.com/status/socket.io/socket.io.js')
+-var json_profiles = [];
+script
+  | var profiles =
+  each profile, i in profiles
+    - var public_profile = {};
+    - public_profile.player = profile.profile.player
+    - public_profile.rank = profile.profile.rank
+    - json_profiles.push(public_profile);
+  !=JSON.stringify(json_profiles)
+  |;
 script.
   var setPlayersOnline = function( players ) {
     $('#players li').remove();
     $('#numOnline').html( players.length );
     players = players.sort();
     $.each( players, function( key, val ) {
-      note = removeColorCodes( val );
-      $('#players').append(
-        '<li>'+note+'</li>'
-      );
+      var exported = false;
+      var player_name = removeColorCodes( val );
+      $.each( profiles, function( i, profile ) {
+        console.log( profile.player );
+        if( player_name === profile.player ) {
+          exported = true;
+          $('#players').append(
+            '<li class="'+profile.rank.toLowerCase()+'">'+profile.player+'</li>'
+          );
+        }
+      });
+      if( exported === false ) {
+        $('#players').append(
+          '<li>'+player_name+'</li>'
+        );
+      }
     });
   };
   var removeColorCodes = function( str ) {
