@@ -28,7 +28,7 @@ function getServerInfo( callback ) {
             starbound_servers.push(droplet);
           }
           if ( i+1 === droplets.length ) {
-            console.log( starbound_servers, starbound_admins );
+            // console.log( starbound_servers, starbound_admins );
           }
         });
         callback( starbound_servers, starbound_admins );
