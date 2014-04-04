@@ -5,8 +5,13 @@ block content
   .col-md-12
     .page-header
       h2 #{title}
-    if user.profile.system_coords === ""
-      p You may only claim systems with at least 2 worlds.
+    if user
+      if user.profile.system_coords === ""
+        p You may only claim systems with at least 2 worlds.
+    else
+      p 
+        a(href='/register') Register
+        |  and improve your rank to claim a system.
     p We have explored 
       strong #{worlds.length}
       |  worlds in this sector
@@ -19,10 +24,7 @@ block content
       //- p=used.indexOf(sector_id)
       if used.indexOf(sector_id) === -1
         - systems++
-        if user.profile.system_coords === ""
-          .col-md-6(style='height:180px;')
-        else
-          .col-md-6(style='height:250px;')
+        .col-md-6
           h3 #{world.x}, #{world.y}: #{world.planet}
           p Planets
           - var planet_number = 0;
@@ -37,18 +39,19 @@ block content
                   if sub_world.satellite
                     span  #{sub_world.satellite}
           if planet_number >= 2
-            if user.profile.system_coords === ""
-              p 
-                form(action='/claim', method='POST')
-                  input(type='hidden', name='_csrf', value=token)
-                  input(type='hidden', name='system_coords', value='#{world.sector}_#{world.x}_#{world.y}_#{world.z}_#{world.planet}')
-                  input(type='hidden', name='sector', value='#{world.sector}')
-                  input(type='hidden', name='x', value='#{world.x}')
-                  input(type='hidden', name='y', value='#{world.y}')
-                  input(type='hidden', name='z', value='#{world.z}')
-                  input(type='hidden', name='planet', value='#{world.planet}')
-                  input(type='hidden', name='size', value='#{planet_number}')
-                  button.btn.btn-primary(type='submit')
-                    i.fa.fa-exclamation 
-                    |  Claim this #{planet_number} planet system
+            if user
+              if user.profile.system_coords === ""
+                p 
+                  form(action='/claim', method='POST')
+                    input(type='hidden', name='_csrf', value=token)
+                    input(type='hidden', name='system_coords', value='#{world.sector}_#{world.x}_#{world.y}_#{world.z}_#{world.planet}')
+                    input(type='hidden', name='sector', value='#{world.sector}')
+                    input(type='hidden', name='x', value='#{world.x}')
+                    input(type='hidden', name='y', value='#{world.y}')
+                    input(type='hidden', name='z', value='#{world.z}')
+                    input(type='hidden', name='planet', value='#{world.planet}')
+                    input(type='hidden', name='size', value='#{planet_number}')
+                    button.btn.btn-primary(type='submit')
+                      i.fa.fa-exclamation 
+                      |  Claim this #{planet_number} planet system
     p There are #{worlds.length} worlds in the #{systems} systems of this sector

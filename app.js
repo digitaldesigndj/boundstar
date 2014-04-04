@@ -144,8 +144,8 @@ app.post('/claim', passportConf.isAuthenticated, rankController.claim);
 
 app.get('/worlds', localWorldsController.worlds);
 app.get('/worlds/:sector', localWorldsController.worldsBySector);
-app.get('/systems', passportConf.isAuthenticated, localWorldsController.systems);
-app.get('/systems/:sector', passportConf.isAuthenticated, localWorldsController.systemsBySector);
+app.get('/systems', localWorldsController.systems);
+app.get('/systems/:sector', localWorldsController.systemsBySector);
 
 app.get('/players', boundstarPlayers.players);
 
