@@ -9,7 +9,9 @@ if document
       meta(name='csrf-token', content=token)
       meta(name='author', content='')
       title #{title} | Boundstar - Starbound Server
-      script(defer='defer' src='/assets/js/jquery.backstretch.min.js')
+      script(src='https://code.jquery.com/jquery-2.1.0.min.js')
+      script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
+      script(src='/assets/js/jquery.backstretch.min.js')
       script.
         $(function($){
           $.backstretch("/assets/img/bg.png", {speed: 1000});
@@ -46,12 +48,7 @@ if document
         color: white;
         background-position: 0 -22px;
       }
-
     <link rel="stylesheet" href="/assets/styles-52a7c1b56d60e9de219524c175c986fc.css" />
-    <script src="/assets/lib/jquery-2.1.0.min-3072202aac7e0db99d871892bff1cbab.js"></script>
-    <script src="/assets/lib/bootstrap.min-189e71bd6fa3dae606e0b13dd8650462.js"></script>
-    <script src="/assets/main-97374ce98bcb8de9a93528bfa72580be.js"></script>
-    <script src="/assets/application-1fe03743e03efae49b9010cee7fc9bcd.js"></script>
   body
   .starnav
     each doc in getCollection('documents').toJSON()
@@ -73,6 +70,11 @@ if document
         else
           .col-sm-12
             section#content.content!= content
+            br
+            p
+              a(href='https://github.com/digitaldesigndj/boundstar-content/edit/master/' + document.relativePath.replace('docs/','') ).text-info Edit and improve this page via GitHub!
+              |  - or - 
+              a(href='http://prose.io/#digitaldesigndj/boundstar-content/edit/master/' + document.relativePath.replace('docs/','') ).text-info Edit and improve this page via Prose!
 script.
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-42766222-2']);
@@ -96,19 +98,16 @@ script.
       );
     });
   };
-
   var removeColorCodes = function( str ) {
     newStr = str.replace(/\^[\s\S]*;/,'','g');
     return newStr;
   };
-
   var apiBase = 'http://boundstar.com:88/';
   var socket = io.connect(apiBase);
   socket.on('playerCount',function(data){
     setPlayersOnline( data.playersOnline );
     console.log( data.playersOnline );
   });
-
   request = new XMLHttpRequest
   request.open('GET', apiBase + 'server/status', true)
   request.send()
