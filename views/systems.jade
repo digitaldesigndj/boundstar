@@ -19,7 +19,10 @@ block content
       //- p=used.indexOf(sector_id)
       if used.indexOf(sector_id) === -1
         - systems++
-        .col-md-6(style='height:250px;')
+        if user.profile.system_coords === ""
+          .col-md-6(style='height:180px;')
+        else
+          .col-md-6(style='height:250px;')
           h3 #{world.x}, #{world.y}: #{world.planet}
           p Planets
           - var planet_number = 0;
