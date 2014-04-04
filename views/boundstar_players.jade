@@ -14,24 +14,24 @@ block content
         each player in players
           if player.profile.player && player.profile.rank === 'Explorer'
             - explorer_count++
-        h1 #{explorer_count}
+        h1.explorer #{explorer_count}
         p Explorers
       .well
         - var player_count = 0;
         each player in players
           if player.profile.player && player.profile.rank === 'Player'
             - player_count++
-        h1 #{player_count}
+        h1.player #{player_count}
         p Players
       .well
         - var recruit_count = 0;
         each player in players
           if player.profile.player && player.profile.rank === 'Recruit'
             - recruit_count++
-        h1 #{recruit_count}
+        h1.recruit #{recruit_count}
         p Recruits
     .col-sm-10
-      legend Explorers
+      legend.explorer Explorers
       table#visits.table.table-bordered.table-striped.table-condensed
         thead
           tr
@@ -65,7 +65,7 @@ block content
                 td.visible-md.visible-lg #{player.profile.thismonth_votes}
 
     .col-sm-10
-      legend Players
+      legend.player Players
       table#visits.table.table-bordered.table-striped.table-condensed
         thead
           tr
@@ -92,7 +92,7 @@ block content
                 td.visible-md.visible-lg #{player.profile.forum_posts}
                 td.visible-md.visible-lg #{player.profile.thismonth_votes}
     .col-sm-10
-      legend Recruits
+      legend.recruit Recruits
       table#visits.table.table-bordered.table-striped.table-condensed
         thead
           tr
