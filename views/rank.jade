@@ -20,25 +20,25 @@ block content
         if forum_stats
           if forum_stats.posts 
             .well.col-md-2#connections
-              h3 Forum Posts
+              h3 Posts
               p 
                 span(style='font-size:48px') #{forum_stats.posts}
               h5 posts
             if forum_stats.rep 
               .well.col-md-2#connections
-                h3 Forum Reputation
+                h3 Reputation
                 p 
                   span(style='font-size:48px') #{forum_stats.rep}
                 h5 rep
             else
               .well.col-md-2#connections
-                h3 Forum Reputation
+                h3 Reputation
                 p 
                   span(style='font-size:48px') 0
                 h5 rep
           else
             .well.col-md-2#connections
-              h3 Forum Posts
+              h3 Posts
               p 
                 span(style='font-size:48px') 0
               h5 posts
@@ -53,7 +53,7 @@ block content
             if user.profile.player == vote.nickname
               - voted = true
               .well.col-md-2#connections
-                h3 Server Votes
+                h3 Votes
                 p 
                   span(style='font-size:48px') #{vote.votes}
                 h5 votes this month
