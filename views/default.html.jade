@@ -16,42 +16,43 @@ if document
         $(function($){
           $.backstretch("/assets/img/bg.png", {speed: 1000});
         });
-    //-   - var scripts = getBlock('scripts')
-    //-   - var styles = getBlock('styles')
-    //-   != styles.toHTML()
-    //-   != scripts.toHTML()
-    style.
-      #content {
-        font-family: "Montserrat", serif;
-      }
-      .starnav {
-        position: fixed;
-        left: 0;
-        bottom: 10px;
-        width: 180px;
-        z-index: 1;
-      }
-      .starnav a {
-        margin-bottom: 3px;
-        text-decoration: none;
-        float: left;
-        display: block;
-        background: url(/assets/img/buttonsprite.png);
-        height: 22px;
-        width: 180px;
-        padding: 2px 15px;
-        color: white;
-        -webkit-transition: none;
-        -moz-transition: none;
-        -ms-transition: none;
-        -o-transition: none;
-        transition: none;
-      }
-      .starnav a:hover {
-        color: white;
-        background-position: 0 -22px;
-      }
-    <link rel="stylesheet" href="/assets/styles-52a7c1b56d60e9de219524c175c986fc.css" />
+      //-   - var scripts = getBlock('scripts')
+      //-   - var styles = getBlock('styles')
+      //-   != styles.toHTML()
+      //-   != scripts.toHTML()
+      style.
+        #content {
+          font-family: "Montserrat", serif;
+        }
+        .starnav {
+          position: fixed;
+          left: 0;
+          bottom: 10px;
+          width: 180px;
+          z-index: 1;
+        }
+        .starnav a {
+          margin-bottom: 3px;
+          text-decoration: none;
+          float: left;
+          display: block;
+          background: url(/assets/img/buttonsprite.png);
+          height: 22px;
+          width: 180px;
+          padding: 2px 15px;
+          color: white;
+          -webkit-transition: none;
+          -moz-transition: none;
+          -ms-transition: none;
+          -o-transition: none;
+          transition: none;
+        }
+        .starnav a:hover {
+          color: white;
+          background-position: 0 -22px;
+        }
+      link(href='/starbound-font/starbound-font.css',rel='stylesheet')
+      <link rel="stylesheet" href="/assets/styles-52a7c1b56d60e9de219524c175c986fc.css" />
   body
   .starnav
     each doc in getCollection('documents').toJSON()
@@ -94,40 +95,53 @@ script.
   })();
 //- script(src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js')
 script(src='//boundstar.com/status/socket.io/socket.io.js')
--var json_profiles = [];
-script
-  | var profiles =
-  each profile, i in profiles
-    - var public_profile = {};
-    - public_profile.player = profile.profile.player
-    - public_profile.rank = profile.profile.rank
-    - json_profiles.push(public_profile);
-  !=JSON.stringify(json_profiles)
-  |;
-script.
-  var setPlayersOnline = function( players ) {
-    $('#players li').remove();
-    $('#numOnline').html( players.length );
-    players = players.sort();
-    $.each( players, function( key, val ) {
-      var exported = false;
-      var player_name = removeColorCodes( val );
-      $.each( profiles, function( i, profile ) {
-        console.log( profile.player );
-        if( player_name === profile.player ) {
-          exported = true;
+if document
+  script.
+    var setPlayersOnline = function( players ) {
+      $('#players li').remove();
+      $('#numOnline').html( players.length );
+      players = players.sort();
+      $.each( players, function( key, val ) {
+          $('#players').append( '<li>'+val+'</li>' );
+      });
+    };
+else
+  -var json_profiles = [];
+  script
+    | var profiles =
+    each profile, i in profiles
+      - var public_profile = {};
+      - public_profile.player = profile.profile.player
+      - public_profile.rank = profile.profile.rank
+      - json_profiles.push(public_profile);
+    !=JSON.stringify(json_profiles)
+    |;
+  script.
+    var setPlayersOnline = function( players ) {
+      $('#players li').remove();
+      $('#numOnline').html( players.length );
+      players = players.sort();
+      $.each( players, function( key, val ) {
+        var exported = false;
+        var player_name = removeColorCodes( val );
+        $.each( profiles, function( i, profile ) {
+          console.log( profile.player );
+          if( player_name === profile.player ) {
+            exported = true;
+            $('#players').append(
+              '<li class="'+profile.rank.toLowerCase()+'">'+profile.player+'</li>'
+            );
+          }
+        });
+        if( exported === false ) {
           $('#players').append(
-            '<li class="'+profile.rank.toLowerCase()+'">'+profile.player+'</li>'
+            '<li>'+player_name+'</li>'
           );
         }
       });
-      if( exported === false ) {
-        $('#players').append(
-          '<li>'+player_name+'</li>'
-        );
-      }
-    });
-  };
+    };
+
+script.
   var removeColorCodes = function( str ) {
     newStr = str.replace(/\^[\s\S]*?;/g,'','g');
     return newStr;
