@@ -129,7 +129,7 @@ script.
     });
   };
   var removeColorCodes = function( str ) {
-    newStr = str.replace(/\^[\s\S]*;/,'','g');
+    newStr = str.replace(/\^[\s\S]*?;/g,'','g');
     return newStr;
   };
   var apiBase = 'http://boundstar.com:88/';
