@@ -29,7 +29,6 @@ block content
           input.form-control(type='player', name='player', id='player', value='#{user.profile.player}')
         else
           input.form-control(type='player', name='player', id='player', value='#{user.profile.player}', disabled)
-      .col-sm-4
     .form-group
       label.col-sm-3.control-label(for='forum') Forum Username
       if user.profile.rank === 'Recruit'
