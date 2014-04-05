@@ -4,6 +4,8 @@ block content
 
   if user
     .col-md-12
+      p 
+        a(href='/') &laquo; Home
       //- p=JSON.stringify(user.profile.system)
       if user.profile.player
         .page-header
@@ -103,7 +105,18 @@ block content
       //- else
         p You need to 
           button register your player
-        
+    if !forum_stats
+      .col-md-12
+        h4 You should register on the forums.
+    - var voted = false
+    if votes
+      each vote, i in votes
+        if user.profile.player == vote.nickname
+          - voted = true
+            .col-md-12
+              h4 You should vote!
+
+
     if user.profile.rank == 'Player'
       if forum_stats.posts >= 10
         if forum_stats.rep >= 5

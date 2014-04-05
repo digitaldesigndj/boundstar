@@ -22,7 +22,7 @@ block content
       .col-sm-4
         input.form-control(type='Rank', name='Rank', id='Rank', value='#{user.profile.rank}', disabled)
     .form-group
-      label.col-sm-3.control-label(for='player') Voting Name
+      label.col-sm-3.control-label(for='player') Vote Nickname
       i.fa.fa-lock(style='font-size:24px;margin-top: 8px')
       .col-sm-4
         if user.profile.rank === 'Recruit'

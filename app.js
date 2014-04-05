@@ -161,6 +161,8 @@ app.get('/systems', localWorldsController.systems);
 app.get('/systems/:sector', localWorldsController.systemsBySector);
 
 app.get('/players', boundstarPlayers.players);
+app.get('/votes', function ( req, res ) { res.redirect('/voters'); });
+app.get('/voters', boundstarPlayers.voters);
 
 app.get('/crash/players', localPlayersController.players);
 // app.get('/players', passportConf.isAuthenticated, localPlayersController.players);
