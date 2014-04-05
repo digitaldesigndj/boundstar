@@ -1,35 +1,53 @@
 extends layout
-
 block content
+  - var vote_count = 0
+  - var rep_count = 0
+  - var post_count = 0
+  - var explorer_count = 0;
+  - var player_count = 0;
+  - var recruit_count = 0;
+  each player in players
+    if player.profile.player && player.profile.rank === 'Explorer'
+      - explorer_count++
+    if player.profile.player && player.profile.rank === 'Player'
+      - player_count++
+    if player.profile.player && player.profile.rank === 'Recruit'
+      - recruit_count++
+    if player.profile.thismonth_votes != undefined
+      - vote_count = ( +vote_count + +player.profile.thismonth_votes )
+    if player.profile.forum_rep != undefined
+      - rep_count = ( +rep_count + +player.profile.forum_rep )
+    if player.profile.forum_posts != undefined
+      - post_count = ( +post_count + +player.profile.forum_posts )
   //- .col-sm-12
   .page-header
     h1 Boundstar Players
   .row
     .col-sm-2
       .well
-        h1 #{players.length}
-        p signups since 4/1/14
-      .well
-        - var explorer_count = 0;
-        each player in players
-          if player.profile.player && player.profile.rank === 'Explorer'
-            - explorer_count++
         h1.explorer #{explorer_count}
         p Explorers
       .well
-        - var player_count = 0;
-        each player in players
-          if player.profile.player && player.profile.rank === 'Player'
-            - player_count++
         h1.player #{player_count}
         p Players
       .well
-        - var recruit_count = 0;
-        each player in players
-          if player.profile.player && player.profile.rank === 'Recruit'
-            - recruit_count++
         h1.recruit #{recruit_count}
         p Recruits
+      .well
+        p Claimed
+        h1 #{vote_count}
+        p votes
+      .well
+        p Awarded
+        h1 #{rep_count}
+        p rep
+      .well
+        p Posted
+        h1 #{post_count}
+        p times
+      .well
+        h1 #{players.length}
+        p signups since 4/1/14
     .col-sm-10
       legend.explorer Explorers
       table#visits.table.table-bordered.table-striped.table-condensed
