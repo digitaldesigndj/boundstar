@@ -112,6 +112,7 @@ exports.index = function (req, res, next) {
     if (err) return next(err);
     Player.findById(req.user.id, function (err, player) {
       if (err) return next(err);
+      // @todo notify when numbers go up
       _.each( results.votes, function ( v, i ) {
         if( v.nickname == req.user.profile.player ) {
           player.profile.alltime_votes = v.votes || '';
