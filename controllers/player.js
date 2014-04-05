@@ -150,10 +150,9 @@ exports.postUpdateProfile = function(req, res, next) {
     player.gender = req.body.gender || '';
     player.website = req.body.website || '';
     player.location = req.body.location || '';
-    var url = 'http://forum.boundstar.com/api/user/'
-    +req.body.forum.replace(/ /g,'-').toLowerCase();
-
-    if ( req.body.forum !== '' ) {
+    if ( req.body.forum !== '' && typeof req.body.forum  == String ) {
+      var url = 'http://forum.boundstar.com/api/user/'
+      +req.body.forum.replace(/ /g,'-').toLowerCase();
       request( { url: url, timeout: 500 }, function (err, response, body) {
         if (!err && response.statusCode == 200) {
           player.forum = JSON.parse(body).userslug;
