@@ -3,11 +3,13 @@ extends layout
 block content
   //- p=JSON.stringify(voters)
   //- p=JSON.stringify(profiles)
-  a(href='/') &laquo; Return Home
-  .page-header
-    h2 #{title}
-    p #{voters.name} - #{voters.address}
-  each vote in voters.voters
+  //- p Panel View
+  //- .col-sm-12
+    a(href='/') &laquo; Return Home
+    .page-header
+      h2 #{title}
+      p #{voters.month} - #{voters.name} - #{voters.address}
+  //- each vote in voters.voters
     .col-xs-6.col-sm-6.col-md-4.col-lg-3
       - var exported = false;
       each user, i in profiles
@@ -18,6 +20,27 @@ block content
         h3 #{vote.nickname}
       p #{vote.votes} votes
 
-
-
+  .col-md-8.col-lg-6
+    a(href='/') &laquo; Return Home
+    .page-header
+      h2 #{title}
+      p #{voters.month} - #{voters.name} - #{voters.address}
+    table#visits.table.table-bordered.table-striped.table-condensed
+      thead
+        tr
+          td
+            strong Nicname
+          td
+            strong Votes
+      tbody
+        each vote in voters.voters
+          tr
+            - var exported = false;
+            each user, i in profiles
+              if vote.nickname == user.profile.player
+                - exported = true;
+                td(class='#{user.profile.rank.toLowerCase()}') #{user.profile.player}
+            if !exported
+              td #{vote.nickname}
+            td #{vote.votes} votes
 
