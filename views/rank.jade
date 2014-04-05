@@ -88,7 +88,12 @@ block content
             p 
               span(style='font-size:48px') 0
             h5 coming soon
-
+        if user.profile.rank == 'Explorer' && user.profile.system
+          .well.col-md-2#connections
+            h3 Worlds
+            p 
+              span(style='font-size:48px') #{user.profile.system.size}
+            h5 world saves coming in a week or so
         //- if users
           p=JSON.stringify(users)
       else
