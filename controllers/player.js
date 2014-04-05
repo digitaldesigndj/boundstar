@@ -6,6 +6,7 @@ var passport = require('passport');
 var Player = require('../models/Player');
 var secrets = require('../config/secrets');
 var ayah = require('ayah');
+var request = require('request');
 ayah.configure(secrets.ayah.publisherKey, secrets.ayah.scoringKey);
 
 /**
@@ -144,19 +145,42 @@ exports.getAccount = function(req, res) {
 exports.postUpdateProfile = function(req, res, next) {
   Player.findById(req.user.id, function(err, player) {
     if (err) return next(err);
-    player.profile.name = req.body.name || ''; // Teamspeak
-    player.profile.forum = req.body.forum || '';
-    player.profile.gender = req.body.gender || '';
     player.profile.player = req.body.player || '';
+    player.profile.name = req.body.name || ''; // Teamspeak
+    player.profile.gender = req.body.gender || '';
     player.profile.website = req.body.website || '';
     player.profile.location = req.body.location || '';
-    player.save(function(err) {
-      if (err) return next(err);
-      req.flash('success', { msg: 'Profile information updated, Rank info updated.' });
-      res.redirect('/rank');
-    });
+    var url = 'http://forum.boundstar.com/api/user/'
+    +req.body.forum.replace(/ /g,'-').toLowerCase();
+
+    if ( req.body.forum !== '' ) {
+      request( { url: url, timeout: 500 }, function (err, response, body) {
+        if (!err && response.statusCode == 200) {
+          player.profile.forum = JSON.parse(body).userslug;
+          player.save(function(err) {
+            if (err) return next(err);
+            req.flash('success', { msg: 'Profile information updated, Forum name set!' });
+            res.redirect('/rank');
+          });
+        }
+        else {
+          req.flash('info', { msg: 'We could not find that forum name.' });
+          res.redirect('/account');
+        }
+      });
+    }
+    else {
+      player.profile.forum = '';
+      player.save(function(err) {
+        if (err) return next(err);
+        req.flash('success', { msg: 'Profile information updated, Rank info updated.' });
+        res.redirect('/rank');
+      });
+    }
   });
 };
+
+
 
 /**
  * POST /account/password
