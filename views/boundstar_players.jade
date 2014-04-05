@@ -23,32 +23,65 @@ block content
   .page-header
     h1 Boundstar Players
   .row
-    .col-sm-2
-      .well
-        h1.explorer #{explorer_count}
-        p Explorers
-      .well
-        h1.player #{player_count}
-        p Players
-      .well
-        h1.recruit #{recruit_count}
-        p Recruits
-      .well
-        p Claimed
-        h1 #{vote_count}
-        p votes
-      .well
-        p Awarded
-        h1 #{rep_count}
-        p rep
-      .well
-        p Posted
-        h1 #{post_count}
-        p times
-      .well
-        h1 #{players.length}
-        p signups since 4/1/14
-    .col-sm-10
+    .visible-xs
+      .col-xs-6
+        .well
+          h1.explorer #{explorer_count}
+          p Explorers
+      .col-xs-6
+        .well
+          h1.player #{player_count}
+          p Players
+      .col-xs-6
+        .well
+          h1.recruit #{recruit_count}
+          p Recruits
+      .col-xs-6
+        .well
+          p Claimed
+          h1 #{vote_count}
+          p votes
+      .col-xs-6
+        .well
+          p Awarded
+          h1 #{rep_count}
+          p rep
+      .col-xs-6
+        .well
+          p Posted
+          h1 #{post_count}
+          p times
+      .col-xs-6
+        .well
+          h1 #{players.length}
+          p signups since 4/1/14
+    .visible-sm.visible-md.visible-lg
+      .col-sm-3.col-md-2
+        .well
+          h1.explorer #{explorer_count}
+          p Explorers
+        .well
+          h1.player #{player_count}
+          p Players
+        .well
+          h1.recruit #{recruit_count}
+          p Recruits
+        .well
+          p Claimed
+          h1 #{vote_count}
+          p votes
+        .well
+          p Awarded
+          h1 #{rep_count}
+          p rep
+        .well
+          p Posted
+          h1 #{post_count}
+          p times
+        .well
+          h1 #{players.length}
+          p signups since 4/1/14
+    .col-sm-9.col-md-10
       legend.explorer Explorers
       table#visits.table.table-bordered.table-striped.table-condensed
         thead
@@ -81,8 +114,7 @@ block content
                 td.visible-md.visible-lg #{player.profile.forum_rep}
                 td.visible-md.visible-lg #{player.profile.forum_posts}
                 td.visible-md.visible-lg #{player.profile.thismonth_votes}
-
-    .col-sm-10
+    .col-sm-9.col-md-10
       legend.player Players
       table#visits.table.table-bordered.table-striped.table-condensed
         thead
@@ -109,7 +141,7 @@ block content
                 td.visible-md.visible-lg #{player.profile.forum_rep}
                 td.visible-md.visible-lg #{player.profile.forum_posts}
                 td.visible-md.visible-lg #{player.profile.thismonth_votes}
-    .col-sm-10
+    .col-sm-9.col-md-10
       legend.recruit Recruits
       table#visits.table.table-bordered.table-striped.table-condensed
         thead
