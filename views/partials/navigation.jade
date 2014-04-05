@@ -46,14 +46,12 @@
       if !document
         ul.nav.navbar-nav.navbar-right
           if !user
+            li(class=title=='Create Account'?'active':undefined)
+              a(href='/signup') Create Account
             li(class=title=='Login'?'active':undefined)
               a(href='/login') Login
-            if secrets
-              if secrets.localAuth
-                li(class=title=='Create Account'?'active':undefined)
-                  a(href='/signup') Create Account
           else
-            li.dropdown(class=title=='Account Management'?'active':undefined)
+            li.dropdown(class=title=='Rank Manager'?'active':undefined)
               a.dropdown-toggle(href='#', data-toggle='dropdown')
                 if user.profile.picture
                   img.profile-image(src='#{user.profile.picture}')
