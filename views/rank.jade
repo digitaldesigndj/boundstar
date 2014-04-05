@@ -107,18 +107,22 @@ block content
           button register your player
     if !forum_stats
       .col-md-12
-        h4 You should register on the forums.
+        h4 You should 
+          a(href='') register on the forums.
     - var voted = false
     if votes
       each vote, i in votes
         if user.profile.player == vote.nickname
           - voted = true
-            .col-md-12
-              h4 You should vote!
+          .col-md-12
+              h4 Thanks for voting
+    if !voted
+      .col-md-12
+        h4 You should vote!
 
 
     if user.profile.rank == 'Player'
-      if forum_stats.posts >= 10
+      if forum_stats.posts >= 5
         if forum_stats.rep >= 5
           if votes
             each vote, i in votes
