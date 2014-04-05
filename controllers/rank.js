@@ -17,13 +17,15 @@ var request = require('request');
 exports.claim = function (req, res, next) {
   Player.findById(req.user.id, function (err, player) {
     if (err) return next(err);
-    player.profile.system_coords = req.body.system_coords || '';
+    player.profile.system = {};
     player.profile.system.sector = req.body.sector || '';
     player.profile.system.x = req.body.x || '';
     player.profile.system.y = req.body.y || '';
     player.profile.system.z = req.body.z || '';
     player.profile.system.planet = req.body.planet || '';
-    player.profile.system.size = req.body.size || 0;
+    player.profile.system.size = req.body.size || '0';
+
+    player.profile.system_coords = req.body.system_coords || '';
     player.save(function (err) {
       if (err) return next(err);
       req.flash('success', { msg: 'You claimed system '+req.body.system_coords });
