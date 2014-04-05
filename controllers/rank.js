@@ -98,14 +98,17 @@ exports.index = function (req, res, next) {
     },
     forum_stats: function (callback) {
       var forum_stats = {};
-      jsdom.env({
-        url: 'http://forum.boundstar.com/user/'+req.user.profile.forum.replace(/ /g,'-').toLowerCase(),
-        scripts: ['http://code.jquery.com/jquery-1.11.0.min.js'],
-        done: function (err, window) {
-          var $ = window.$;
-          forum_stats.rep = $('.account-bio-label:contains(Reputation)').prev().text();
-          forum_stats.posts = $('.account-bio-label:contains(Posts)').prev().text();
+      url = 'http://forum.boundstar.com/api/user/'
+      +req.user.profile.forum.replace(/ /g,'-').toLowerCase();
+      request( { url: url, timeout: 3000 }, function (err, response, body) {
+        if (!err && response.statusCode == 200) {
+          forum_profile = JSON.parse(body);
+          forum_stats.rep = forum_profile.reputation;
+          forum_stats.posts = forum_profile.postcount;
           callback(err, forum_stats );
+        }
+        else {
+          callback(err, false );
         }
       });
     }
