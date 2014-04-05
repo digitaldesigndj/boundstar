@@ -125,11 +125,11 @@ block content
             td 
               strong Forum
             td.visible-md.visible-lg
+              strong Votes
+            td.visible-md.visible-lg
               strong Rep
             td.visible-md.visible-lg
               strong Posts
-            td.visible-md.visible-lg
-              strong Votes
         tbody
           each player in players
             //- p=JSON.stringify(player)
@@ -139,9 +139,9 @@ block content
                 td 
                   - var forum_url = 'http://forum.boundstar.com/user/'+player.profile.forum.replace(/ /g,'-').toLowerCase();
                   a(href='#{forum_url}', target='_blank') #{player.profile.forum}
+                td #{player.profile.thismonth_votes}
                 td.visible-md.visible-lg #{player.profile.forum_rep}
                 td.visible-md.visible-lg #{player.profile.forum_posts}
-                td.visible-md.visible-lg #{player.profile.thismonth_votes}
     .col-sm-9.col-md-10
       legend.recruit Recruits
       table#visits.table.table-bordered.table-striped.table-condensed
@@ -151,12 +151,12 @@ block content
               strong Character
             td 
               strong Forum
+            td
+              strong Votes
             td.visible-md.visible-lg
               strong Rep
             td.visible-md.visible-lg
               strong Posts
-            td.visible-md.visible-lg
-              strong Votes
         tbody
           each player in players
             //- p=JSON.stringify(player)
@@ -166,6 +166,6 @@ block content
                 td 
                   - var forum_url = 'http://forum.boundstar.com/user/'+player.profile.forum.replace(/ /g,'-').toLowerCase();
                   a(href='#{forum_url}', target='_blank') #{player.profile.forum}
+                td #{player.profile.thismonth_votes}
                 td.visible-md.visible-lg #{player.profile.forum_rep}
                 td.visible-md.visible-lg #{player.profile.forum_posts}
-                td.visible-md.visible-lg #{player.profile.thismonth_votes}
