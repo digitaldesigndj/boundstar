@@ -49,6 +49,10 @@ block content
       .col-sm-4
         input.form-control(type='email', name='email', id='email', value='#{user.email}', disabled)
     .form-group
+      label.col-sm-3.control-label(for='steam') Steam (Public on profile)
+      .col-sm-4
+        input.form-control(type='text', name='steam', id='steam', value='#{user.steam}')
+    .form-group
       label.col-sm-3.control-label(for='name') TeamSpeak Handle
       .col-sm-4
         input.form-control(type='text', name='name', id='name', value='#{user.name}')
