@@ -46,10 +46,55 @@ exports.voters = function(req, res) {
 exports.profile = function(req, res, next) {
   Player.findOne({ 'player': req.params.player }, function(err, player) {
     if (err) return next(err);
-    console.log( req.params.player, player );
-    res.render('profile', {
-      title: req.params.player+'\'s Profile',
-      player: player
+    var url = 'http://forum.boundstar.com/api/user/'+player.forum.replace(/ /g,'-').toLowerCase();
+    request( { url: url, timeout: 1500 }, function (err, response, body) {
+      if (!err && response.statusCode == 200) {
+        console.log( 'success' );
+        res.render('profile', {
+          title: req.params.player+'\'s Profile',
+          player: player,
+          forum: JSON.parse(body)
+        });
+      }
+      else {
+        res.render('profile', {
+          title: req.params.player+'\'s Profile',
+          player: player
+        });
+      }
     });
   });
 };
+
+
+// exports.profile = function(req, res, next) {
+//   async.parallel({
+//     player:function(callback){
+//       Player.findOne({ 'player': req.params.player }, function(err, player) {
+//         if (err) return next(err);
+//         console.log( req.params.player, player );
+//         callback(err, 'player');
+//       });
+//     },
+//     player:function(callback){
+//       var url = '';
+//       request( { url: url, timeout: 1500 }, function (err, response, body) {
+//         if (!err && response.statusCode == 200) {
+//           res.render('voters', {
+//             title: 'Voters',
+//             voters: JSON.parse(body)
+//           });
+//         }
+//         else {
+//           callback(err, false);
+//         }
+//       });
+//     }
+//   },
+//   function(err, results){
+//     res.render('profile', {
+//       title: req.params.player+'\'s Profile',
+//       player: results.player
+//     });
+//   });
+// };
