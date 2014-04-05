@@ -90,16 +90,16 @@ block content
               strong Character
             td 
               strong Forum
-            td 
-              strong System
-            td.visible-md.visible-lg
-              strong Worlds
+            td
+              strong Votes
             td.visible-md.visible-lg
               strong Rep
             td.visible-md.visible-lg
               strong Posts
             td.visible-md.visible-lg
-              strong Votes
+              strong System
+            td.visible-md.visible-lg
+              strong Worlds
         tbody
           each player in players
             //- p=JSON.stringify(player)
@@ -109,11 +109,12 @@ block content
                 td 
                   - var forum_url = 'http://forum.boundstar.com/user/'+player.profile.forum.replace(/ /g,'-').toLowerCase();
                   a(href='#{forum_url}', target='_blank') #{player.profile.forum}
-                td #{player.profile.system.sector} #{player.profile.system.x}, #{player.profile.system.y}: #{player.profile.system.planet}
-                td.visible-md.visible-lg #{player.profile.system.size}
+                td #{player.profile.thismonth_votes}
                 td.visible-md.visible-lg #{player.profile.forum_rep}
                 td.visible-md.visible-lg #{player.profile.forum_posts}
-                td.visible-md.visible-lg #{player.profile.thismonth_votes}
+                if player.profile.system
+                  td.visible-md.visible-lg #{player.profile.system.sector} #{player.profile.system.x}, #{player.profile.system.y}: #{player.profile.system.planet}
+                  td.visible-md.visible-lg #{player.profile.system.size}
     .col-sm-9.col-md-10
       legend.player Players
       table#visits.table.table-bordered.table-striped.table-condensed
