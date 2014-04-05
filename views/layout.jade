@@ -45,7 +45,9 @@ html(lang="en")
             if( player_name === profile.player ) {
               exported = true;
               $('#players').append(
-                '<li class="'+profile.rank.toLowerCase()+'">'+profile.player+'</li>'
+                '<li class="'+profile.rank.toLowerCase()+'">'+
+                '<a href="/player/'+profile.player+'">'+
+                profile.player+'</a></li>'
               );
             }
           });

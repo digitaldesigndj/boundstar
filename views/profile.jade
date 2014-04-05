@@ -1,45 +1,25 @@
 extends layout
 
 block content
-  p!=JSON.stringify(player, null, 2, 2)
-  //- p=JSON.stringify(profiles)
-  //- p Panel View
-  //- .col-sm-12
-    a(href='/') &laquo; Return Home
-    .page-header
-      h2 #{title}
-      p #{voters.month} - #{voters.name} - #{voters.address}
-  //- each vote in voters.voters
-    .col-xs-6.col-sm-6.col-md-4.col-lg-3
-      - var exported = false;
-      each user, i in profiles
-        if vote.nickname == user.player
-          - exported = true;
-          h3(class='#{user.rank.toLowerCase()}') #{user.player}
-      if !exported
-        h3 #{vote.nickname}
-      p #{vote.votes} votes
-
-  //- .col-md-8.col-lg-6
-    a(href='/') &laquo; Return Home
-    .page-header
-      h2 #{title}
-      p #{voters.month} - #{voters.name} - #{voters.address}
-    table#visits.table.table-bordered.table-striped.table-condensed
-      thead
-        tr
-          td
-            strong Nicname
-          td
-            strong Votes
-      tbody
-        each vote in voters.voters
-          tr
-            - var exported = false;
-            each user, i in profiles
-              if vote.nickname == user.player
-                - exported = true;
-                td(class='#{user.rank.toLowerCase()}') #{user.player}
-            if !exported
-              td #{vote.nickname}
-            td #{vote.votes} votes
+  //- code(height='500')!=JSON.stringify(player, null, 2, 2)
+  .page-header
+    h1 #{player.player}
+  p Forum Profile: 
+    - var forum_url = 'http://forum.boundstar.com/user/'+player.forum.replace(/ /g,'-').toLowerCase();
+    a(href='#{forum_url}', target='_blank') #{player.forum}
+  if player.thismonth_votes
+    p Votes: #{player.thismonth_votes}
+  else
+    p Votes: 0
+    script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
+  if player.forum_rep
+    p.visible-md.visible-lg Rep: #{player.forum_rep}
+  p.visible-md.visible-lg Posts: #{player.forum_posts}
+  if player.system && player.system != ''
+    if player.system.sector != ''
+      p.visible-md.visible-lg Sector: #{player.system.sector} #{player.system.x}, #{player.system.y}: #{player.system.planet}
+    else
+      p.visible-md.visible-lg
+    p.visible-md.visible-lg Worlds: #{player.system.size}
+  br
+  p under construction

@@ -105,7 +105,8 @@ block content
             //- p=JSON.stringify(player)
             if player.player && player.rank === 'Explorer'
               tr
-                td #{player.player}
+                td 
+                  a(href='/player/#{player.player}') #{player.player}
                 td 
                   - var forum_url = 'http://forum.boundstar.com/user/'+player.forum.replace(/ /g,'-').toLowerCase();
                   a(href='#{forum_url}', target='_blank') #{player.forum}
@@ -138,7 +139,8 @@ block content
             //- p=JSON.stringify(player)
             if player.player && player.rank === 'Player'
               tr
-                td #{player.player}
+                td 
+                  a(href='/player/#{player.player}') #{player.player}
                 td 
                   - var forum_url = 'http://forum.boundstar.com/user/'+player.forum.replace(/ /g,'-').toLowerCase();
                   a(href='#{forum_url}', target='_blank') #{player.forum}
@@ -165,7 +167,8 @@ block content
             //- p=JSON.stringify(player)
             if player.player && player.rank === 'Recruit'
               tr
-                td #{player.player}
+                td 
+                  a(href='/player/#{player.player}') #{player.player}
                 td 
                   - var forum_url = 'http://forum.boundstar.com/user/'+player.forum.replace(/ /g,'-').toLowerCase();
                   a(href='#{forum_url}', target='_blank') #{player.forum}
