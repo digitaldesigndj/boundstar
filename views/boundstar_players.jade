@@ -113,7 +113,10 @@ block content
                 td.visible-md.visible-lg #{player.profile.forum_rep}
                 td.visible-md.visible-lg #{player.profile.forum_posts}
                 if player.profile.system
-                  td.visible-md.visible-lg #{player.profile.system.sector} #{player.profile.system.x}, #{player.profile.system.y}: #{player.profile.system.planet}
+                  if player.profile.system.sector != ''
+                    td.visible-md.visible-lg #{player.profile.system.sector} #{player.profile.system.x}, #{player.profile.system.y}: #{player.profile.system.planet}
+                  else
+                    td.visible-md.visible-lg
                   td.visible-md.visible-lg #{player.profile.system.size}
     .col-sm-9.col-md-10
       legend.player Players
