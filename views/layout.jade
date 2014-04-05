@@ -19,6 +19,41 @@ html(lang="en")
   body
     include default.html.jade
 
+    -var json_profiles = [];
+    script
+      | var profiles =
+      each profile, i in profiles
+        - var public_profile = {};
+        - public_profile.player = profile.profile.player
+        - public_profile.rank = profile.profile.rank
+        - json_profiles.push(public_profile);
+      !=JSON.stringify(json_profiles)
+      |;
+    script.
+      var setPlayersOnline = function( players ) {
+        $('#players li').remove();
+        $('#numOnline').html( players.length );
+        players = players.sort();
+        $.each( players, function( key, val ) {
+          var exported = false;
+          var player_name = removeColorCodes( val );
+          $.each( profiles, function( i, profile ) {
+            console.log( profile.player );
+            if( player_name === profile.player ) {
+              exported = true;
+              $('#players').append(
+                '<li class="'+profile.rank.toLowerCase()+'">'+profile.player+'</li>'
+              );
+            }
+          });
+          if( exported === false ) {
+            $('#players').append(
+              '<li>'+player_name+'</li>'
+            );
+          }
+        });
+      };
+
 //- doctype html
 //- html(lang="en")
 
