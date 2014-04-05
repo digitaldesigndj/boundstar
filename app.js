@@ -160,6 +160,7 @@ app.get('/worlds/:sector', localWorldsController.worldsBySector);
 app.get('/systems', localWorldsController.systems);
 app.get('/systems/:sector', localWorldsController.systemsBySector);
 
+app.get('/player/:player', boundstarPlayers.profile);
 app.get('/players', boundstarPlayers.players);
 app.get('/votes', function ( req, res ) { res.redirect('/voters'); });
 app.get('/voters', boundstarPlayers.voters);

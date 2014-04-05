@@ -7,18 +7,18 @@ block content
   - var player_count = 0;
   - var recruit_count = 0;
   each player in players
-    if player.profile.player && player.profile.rank === 'Explorer'
+    if player.player && player.rank === 'Explorer'
       - explorer_count++
-    if player.profile.player && player.profile.rank === 'Player'
+    if player.player && player.rank === 'Player'
       - player_count++
-    if player.profile.player && player.profile.rank === 'Recruit'
+    if player.player && player.rank === 'Recruit'
       - recruit_count++
-    if player.profile.thismonth_votes != undefined
-      - vote_count = ( +vote_count + +player.profile.thismonth_votes )
-    if player.profile.forum_rep != undefined
-      - rep_count = ( +rep_count + +player.profile.forum_rep )
-    if player.profile.forum_posts != undefined
-      - post_count = ( +post_count + +player.profile.forum_posts )
+    if player.thismonth_votes != undefined
+      - vote_count = ( +vote_count + +player.thismonth_votes )
+    if player.forum_rep != undefined
+      - rep_count = ( +rep_count + +player.forum_rep )
+    if player.forum_posts != undefined
+      - post_count = ( +post_count + +player.forum_posts )
   //- .col-sm-12
   .page-header
     h1 Boundstar Players
@@ -103,21 +103,21 @@ block content
         tbody
           each player in players
             //- p=JSON.stringify(player)
-            if player.profile.player && player.profile.rank === 'Explorer'
+            if player.player && player.rank === 'Explorer'
               tr
-                td #{player.profile.player}
+                td #{player.player}
                 td 
-                  - var forum_url = 'http://forum.boundstar.com/user/'+player.profile.forum.replace(/ /g,'-').toLowerCase();
-                  a(href='#{forum_url}', target='_blank') #{player.profile.forum}
-                td #{player.profile.thismonth_votes}
-                td.visible-md.visible-lg #{player.profile.forum_rep}
-                td.visible-md.visible-lg #{player.profile.forum_posts}
-                if player.profile.system
-                  if player.profile.system.sector != ''
-                    td.visible-md.visible-lg #{player.profile.system.sector} #{player.profile.system.x}, #{player.profile.system.y}: #{player.profile.system.planet}
+                  - var forum_url = 'http://forum.boundstar.com/user/'+player.forum.replace(/ /g,'-').toLowerCase();
+                  a(href='#{forum_url}', target='_blank') #{player.forum}
+                td #{player.thismonth_votes}
+                td.visible-md.visible-lg #{player.forum_rep}
+                td.visible-md.visible-lg #{player.forum_posts}
+                if player.system
+                  if player.system.sector != ''
+                    td.visible-md.visible-lg #{player.system.sector} #{player.system.x}, #{player.system.y}: #{player.system.planet}
                   else
                     td.visible-md.visible-lg
-                  td.visible-md.visible-lg #{player.profile.system.size}
+                  td.visible-md.visible-lg #{player.system.size}
     .col-sm-9.col-md-10
       legend.player Players
       table#visits.table.table-bordered.table-striped.table-condensed
@@ -136,15 +136,15 @@ block content
         tbody
           each player in players
             //- p=JSON.stringify(player)
-            if player.profile.player && player.profile.rank === 'Player'
+            if player.player && player.rank === 'Player'
               tr
-                td #{player.profile.player}
+                td #{player.player}
                 td 
-                  - var forum_url = 'http://forum.boundstar.com/user/'+player.profile.forum.replace(/ /g,'-').toLowerCase();
-                  a(href='#{forum_url}', target='_blank') #{player.profile.forum}
-                td #{player.profile.thismonth_votes}
-                td.visible-md.visible-lg #{player.profile.forum_rep}
-                td.visible-md.visible-lg #{player.profile.forum_posts}
+                  - var forum_url = 'http://forum.boundstar.com/user/'+player.forum.replace(/ /g,'-').toLowerCase();
+                  a(href='#{forum_url}', target='_blank') #{player.forum}
+                td #{player.thismonth_votes}
+                td.visible-md.visible-lg #{player.forum_rep}
+                td.visible-md.visible-lg #{player.forum_posts}
     .col-sm-9.col-md-10
       legend.recruit Recruits
       table#visits.table.table-bordered.table-striped.table-condensed
@@ -163,12 +163,12 @@ block content
         tbody
           each player in players
             //- p=JSON.stringify(player)
-            if player.profile.player && player.profile.rank === 'Recruit'
+            if player.player && player.rank === 'Recruit'
               tr
-                td #{player.profile.player}
+                td #{player.player}
                 td 
-                  - var forum_url = 'http://forum.boundstar.com/user/'+player.profile.forum.replace(/ /g,'-').toLowerCase();
-                  a(href='#{forum_url}', target='_blank') #{player.profile.forum}
-                td #{player.profile.thismonth_votes}
-                td.visible-md.visible-lg #{player.profile.forum_rep}
-                td.visible-md.visible-lg #{player.profile.forum_posts}
+                  - var forum_url = 'http://forum.boundstar.com/user/'+player.forum.replace(/ /g,'-').toLowerCase();
+                  a(href='#{forum_url}', target='_blank') #{player.forum}
+                td #{player.thismonth_votes}
+                td.visible-md.visible-lg #{player.forum_rep}
+                td.visible-md.visible-lg #{player.forum_posts}

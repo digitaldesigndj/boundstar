@@ -29,7 +29,7 @@
             li: a(href='/worlds/gamma') Gamma Sector
             li: a(href='/worlds/sectorx') SectorX
         //- if user
-          if user.profile.rank = 'Player'
+          if user.rank = 'Player'
         li.dropdown(class=title=='Systems'?'active':undefined)
           a.dropdown-toggle(href='#', data-toggle='dropdown') Systems 
             i.caret
@@ -53,11 +53,11 @@
           else
             li.dropdown(class=title=='Rank Manager'?'active':undefined)
               a.dropdown-toggle(href='#', data-toggle='dropdown')
-                if user.profile.picture
-                  img.profile-image(src='#{user.profile.picture}')
+                if user.picture
+                  img.profile-image(src='#{user.picture}')
                 else
                   img.profile-image(src='#{user.gravatar(60)}')
-                | #{user.profile.player || user.email || user.id}&nbsp;
+                | #{user.player || user.email || user.id}&nbsp;
                 i.caret
               ul.dropdown-menu
                 li: a(href='/rank') Rank Card

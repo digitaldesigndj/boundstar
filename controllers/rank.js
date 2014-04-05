@@ -17,15 +17,15 @@ var request = require('request');
 exports.claim = function (req, res, next) {
   Player.findById(req.user.id, function (err, player) {
     if (err) return next(err);
-    player.profile.system = {};
-    player.profile.system.sector = req.body.sector || '';
-    player.profile.system.x = req.body.x || '';
-    player.profile.system.y = req.body.y || '';
-    player.profile.system.z = req.body.z || '';
-    player.profile.system.planet = req.body.planet || '';
-    player.profile.system.size = req.body.size || '0';
+    player.system = {};
+    player.system.sector = req.body.sector || '';
+    player.system.x = req.body.x || '';
+    player.system.y = req.body.y || '';
+    player.system.z = req.body.z || '';
+    player.system.planet = req.body.planet || '';
+    player.system.size = req.body.size || '0';
 
-    player.profile.system_coords = req.body.system_coords || '';
+    player.system_coords = req.body.system_coords || '';
     player.save(function (err) {
       if (err) return next(err);
       req.flash('success', { msg: 'You claimed system '+req.body.system_coords });
@@ -42,10 +42,10 @@ exports.claim = function (req, res, next) {
 exports.upgrade = function (req, res, next) {
   Player.findById(req.user.id, function (err, player) {
     if (err) return next(err);
-    switch(player.profile.rank) {
+    switch(player.rank) {
     case 'Recruit':
-      if ( player.profile.thismonth_votes > 0 && player.profile.forum_posts > 0 && player.profile.forum_rep > 0 ) {
-        player.profile.rank = 'Player';
+      if ( player.thismonth_votes > 0 && player.forum_posts > 0 && player.forum_rep > 0 ) {
+        player.rank = 'Player';
         player.save(function (err) {
           if (err) return next(err);
           req.flash('success', { msg: 'Rank Up! Player' });
@@ -57,8 +57,8 @@ exports.upgrade = function (req, res, next) {
       }
       break;
     case 'Player':
-      if ( player.profile.thismonth_votes >= 3 && player.profile.forum_posts >= 5 && player.profile.forum_rep >= 5 ) {
-        player.profile.rank = 'Explorer';
+      if ( player.thismonth_votes >= 3 && player.forum_posts >= 5 && player.forum_rep >= 5 ) {
+        player.rank = 'Explorer';
         player.save(function (err) {
           if (err) return next(err);
           req.flash('success', { msg: 'Rank Up! Explorer' });
@@ -99,7 +99,7 @@ exports.index = function (req, res, next) {
     forum_stats: function (callback) {
       var forum_stats = {};
       url = 'http://forum.boundstar.com/api/user/'
-      +req.user.profile.forum.replace(/ /g,'-').toLowerCase();
+      +req.user.forum.replace(/ /g,'-').toLowerCase();
       request( { url: url, timeout: 3000 }, function (err, response, body) {
         if (!err && response.statusCode == 200) {
           forum_profile = JSON.parse(body);
@@ -119,13 +119,13 @@ exports.index = function (req, res, next) {
       if (err) return next(err);
       // @todo notify when numbers go up
       _.each( results.votes, function ( v, i ) {
-        if( v.nickname == req.user.profile.player ) {
-          player.profile.alltime_votes = v.votes || '';
-          player.profile.thismonth_votes = v.votes || '';
+        if( v.nickname == req.user.player ) {
+          player.alltime_votes = v.votes || '';
+          player.thismonth_votes = v.votes || '';
         }
       });
-      player.profile.forum_posts = results.forum_stats.posts || '';
-      player.profile.forum_rep = results.forum_stats.rep || '';
+      player.forum_posts = results.forum_stats.posts || '';
+      player.forum_rep = results.forum_stats.rep || '';
       player.save(function (err) {
         if (err) return next(err);
         res.render('rank', {

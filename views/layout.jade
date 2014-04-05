@@ -27,8 +27,8 @@ html(lang="en")
       | var profiles =
       each profile, i in profiles
         - var public_profile = {};
-        - public_profile.player = profile.profile.player
-        - public_profile.rank = profile.profile.rank
+        - public_profile.player = profile.player
+        - public_profile.rank = profile.rank
         - json_profiles.push(public_profile);
       !=JSON.stringify(json_profiles)
       |;
@@ -41,7 +41,7 @@ html(lang="en")
           var exported = false;
           var player_name = removeColorCodes( val );
           $.each( profiles, function( i, profile ) {
-            console.log( profile.player );
+            // console.log( profile.player );
             if( player_name === profile.player ) {
               exported = true;
               $('#players').append(

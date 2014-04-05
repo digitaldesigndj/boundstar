@@ -6,7 +6,7 @@ block content
     .page-header
       h2 #{title}
     if user
-      if user.profile.system_coords === ""
+      if user.system_coords === ""
         p You may only claim systems with at least 2 worlds.
     else
       p 
@@ -37,8 +37,8 @@ block content
                   if sub_world.satellite
                     span  #{sub_world.satellite}
           if user
-            //- if user.profile.system_coords === ""
-            if user.profile.rank === "Explorer"
+            //- if user.system_coords === ""
+            if user.rank === "Explorer"
               p 
                 form(action='/claim', method='POST')
                   input(type='hidden', name='_csrf', value=token)

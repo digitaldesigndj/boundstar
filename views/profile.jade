@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  //- p=JSON.stringify(voters)
+  p!=JSON.stringify(player, null, 2, 2)
   //- p=JSON.stringify(profiles)
   //- p Panel View
   //- .col-sm-12
@@ -20,7 +20,7 @@ block content
         h3 #{vote.nickname}
       p #{vote.votes} votes
 
-  .col-md-8.col-lg-6
+  //- .col-md-8.col-lg-6
     a(href='/') &laquo; Return Home
     .page-header
       h2 #{title}
@@ -43,4 +43,3 @@ block content
             if !exported
               td #{vote.nickname}
             td #{vote.votes} votes
-

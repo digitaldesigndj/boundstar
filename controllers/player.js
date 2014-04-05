@@ -101,14 +101,14 @@ exports.postRegister = function(req, res, next) {
     password: req.body.password,
   });
 
-  player.profile.ip = req.body.ip || ''
-  player.profile.loc = req.body.loc || '';
-  player.profile.city = req.body.city || '';
-  player.profile.forum = req.body.forum || '';
-  player.profile.postal = req.body.postal || '';
-  player.profile.region = req.body.region || '';
-  player.profile.country = req.body.country || '';
-  player.profile.hostname = req.body.hostname || '';
+  player.ip = req.body.ip || ''
+  player.loc = req.body.loc || '';
+  player.city = req.body.city || '';
+  player.forum = req.body.forum || '';
+  player.postal = req.body.postal || '';
+  player.region = req.body.region || '';
+  player.country = req.body.country || '';
+  player.hostname = req.body.hostname || '';
 
   console.log( req.body, player );
 
@@ -145,18 +145,18 @@ exports.getAccount = function(req, res) {
 exports.postUpdateProfile = function(req, res, next) {
   Player.findById(req.user.id, function(err, player) {
     if (err) return next(err);
-    player.profile.player = req.body.player || '';
-    player.profile.name = req.body.name || ''; // Teamspeak
-    player.profile.gender = req.body.gender || '';
-    player.profile.website = req.body.website || '';
-    player.profile.location = req.body.location || '';
+    player.player = req.body.player || '';
+    player.name = req.body.name || ''; // Teamspeak
+    player.gender = req.body.gender || '';
+    player.website = req.body.website || '';
+    player.location = req.body.location || '';
     var url = 'http://forum.boundstar.com/api/user/'
     +req.body.forum.replace(/ /g,'-').toLowerCase();
 
     if ( req.body.forum !== '' ) {
       request( { url: url, timeout: 500 }, function (err, response, body) {
         if (!err && response.statusCode == 200) {
-          player.profile.forum = JSON.parse(body).userslug;
+          player.forum = JSON.parse(body).userslug;
           player.save(function(err) {
             if (err) return next(err);
             req.flash('success', { msg: 'Profile information updated, Forum name set!' });
@@ -170,7 +170,7 @@ exports.postUpdateProfile = function(req, res, next) {
       });
     }
     else {
-      player.profile.forum = '';
+      player.forum = '';
       player.save(function(err) {
         if (err) return next(err);
         req.flash('success', { msg: 'Profile information updated, Rank info updated.' });

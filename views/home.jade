@@ -4,23 +4,23 @@ block content
   //- p=JSON.stringify(servers)
   //- p=JSON.stringify(admins)
   if user
-    if user.profile.player
+    if user.player
       .col-md-8
         .page-header
-          h1 Hello #{user.profile.player}
+          h1 Hello #{user.player}
         p.lead Welcome to the next Boundstar
         h4 Your 
           a(href='/rank') Rank
           |  is 
-          strong #{user.profile.rank}
-        case user.profile.rank
+          strong #{user.rank}
+        case user.rank
           when "Recruit"
             p You need 1 rep, 1 post and 1 vote to rank up to Player.
           when "Player"
             p You need 5 rep, 5 posts and 3 votes to rank up to Explorer.
           when "Explorer"
             p You are at the top rank for now.
-            if user.profile.system_coords == ""
+            if user.system_coords == ""
               p You should claim a system.
       .col-md-4
         legend Ranks
@@ -44,7 +44,7 @@ block content
           table#visits.table.table-bordered.table-striped.table-condensed
             thead
               tr
-                td #{user.profile.rank}
+                td #{user.rank}
             tbody
           legend Worlds
           table#pageViews.table.table-bordered.table-striped.table-condensed
@@ -187,7 +187,7 @@ block content
             //- p Private, register to get password
             if user
               if user.profile
-                if user.profile.rank != ''
+                if user.rank != ''
                   p Password: 
                     strong.text-info #{admins[i].starbound_password}
             else
@@ -204,7 +204,7 @@ block content
                 p 2 core VPS
             if user
               if user.profile
-                if user.profile.rank != ''
+                if user.rank != ''
                   if server.ip_address == '107.170.56.96'
                     p(style='color:black')
                       input(value='boundstar.com',style='width:120px;',onclick='this.select()')

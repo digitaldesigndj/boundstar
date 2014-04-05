@@ -38,5 +38,18 @@ exports.voters = function(req, res) {
   });
 };
 
-  
+/**
+ * GET /profile
+ * Voters page.
+ */
 
+exports.profile = function(req, res, next) {
+  Player.findOne({ 'player': req.params.player }, function(err, player) {
+    if (err) return next(err);
+    console.log( req.params.player, player );
+    res.render('profile', {
+      title: req.params.player+'\'s Profile',
+      player: player
+    });
+  });
+};

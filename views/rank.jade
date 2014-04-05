@@ -6,19 +6,19 @@ block content
     .col-md-12
       p 
         a(href='/') &laquo; Home
-      //- p=JSON.stringify(user.profile.system)
-      if user.profile.player
+      //- p=JSON.stringify(user.system)
+      if user.player
         .page-header
-          h1 #{user.profile.player}'s Rank Card
+          h1 #{user.player}'s Rank Card
         if forum_stats
           p
-            a(href='http://forum.boundstar.com/user/#{user.profile.forum.toLowerCase()}') Forum Profile: #{user.profile.forum}
-        h3 System: #{user.profile.system_coords}
+            a(href='http://forum.boundstar.com/user/#{user.forum.toLowerCase()}') Forum Profile: #{user.forum}
+        h3 System: #{user.system_coords}
         .well.col-md-4#connections
           h3 Rank
           p 
-            span(style='font-size:48px') #{user.profile.rank}
-          h3 #{user.profile.system.size} worlds
+            span(style='font-size:48px') #{user.rank}
+          h3 #{user.system.size} worlds
         if forum_stats
           if forum_stats.posts 
             .well.col-md-2#connections
@@ -52,14 +52,14 @@ block content
         - var voted = false
         if votes
           each vote, i in votes
-            if user.profile.player == vote.nickname
+            if user.player == vote.nickname
               - voted = true
               .well.col-md-2#connections
                 h3 Votes
                 p 
                   span(style='font-size:48px') #{vote.votes}
                 h5 votes this month
-              if user.profile.rank == 'Recruit'
+              if user.rank == 'Recruit'
                 if forum_stats.posts
                   if forum_stats.rep
                     .clearfix
@@ -84,17 +84,17 @@ block content
             //- h4.text-danger System Error... Go Vote!
             //- p.text-warning You need at least 1 vote to upgrade! Use your player name like you see in the corner (no email addresses).
             //- script(src='http://starbound-servers.net/embed.js?id=313&type=votes&size=small')
-        if user.profile.rank == 'Player'
+        if user.rank == 'Player'
           .well.col-md-2#connections
             h3 World Saves
             p 
               span(style='font-size:48px') 0
             h5 coming soon
-        if user.profile.rank == 'Explorer' && user.profile.system
+        if user.rank == 'Explorer' && user.system
           .well.col-md-2#connections
             h3 Worlds
             p 
-              span(style='font-size:48px') #{user.profile.system.size}
+              span(style='font-size:48px') #{user.system.size}
             h5 world saves coming in a week or so
         //- if users
           p=JSON.stringify(users)
@@ -112,7 +112,7 @@ block content
     - var voted = false
     if votes
       each vote, i in votes
-        if user.profile.player == vote.nickname
+        if user.player == vote.nickname
           - voted = true
           .col-md-12
               h4 Thanks for voting
@@ -121,12 +121,12 @@ block content
         h4 You should vote!
 
 
-    if user.profile.rank == 'Player'
+    if user.rank == 'Player'
       if forum_stats.posts >= 5
         if forum_stats.rep >= 5
           if votes
             each vote, i in votes
-              if user.profile.player == vote.nickname
+              if user.player == vote.nickname
                  if vote.votes >= 3
                     .clearfix
                     .col-md-12
@@ -137,16 +137,16 @@ block content
                           input(type='hidden', name='_csrf', value=token)
                           button.btn.btn-primary(type='submit') Upgrade to Explorer
 
-    //- if user.profile.rank != 'Recruit'
+    //- if user.rank != 'Recruit'
       .clearfix
       .col-md-12
         .page-header
           h2 Your Worlds
-        if user.profile.player != ''
+        if user.player != ''
           if worlds
             //- p=JSON.stringify(worlds)
             each world in worlds
-              if world.owner == user.profile.player
+              if world.owner == user.player
                 .col-sm-6
                   //- p!=JSON.stringify(world)
                   h3 #{world.nickname}
