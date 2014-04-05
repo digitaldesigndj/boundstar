@@ -37,7 +37,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) return next();
-  req.flash('info', { msg: 'You need an account to do that, you can signup here.' });
+  req.flash('info', { msg: 'You need to be logged in to do that.' });
   res.redirect('/login');
 };
 

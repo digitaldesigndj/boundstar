@@ -12,8 +12,9 @@
       ul.nav.navbar-nav
         //- li(class=title=='Boundstar'?'active':undefined)
           a(href='/') Home
-        li(class=title=='Rank'?'active':undefined)
-          a(href='/rank') Rank
+        if user
+          li(class=title=='Rank'?'active':undefined)
+            a(href='/rank') Rank
         li(class=title)
           a(href='http://forum.boundstar.com', target='_blank') Forum
         li(class=title=='Player Manager'?'active':undefined)
