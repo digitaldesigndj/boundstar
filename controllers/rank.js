@@ -14,9 +14,9 @@ var request = require('request');
  * Upgrader
  */
 
-exports.claim = function (req, res) {
+exports.claim = function (req, res, next) {
   Player.findById(req.user.id, function (err, player) {
-    if (err) return err;
+    if (err) return next(err);
     player.profile.system_coords = req.body.system_coords || '';
     player.profile.system.sector = req.body.sector || '';
     player.profile.system.x = req.body.x || '';
@@ -37,9 +37,9 @@ exports.claim = function (req, res) {
  * Upgrader
  */
 
-exports.upgrade = function (req, res) {
+exports.upgrade = function (req, res, next) {
   Player.findById(req.user.id, function (err, player) {
-    if (err) return err;
+    if (err) return next(err);
     switch(player.profile.rank) {
     case 'Recruit':
       if ( player.profile.thismonth_votes > 0 && player.profile.forum_posts > 0 && player.profile.forum_rep > 0 ) {
@@ -76,7 +76,7 @@ exports.upgrade = function (req, res) {
  * Rank page.
  */
 
-exports.index = function (req, res) {
+exports.index = function (req, res, next) {
   async.parallel({
     worlds: function (callback) {
       World.find('', function (err, results) {
@@ -109,9 +109,9 @@ exports.index = function (req, res) {
     }
   },
   function (err, results) {
-    if (err) return err;
+    if (err) return next(err);
     Player.findById(req.user.id, function (err, player) {
-      if (err) return err;
+      if (err) return next(err);
       _.each( results.votes, function ( v, i ) {
         if( v.nickname == req.user.profile.player ) {
           player.profile.alltime_votes = v.votes || '';
