@@ -27,6 +27,10 @@ block content
     p
       img(src='#{forum.uploadedpicture}')
     p postcount #{forum.postcount}
+    if forum.postcount == '0'
+      p #{player.player} needs to introduce themselves!
+    if forum.postcount == ''
+      p #{player.player} needs to register on the forums.
     p status #{forum.status}
     p reputation #{forum.reputation}
     p lastonline #{forum.lastonline}
@@ -40,7 +44,7 @@ block content
       ul
         each post in forum.posts
           //- !=JSON.stringify(post, null, 2, 2)
-          li Topic: 
+          li
             a(href='http://forum.boundstar.com/topic/#{post.tid}/##{post.pid}') #{post.topic.title}
             |  in 
             a(href='http://forum.boundstar.com/category/#{post.topic.cid}') #{post.category.name}
