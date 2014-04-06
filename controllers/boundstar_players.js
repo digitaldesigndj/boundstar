@@ -22,17 +22,19 @@ exports.players = function(req, res) {
  * Voters page.
  */
 
+var voter_cache = {};
 exports.voters = function(req, res) {
   var url = 'http://starbound-servers.net/api/?object=servers&element=voters&key=87dgg44wyy86bgdoofau&month=current&format=json';
   request( { url: url, timeout: 1500 }, function (err, response, body) {
     if (!err && response.statusCode == 200) {
+      voter_cache = JSON.parse(body)
       res.render('voters', {
         title: 'Voters',
-        voters: JSON.parse(body)
+        voters: voter_cache
       });
     }
     else {
-      req.flash('info', { msg: 'We could get voting info at this time.' });
+      req.flash('errors', { msg: 'Sorry, We could not get voting info at this time.' });
       res.redirect('/');
     }
   });
@@ -59,7 +61,8 @@ exports.profile = function(req, res, next) {
       else {
         res.render('profile', {
           title: req.params.player+'\'s Profile',
-          player: player
+          player: player,
+          forum: false
         });
       }
     });

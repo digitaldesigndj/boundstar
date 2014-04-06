@@ -29,7 +29,7 @@ block content
       thead
         tr
           td
-            strong Nicname
+            strong Nickname
           td
             strong Votes
       tbody
@@ -39,7 +39,8 @@ block content
             each user, i in profiles
               if vote.nickname == user.player
                 - exported = true;
-                td(class='#{user.rank.toLowerCase()}') #{user.player}
+                td 
+                  a(href='/player/#{vote.nickname}', class='#{user.rank.toLowerCase()}') #{user.player}
             if !exported
               td #{vote.nickname}
             td #{vote.votes} votes
