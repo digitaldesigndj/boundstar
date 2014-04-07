@@ -147,10 +147,12 @@ exports.postUpdateProfile = function(req, res, next) {
     if (err) return next(err);
     player.player = req.body.player || '';
     player.name = req.body.name || ''; // Teamspeak
+    player.steam = req.body.steam || '';
     player.gender = req.body.gender || '';
     player.website = req.body.website || '';
     player.location = req.body.location || '';
-    if ( req.body.forum !== '' && typeof req.body.forum  == String ) {
+    // console.log( req.body.steam, req.body.forum, typeof req.body.forum );
+    if ( req.body.forum !== '' && typeof req.body.forum  == 'string' ) {
       var url = 'http://forum.boundstar.com/api/user/'
       +req.body.forum.replace(/ /g,'-').toLowerCase();
       request( { url: url, timeout: 500 }, function (err, response, body) {
@@ -158,12 +160,12 @@ exports.postUpdateProfile = function(req, res, next) {
           player.forum = JSON.parse(body).userslug;
           player.save(function(err) {
             if (err) return next(err);
-            req.flash('success', { msg: 'Profile information updated, Forum name set!' });
-            res.redirect('/rank');
+            req.flash('success', { msg: 'Profile information updated, forum account linked, rank card updated.' });
+            res.redirect('/account');
           });
         }
         else {
-          req.flash('info', { msg: 'We could not find that forum name.' });
+          req.flash('info', { msg: 'We could not find that forum name. Perhaps you need to register.' });
           res.redirect('/account');
         }
       });
@@ -172,8 +174,8 @@ exports.postUpdateProfile = function(req, res, next) {
       player.forum = '';
       player.save(function(err) {
         if (err) return next(err);
-        req.flash('success', { msg: 'Profile information updated, Rank info updated.' });
-        res.redirect('/rank');
+        req.flash('success', { msg: 'Profile information updated, rank card updated.' });
+        res.redirect('/account');
       });
     }
   });
