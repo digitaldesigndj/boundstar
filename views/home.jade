@@ -22,12 +22,13 @@ block content
             p You are at the top rank for now.
             if user.system_coords == ""
               p You should claim a system.
-        p Your 
-          a(href='/player/#{user.player}') Profile
-          |  (under construction)
-        p Your 
-          a(href='/rank') Rank Card
-          |  (upgrade here)
+        ul
+          li 
+            a(href='/player/#{user.player}') Profile
+            |  (under construction)
+          li
+            a(href='/rank') Rank Card
+            |  (upgrade here)
       .col-md-4
         legend Ranks
         ol
