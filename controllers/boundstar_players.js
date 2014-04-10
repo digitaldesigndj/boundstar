@@ -48,7 +48,8 @@ exports.voters = function(req, res) {
 exports.profile = function(req, res, next) {
   Player.findOne({ 'player': req.params.player }, function(err, player) {
     if (err) return next(err);
-    var url = 'http://forum.boundstar.com/api/user/'+player.forum.replace(/ /g,'-').toLowerCase();
+    var url = 'http://forum.boundstar.com/api/user/'+
+    player.forum.replace(/ /g,'-').toLowerCase();
     request( { url: url, timeout: 1500 }, function (err, response, body) {
       if (!err && response.statusCode == 200) {
         console.log( 'success' );
