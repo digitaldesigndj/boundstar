@@ -38,7 +38,7 @@ block content
                     span  #{sub_world.satellite}
           if user
             //- if user.system_coords === ""
-            if user.rank === "Explorer"
+            if user.rank === "Explorer" || user.rank === "Member" || user.rank === "Builder"
               p 
                 form(action='/claim', method='POST')
                   input(type='hidden', name='_csrf', value=token)
