@@ -64,7 +64,7 @@ block content
     else
       .col-sm-12
         h1 Thanks for joining us Recruit!
-        p 
+        //- p 
           span.text-info You have been granted access to a new server
           | , use the password below to login.
         p Your adventure begins with a little setup, you will also need to make a post on the forum and socialize a bit with us.
@@ -88,6 +88,9 @@ block content
       p Server name: 
         strong boundstar.com
         |  and connect with your Starbound client, no password needed.
+      p
+        a(href='/signup') Registration
+        |  is free! Signup today.
       p When you first register, you will become a Recruit. Your mission as a recruit is to get your profile setup and become a player.
       ol 
         li Login to the server!
@@ -96,16 +99,12 @@ block content
         li Make 1 forum post.
         li Vote on server-lister.
         li Set your main character name.
-      p After you complete all these tasks, you will rank up to Player! This will lock your player and forum name. (you can still change your forum name, not recommended because you will lose your rep & posts).
+      p After you complete all these tasks, you will rank up to Player! This will lock your player and forum name.
       br
       .col-sm-2
         a(href='/signup').btn.btn-success Register
       .col-sm-2
-        form(action='https://www.paypal.com/cgi-bin/webscr'. method='post'. target='_top')
-          input(type='hidden', name='cmd', value='_s-xclick')
-          input(type='hidden', name='hosted_button_id', value='9HGYPBBJV8954')
-          input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif', border='0', name='submit', alt='PayPal - The safer, easier way to pay online!')
-          img(alt='', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', width='1', height='1')
+        a(href='http://gum.co/boundstar').btn.btn-info Donate
       .col-sm-2
         a(href='http://forum.boundstar.com').btn.btn-primary Forums
       .col-md-4
