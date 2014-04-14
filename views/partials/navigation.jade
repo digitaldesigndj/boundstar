@@ -43,11 +43,15 @@
           a(href='/contact') Contact
         li(class=title=='Boundstar Wiki'?'active':undefined)
           a(href='/wiki') Wiki
+        li.hidden-sm
+          a(href='/status') Server Status
+        li.visible-xs
+          a(href='http://gum.co/boundstar') Donate
       if !document
         ul.nav.navbar-nav.navbar-right
           if !user
             li(class=title=='Create Account'?'active':undefined)
-              a(href='/signup') Create Account
+              a(href='/register') Register
             li(class=title=='Login'?'active':undefined)
               a(href='/login') Login
           else
