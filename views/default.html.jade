@@ -1,133 +1,212 @@
-if document
-  doctype html
-  html(lang="en")
-    head
-      meta(charset='utf-8')
-      meta(http-equiv='X-UA-Compatible', content='IE=edge')
-      meta(name='viewport', content='width=device-width, initial-scale=1.0')
-      meta(name='description', content='')
-      meta(name='csrf-token', content=token)
-      meta(name='author', content='')
-      title #{title} | Boundstar - Starbound Server
-      script(src='https://code.jquery.com/jquery-2.1.0.min.js')
-      script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-      script(src='/assets/js/jquery.backstretch.min.js')
-      script(defer='defer' src='https://gumroad.com/js/gumroad.js')
-      script.
-        $(function($){
-          $.backstretch("/assets/img/bg.png", {speed: 500});
-          window.onbeforeunload = function() {
-            $('.backstretch').fadeOut(1000);
-          }
-        });
-      //-   - var scripts = getBlock('scripts')
-      //-   - var styles = getBlock('styles')
-      //-   != styles.toHTML()
-      //-   != scripts.toHTML()
-      style.
-        #content {
-          font-family: "Montserrat", serif;
-        }
-        .starnav {
-          position: fixed;
-          left: 0;
-          bottom: 10px;
-          width: 180px;
-          z-index: 1;
-        }
-        .starnav a {
-          margin-bottom: 3px;
-          text-decoration: none;
-          float: left;
-          display: block;
-          background: url(/assets/img/buttonsprite.png);
-          height: 22px;
-          width: 180px;
-          padding: 2px 15px;
-          color: white;
-          -webkit-transition: none;
-          -moz-transition: none;
-          -ms-transition: none;
-          -o-transition: none;
-          transition: none;
-        }
-        .starnav a:hover {
-          color: white;
-          background-position: 0 -22px;
-        }
-      link(href='/starbound-font/starbound-font.css',rel='stylesheet')
-      <link rel="stylesheet" href="/assets/styles-52a7c1b56d60e9de219524c175c986fc.css" />
-  body
-  .starnav
-    each doc in getCollection('documents').toJSON()
-      if doc.navigation != false
-        a(href=doc.url)= doc.title
-      //- - clazz = (document.url === doc.url) ? 'active' : null
-      //- li(typeof="sioc:Page", about=doc.url, class=clazz)
-#wrap
-  include partials/navigation
-  include partials/sidebar
-  #page-content-wrapper
-    <!-- Keep all page content within the page-content inset div! -->
-    .page-content.inset
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content=' | Web Application Development')
+    meta(name='csrf-token', content=_csrf)
+    meta(name='author', content='Taylor Young')
 
+    link(rel="shortcut icon", href="/favicon.ico")
+    link(rel="apple-touch-icon-precomposed", href="/ios/hyprtxt-ios-57.png")
+    link(rel="apple-touch-icon-precomposed", sizes="72x72", href="/ios/hyprtxt-ios-72.png")
+    link(rel="apple-touch-icon-precomposed", sizes="114x114", href="/ios/hyprtxt-ios-114.png")
+    link(rel="apple-touch-icon-precomposed", sizes="144x144", href="/ios/hyprtxt-ios-144.png")
+
+    link(href="/studio/css/style.css", rel="stylesheet")
+    link(href="/studio/css/font-awesome.min.css", rel="stylesheet")
+
+    title #{title}
+    != css('styles')
+
+  body(data-spy='scroll', data-offset='0', data-target='#theMenu')
+    nav#theMenu.menu
+      .menu-wrap
+        h1.logo
+          a(href='/') Hyprtxt
+        i.fa.fa-times.menu-close
+        a.smoothScroll(href='#home') Home
+        a.smoothScroll(href='#about') About
+        a.smoothScroll(href='#portfolio') Portfolio
+        a.smoothScroll(href='#services') Services
+        a.smoothScroll(href='#contact') Contact
+        a(href='http://facebook.com/hyprtxt')
+          i.fa.fa-facebook
+        //- a(href='http://twitter.com/digitaldesigndj')
+          i.fa.fa-twitter
+        a(href='https://plus.google.com/107148580403781617552/about')
+          i.fa.fa-google-plus
+        a(href='mailto:taylor@hyprtxt.com')
+          i.fa.fa-envelope
+      // Menu button
+      #menuToggle
+        i.fa.fa-bars
+    section#home(name='home')
+    #headerwrap
       .container
-        if !document
-          include partials/flash
-          block content
-        else
-          .col-sm-12
-            section#content.content!= content
-            br
+        .row
+          .col-md-6.col-md-offset-3
+            svg(version="1.1", id="Layer_1", xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", x="0px", y="0px", viewBox="0 0 200 200", enable-background="new 0 0 200 200", xml:space="preserve")
+              g
+                circle(fill="#271F40", cx="100", cy="100", r="99.2")
+              g
+                path(fill="#3CA489", d="M62.9,66.7V79l-30,14.8l30,14.8v12.4L19.7,99.3V88.5L62.9,66.7z")
+                path(fill="#3CA489", d="M120.2,52.5l11.3,2l-52.5,93l-11.3-2L120.2,52.5z")
+                path(fill="#3CA489", d="M182.5,99.3l-43.2,21.8v-12.4l30-14.8l-30-14.8V66.7l43.2,21.8V99.3z")
+            h1 Hyprtxt
+    section#about(name='about')
+    #aboutwrap
+      .container
+        .row
+          .col-lg-4.name
+            //- img.img-responsive(src='/studio/img/pic.png')
+            p Taylor Young
+            .name-label
+          .col-lg-8.name-desc
+            h2
+              | FULL STACK 
+              br
+              | WEB SOLUTIONS
+              br
+              | IN DALLAS, TEXAS
+            .name-zig
+            .col-md-6
+              p Hyprtxt is all about 1 very diverse medium, Hypertext Markup Language or HTML. I create software that runs in a web browser, from server configuration to style guide creation and everywhere inbetween. 
+              p I create soltuions to problems using Markup, Styles and Scripting (HTML, CSS &amp; JS), with a combination of Open Source Software and custom code tailored to fit the situation.
+            .col-md-6
+              P I can handle the whole process using my custom stack, or I can slot into your process, I have adapted to many enviorments, and I like seeing new things. Let me know what kind of Hypertext you need, and I can create a solution.
+              p I have worked as a contractor or employee for a number of awesome companies, all of whom trusted me to deliver quality code and user experiences for thier clients.
+    .sep.about(data-stellar-background-ratio='0.5')
+    section#portfolio(name='portfolio')
+    #portfoliowrap
+      .container
+        .row
+          h1 SOME OF MY LATEST WORKS
+          .col-xs-6.col-md-3(style="margin-bottom: 30px;")
+            a(href="http://poker.tdy721.com")
+              img(src='/img/poker.png',alt='Video Poker')
+          .col-xs-6.col-md-3(style="margin-bottom: 30px;")
+            a(href="http://sourcehov.hyprtxt.com/slider.html#provider-recordkeeping")
+              img(src='/img/sourcehov.png',alt='Chevron Slider')
+          .col-xs-6.col-md-3(style="margin-bottom: 30px;")
+            a(href="http://boundstar.com/") 
+              img(src='/img/boundstar.png',alt='BoundStar')
+            a(href="/docs/Boundstar-Style-Reference.png") Style Guide
+          //- .col-xs-6.col-md-3(style="margin-bottom: 30px;")
+            a(href="http://redstone.tdy721.com/pages/home")
+              img(src='/img/redstone.png',alt='Redstone Foods')
+            a(href="http://redstone.tdy721.com/pages/style/") Style Guide
+          .col-xs-6.col-md-3(style="margin-bottom: 30px;")
+            a(href="http://standishsalongoods.com/")
+              img(src='/img/standish.png',alt='Standish Salon Goods')
+            a(href="http://wiki.stand.sh") Style Guide/Wiki
+          //- .col-xs-6.col-md-3(style="margin-bottom: 30px;")
+            a(href="http://keywords.hyprtxt.com/")
+              img(src='/img/keywords.png',alt='Keyword Munger')
+    .sep.portfolio(data-stellar-background-ratio='0.5')
+    section#services(name='services')
+    #servicewrap
+      .container
+        .row
+          .col-lg-8-offset-2.centered
+            h1 AN OVERVIEW OF MY SERVICES
+            h3 Web Applications, Sites, and Stores
+            p I can customize and extend existing sites or build them from scratch.
+        .row.mt
+          .col-sm-6.col-md-4.col-lg-3.service
+            i.fa.fa-html5
             p
-              a(href='https://github.com/digitaldesigndj/boundstar-content/edit/master/' + document.relativePath.replace('docs/','') ).text-info Edit and improve this page via GitHub!
-              |  - or - 
-              a(href='http://prose.io/#digitaldesigndj/boundstar-content/edit/master/' + document.relativePath.replace('docs/','') ).text-info Edit and improve this page via Prose!
-style.
-  .recruit, .recruit a { color: #334d5c !important; text-shadow: 1px 1px 0 #000; }
-  .player, .player a { color: #45b29d !important; text-shadow: 1px 1px 0 #000; }
-  .explorer, .explorer a { color: #e27a3f !important; text-shadow: 1px 1px 0 #000; }
-  .member, .member a { color: #efc94c !important; text-shadow: 1px 1px 0 #000; }
-  .builder, .builder a { color: #df5a49 !important; text-shadow: 1px 1px 0 #000; }
-script.
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-42766222-2']);
-  _gaq.push(['_trackPageview']);
+              | Modern Websites
+              br
+              small Fast, Responsive, HiDpi
+            p.text
+              | I build websites using the latest and greatest HTML5 and CSS3 methods, while retaining compatibilty with older browsers.
+          .col-sm-6.col-md-4.col-lg-3.service
+            i.fa.fa-wordpress
+            p
+              | WordPress Development
+              br
+              small Plugins, Themes, Widgets &amp; more.
+            p.text
+              | I have created dozens of WordPress sites. I know my way around the various API's and adhere to the 
+              a(href='http://codex.wordpress.org/WordPress_Coding_Standards', target='_blank') WordPress Coding Standards
+              | .
+              //- I have also worked on very large WordPress Networks, with families of sites sharing a codebase. 
+          .col-sm-6.col-md-4.col-lg-3.service
+            i.fa.fa-git-square
+            p
+              | Git Version Control
+              br
+              small Accountability
+            p.text
+              | All projects are tracked with git. Every line of code gets a history that you can browse online with a service like GitHub.
+          .col-sm-6.col-md-4.col-lg-3.service
+            i.fa.fa-shopping-cart
+            p
+              | eCommerce
+              br
+              small Experience Counts
+            p.text
+              | I have done major overhauls for a number of eCommerce sites. I can help make your store more accessable, while making it look great.
+          .col-sm-6.col-md-4.col-lg-3.service
+            i.fa.fa-css3
+            p
+              | Animation &amp; FX
+              br
+              small CSS and JavaScript Interactivity
+            p.text
+              | I can bring your PSD files to life with crisp animation and a whole zoo of special effects and interactivity.
+          .col-sm-6.col-md-4.col-lg-3.service
+            i.fa.fa-linux
+            p
+              | Server Administration
+              br
+              small Full Stack Services
+            p.text
+              | I understand how to build, configure, optimize and maintain *nix web application servers. Long live the terminal.
+    section#contact(name='contact')
+    .sep.contact(data-stellar-background-ratio='0.5')
+    #contactwrap
+      .container
+        include partials/flash
+        .row
+          .col-lg-6
+            p(style="font-size: 22px") WOULD YOU LIKE TO CONTACT ME?
+            p
+              | I'm happy to listen and answer any questions you have.
+            //- p
+              small
+                | Richardson, Texas
+            p
+              small
+                | Tel. 214.799.3897
+                br
+                | Mail. taylor@hyprtxt.com
+                br
+                | Skype. DigitalDesignDj
+          .col-lg-6
+            form.form-horizontal(role='form', method='POST')
+              input(type='hidden', name='_csrf', value=_csrf)
+              .form-group
+                label(class='col-sm-2 control-label', for='name') Name
+                .col-sm-8
+                  input.form-control(type='text', name='name', id='name', autofocus=true)
+              .form-group
+                label(class='col-sm-2 control-label', for='email') Email
+                .col-sm-8
+                  input.form-control(type='text', name='email', id='email')
+              .form-group
+                label(class='col-sm-2 control-label', for='message') What can I help you with?
+                .col-sm-8
+                  textarea.form-control(type='text', name='message', id='message', rows='7')
+              .form-group
+                .col-sm-offset-2.col-sm-8
+                  button.btn.btn-default(type='submit')
+                    i.fa.fa-mail-forward
+                    | Send
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-//- script(src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js')
-script(src='//boundstar.com/status/socket.io/socket.io.js')
-if document
-  script.
-    var setPlayersOnline = function( players ) {
-      $('#players li').remove();
-      $('#numOnline').html( players.length );
-      players = players.sort();
-      $.each( players, function( i, v ) {
-          $('#players').append( '<li>'+removeColorCodes(v)+'</li>' );
-      });
-    };
-script.
-  var removeColorCodes = function( str ) {
-    newStr = str.replace(/\^[\s\S]*?;/g,'','g');
-    return newStr;
-  };
-  var apiBase = 'http://boundstar.com:88/';
-  var socket = io.connect(apiBase);
-  socket.on('playerCount',function(data){
-    setPlayersOnline( data.playersOnline );
-    console.log( data.playersOnline );
-  });
-  request = new XMLHttpRequest
-  request.open('GET', apiBase + 'server/status', true)
-  request.send()
-  request.onload = function() {
-    data = JSON.parse(this.response);
-    setPlayersOnline(  data.playersOnline );
-    console.log( data );
-  }
-  request.onerror = function() {}
+    script(type="text/javascript", src="//use.typekit.net/aop6lzk.js")
+    script(type="text/javascript") try{Typekit.load();}catch(e){}
+
+    != js('application')
